@@ -1,0 +1,15 @@
+{
+  "name": "europret-expert",
+  "version": "1.0.0",
+  "description": "Plateforme de simulation et gestion de prêt en Europe",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve -s . -l $PORT"
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
