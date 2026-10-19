@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EuroPrêt Expert - Plateforme de Crédit & Réglementation Européenne</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        eu: {
+                            blue: '#003399',
+                            gold: '#FFCC00'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jsPDF & jsPDF-AutoTable CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        .gradient-eu {
+            background: linear-gradient(135deg, #002266 0%, #003399 50%, #0044cc 100%);
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#003399 0.5px, transparent 0.5px);
+            background-size: 16px 16px;
+            opacity: 0.05;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('simulator')">
+                <div class="w-10 h-10 gradient-eu rounded-xl flex items-center justify-center text-eu-gold font-bold text-xl shadow-md">
+                    ★
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight text-slate-900">EuroPrêt<span class="text-brand-600">Expert</span></span>
+                    <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Conforme Directives UE</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 lg:space-x-6 text-sm font-medium">
+                <button onclick="switchTab('simulator')" id="nav-simulator" class="px-3 py-2 rounded-lg text-brand-600 bg-brand-50 transition">Simulateur & TAEG</button>
+                <button onclick="switchTab('eligibility')" id="nav-eligibility" class="px-3 py-2 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition">Éligibilité & 35%</button>
+                <button onclick="switchTab('comparator')" id="nav-comparator" class="px-3 py-2 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition">Offres UE</button>
+                <button onclick="switchTab('regulations')" id="nav-regulations" class="px-3 py-2 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition">Directives UE</button>
+                <button onclick="switchTab('country-rules')" id="nav-country-rules" class="px-3 py-2 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition">Règles par Pays</button>
+            </nav>
+
+            <!-- User Status & Action Buttons -->
+            <div class="flex items-center space-x-3">
+                <button onclick="switchTab('admin')" id="nav-admin" class="hidden sm:inline-flex items-center px-3 py-2 text-xs font-bold rounded-lg border border-purple-200 text-purple-700 bg-purple-50 hover:bg-purple-100 transition">
+                    <i data-lucide="shield-check" class="w-4 h-4 mr-1.5"></i> Espace Admin
+                </button>
+
+                <div id="auth-buttons-container" class="flex items-center space-x-2">
+                    <button onclick="openAuthModal('login')" class="px-4 py-2 text-sm font-semibold text-brand-600 border border-brand-200 hover:bg-brand-50 rounded-lg transition">Connexion</button>
+                    <button onclick="openAuthModal('signup')" class="px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm transition">Inscription</button>
+                </div>
+
+                <div id="user-profile-container" class="hidden flex items-center space-x-3">
+                    <button onclick="switchTab('client-space')" id="nav-client-space" class="flex items-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg transition">
+                        <div class="w-7 h-7 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-xs" id="user-avatar">U</div>
+                        <span class="text-xs font-semibold" id="user-email-display">Mon Espace</span>
+                    </button>
+                    <button onclick="handleLogout()" class="p-2 text-slate-400 hover:text-red-600 transition" title="Déconnexion">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Dynamic Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- 1. SIMULATOR SECTION -->
+        <section id="sec-simulator" class="space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="max-w-3xl mb-8">
+                    <span class="px-3 py-1 text-xs font-semibold bg-brand-50 text-brand-700 rounded-full inline-block mb-3">Simulateur Conforme UE</span>
+                    <h1 class="text-2xl md:text-3xl font-bold text-slate-900">Simulateur de Prêt & Calculateur TAEG</h1>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">
+                        Calculez vos mensualités, vos frais d'assurance et vérifiez votre condition d'apport préalable (10% requis).
+                    </p>
+                </div>
+
+                <!-- Simulation Inputs & Outputs Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Controls Column -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <!-- Loan Type Selection -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Type de Prêt</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                <button type="button" onclick="setPreset('immo')" id="preset-immo" class="preset-btn py-2 px-3 text-xs font-semibold rounded-lg border border-brand-500 bg-brand-50 text-brand-700">Immobilier</button>
+                                <button type="button" onclick="setPreset('perso')" id="preset-perso" class="preset-btn py-2 px-3 text-xs font-semibold rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">Personnel</button>
+                                <button type="button" onclick="setPreset('auto')" id="preset-auto" class="preset-btn py-2 px-3 text-xs font-semibold rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">Automobile</button>
+                                <button type="button" onclick="setPreset('renov')" id="preset-renov" class="preset-btn py-2 px-3 text-xs font-semibold rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">Éco-Rénov</button>
+                            </div>
+                        </div>
+
+                        <!-- Amount Slider -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <label for="input-amount" class="text-sm font-medium text-slate-700">Montant du Prêt (€)</label>
+                                <input type="number" id="input-amount-num" value="200000" min="1000" max="1000000" step="1000" class="w-32 px-3 py-1 border border-slate-300 rounded-md text-right text-sm font-semibold focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <input type="range" id="input-amount" min="1000" max="1000000" step="1000" value="200000" class="w-full accent-brand-600 h-2 bg-slate-200 rounded-lg cursor-pointer">
+                        </div>
+
+                        <!-- Duration Slider -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <label for="input-duration" class="text-sm font-medium text-slate-700">Durée du Prêt (Années)</label>
+                                <input type="number" id="input-duration-num" value="20" min="1" max="30" class="w-20 px-3 py-1 border border-slate-300 rounded-md text-right text-sm font-semibold focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <input type="range" id="input-duration" min="1" max="30" value="20" class="w-full accent-brand-600 h-2 bg-slate-200 rounded-lg cursor-pointer">
+                        </div>
+
+                        <!-- Rates & Insurance Inputs -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div>
+                                <label for="input-rate" class="block text-sm font-medium text-slate-700 mb-1">Taux Nominal Annuel (%)</label>
+                                <input type="number" id="input-rate" value="3.5" step="0.1" min="0.1" max="20" class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm font-semibold focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label for="input-insurance" class="block text-sm font-medium text-slate-700 mb-1">Taux Assurance Annuel (%)</label>
+                                <input type="number" id="input-insurance" value="0.36" step="0.01" min="0" max="3" class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm font-semibold focus:ring-2 focus:ring-brand-500">
+                            </div>
+                        </div>
+
+                        <!-- Mandatory Pre-requisites Notice -->
+                        <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-2 text-xs text-amber-900">
+                            <div class="font-bold flex items-center text-amber-900">
+                                <i data-lucide="alert-triangle" class="w-4 h-4 mr-1.5 text-amber-600"></i> Conditions Bancaires Européennes Requises
+                            </div>
+                            <p>
+                                Conformément aux exigences de notre établissement :
+                            </p>
+                            <ul class="list-disc list-inside space-y-1 text-amber-800">
+                                <li><strong>Apport / Dépôt obligatoire (10%) :</strong> Un solde minimum de <span id="deposit-required-display" class="font-bold">20 000 €</span> doit être déposé en banque avant l'accord final.</li>
+                                <li><strong>Frais de dossier & d'assurance :</strong> Le montant initial de l'assurance doit être réglé pour valider l'ouverture du dossier.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Summary Results Column -->
+                    <div class="lg:col-span-5 bg-slate-900 text-white rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                        <div>
+                            <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Résultat de la Simulation</span>
+                            
+                            <div class="mt-4 mb-6">
+                                <span class="text-slate-400 text-xs block">Mensualité Totale (avec assurance)</span>
+                                <div class="text-3xl md:text-4xl font-extrabold text-brand-50" id="res-monthly">1 219,89 €</div>
+                                <span class="text-xs text-brand-300 mt-1 block">dont <span id="res-monthly-ins">60,00 €</span> d'assurance mensuelle</span>
+                            </div>
+
+                            <div class="space-y-3 border-t border-slate-800 pt-4 text-xs sm:text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">TAEG Estimé</span>
+                                    <span class="font-bold text-amber-400" id="res-taeg">4.12 %</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Dépôt Obligatoire (10%)</span>
+                                    <span class="font-bold text-amber-300" id="res-deposit">20 000,00 €</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Total des Intérêts</span>
+                                    <span class="font-semibold text-slate-200" id="res-interest">78 773,60 €</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Total Assurance</span>
+                                    <span class="font-semibold text-slate-200" id="res-insurance-total">14 400,00 €</span>
+                                </div>
+                                <div class="flex justify-between border-t border-slate-800 pt-2 font-bold text-sm">
+                                    <span class="text-slate-300">Coût Total du Crédit</span>
+                                    <span class="text-brand-400" id="res-total">293 173,60 €</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="mt-6 space-y-2">
+                            <button onclick="initiateLoanApplication()" class="w-full py-3 bg-brand-500 hover:bg-brand-600 font-bold text-white text-sm rounded-lg shadow-lg hover:shadow-brand-500/20 transition flex items-center justify-center">
+                                <i data-lucide="send" class="w-4 h-4 mr-2"></i> Déposer la Demande de Prêt
+                            </button>
+                            <button onclick="exportPDF()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-lg transition flex items-center justify-center">
+                                <i data-lucide="download" class="w-4 h-4 mr-2"></i> Télécharger la Fiche Récapitulative (PDF)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Amortization Schedule & Chart -->
+                <div class="mt-10 border-t border-slate-200 pt-8">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+                        <h2 class="text-lg font-bold text-slate-900">Tableau d'Amortissement & Graphique</h2>
+                        <button onclick="toggleAmortizationTable()" id="btn-toggle-table" class="px-4 py-2 text-xs font-semibold border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-100 transition">
+                            Afficher le Tableau d'Amortissement (Mois par Mois)
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="h-64 relative">
+                            <canvas id="amortizationChart"></canvas>
+                        </div>
+                        <div class="space-y-3 text-xs text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-slate-800 text-sm mb-2">Comprendre la Répartition</h3>
+                            <p><strong>Capital Emprunté :</strong> Le montant net injecté dans votre projet.</p>
+                            <p><strong>Intérêts Bancaires :</strong> La rémunération du risque calculée sur le solde restant dû.</p>
+                            <p><strong>Assurance Emprunteur :</strong> Couverture contre le décès, l'invalidité ou la perte d'emploi.</p>
+                        </div>
+                    </div>
+
+                    <!-- Collapsible Table -->
+                    <div id="amortization-table-container" class="hidden mt-6 overflow-x-auto max-h-96 border border-slate-200 rounded-lg">
+                        <table class="w-full text-xs text-left text-slate-600">
+                            <thead class="bg-slate-100 text-slate-700 font-bold sticky top-0">
+                                <tr>
+                                    <th class="p-3">Mois</th>
+                                    <th class="p-3">Mensualité</th>
+                                    <th class="p-3">Capital Amorti</th>
+                                    <th class="p-3">Intérêts</th>
+                                    <th class="p-3">Assurance</th>
+                                    <th class="p-3">Capital Restant Dû</th>
+                                </tr>
+                            </thead>
+                            <tbody id="amortization-tbody" class="divide-y divide-slate-200 bg-white">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ELIGIBILITY SECTION -->
+        <section id="sec-eligibility" class="hidden space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="max-w-3xl mb-8">
+                    <span class="px-3 py-1 text-xs font-semibold bg-emerald-50 text-emerald-700 rounded-full inline-block mb-3">Normes HCSF / UE</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Module d'Éligibilité & Taux d'Endettement (35% Max)</h2>
+                    <p class="text-slate-600 mt-2 text-sm">
+                        Évaluez la faisabilité de votre crédit selon le ratio d'endettement maximal légal et votre reste à vivre.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Income & Expenses Form -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Revenus Mensuels Nets du Foyer (€)</label>
+                            <input type="number" id="elig-income" value="4500" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Charges Mensuelles & Crédits en Cours (€)</label>
+                            <input type="number" id="elig-charges" value="300" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Adultes dans le Foyer</label>
+                                <input type="number" id="elig-adults" value="2" min="1" max="5" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Enfants à Charge</label>
+                                <input type="number" id="elig-kids" value="1" min="0" max="10" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-semibold">
+                            </div>
+                        </div>
+                        <button onclick="calculateEligibility()" class="w-full py-2.5 bg-brand-600 text-white font-bold text-sm rounded-lg shadow hover:bg-brand-700 transition">
+                            Calculer l'Éligibilité
+                        </button>
+                    </div>
+
+                    <!-- Eligibility Verdict Card -->
+                    <div id="eligibility-verdict-card" class="p-6 rounded-xl border bg-slate-50 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Diagnostic d'Endettement</span>
+                                <span id="elig-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">Favorable</span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <span class="text-xs text-slate-500 block">Taux d'Endettement Actuel + Prêt</span>
+                                    <div class="text-3xl font-extrabold text-slate-900" id="elig-ratio-display">27.1 %</div>
+                                    <div class="w-full bg-slate-200 h-2 rounded-full mt-2 overflow-hidden">
+                                        <div id="elig-bar" class="bg-emerald-500 h-full w-[27%]"></div>
+                                    </div>
+                                    <span class="text-[11px] text-slate-500 mt-1 block">Plafond recommandé : 35.0 %</span>
+                                </div>
+
+                                <div class="border-t border-slate-200 pt-3">
+                                    <span class="text-xs text-slate-500 block">Reste à Vivre Estimé</span>
+                                    <div class="text-xl font-bold text-slate-800" id="elig-rest-display">2 980,11 €</div>
+                                    <span class="text-[11px] text-slate-500">Seuil minimum requis : 1 400,00 €</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 p-3 bg-white rounded-lg border border-slate-200 text-xs text-slate-600" id="elig-comment">
+                            Votre profil financier est conforme aux règles du Haut Conseil de Stabilité Financière (HCSF). Votre capacité d'emprunt est validée.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. OFFERS COMPARATOR SECTION -->
+        <section id="sec-comparator" class="hidden space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="max-w-3xl mb-8">
+                    <span class="px-3 py-1 text-xs font-semibold bg-purple-50 text-purple-700 rounded-full inline-block mb-3">Transparence Européenne</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Comparateur des Offres de Crédit Européennes</h2>
+                    <p class="text-slate-600 mt-2 text-sm">
+                        Comparez les taux fixes et variables pratiqués par les principaux établissements bancaires de la zone euro.
+                    </p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs md:text-sm text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                                <th class="p-3">Établissement</th>
+                                <th class="p-3">Pays</th>
+                                <th class="p-3">Taux Fixe Indicatif</th>
+                                <th class="p-3">Apport Requis</th>
+                                <th class="p-3">Frais de Dossier</th>
+                                <th class="p-3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">BNP Paribas / Hello Bank</td>
+                                <td class="p-3"><span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-semibold text-xs">France</span></td>
+                                <td class="p-3 font-semibold text-brand-600">3.40 % - 3.80 %</td>
+                                <td class="p-3">10 %</td>
+                                <td class="p-3">500 €</td>
+                                <td class="p-3"><button onclick="switchTab('simulator')" class="text-xs font-bold text-brand-600 hover:underline">Simuler</button></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">Deutsche Bank</td>
+                                <td class="p-3"><span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-semibold text-xs">Allemagne</span></td>
+                                <td class="p-3 font-semibold text-brand-600">3.65 % - 4.10 %</td>
+                                <td class="p-3">15 %</td>
+                                <td class="p-3">0 € (Promotional)</td>
+                                <td class="p-3"><button onclick="switchTab('simulator')" class="text-xs font-bold text-brand-600 hover:underline">Simuler</button></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">Banco Santander</td>
+                                <td class="p-3"><span class="px-2 py-0.5 bg-red-100 text-red-800 rounded font-semibold text-xs">Espagne</span></td>
+                                <td class="p-3 font-semibold text-brand-600">3.25 % - 3.70 %</td>
+                                <td class="p-3">20 %</td>
+                                <td class="p-3">650 €</td>
+                                <td class="p-3"><button onclick="switchTab('simulator')" class="text-xs font-bold text-brand-600 hover:underline">Simuler</button></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">Intesa Sanpaolo</td>
+                                <td class="p-3"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-semibold text-xs">Italie</span></td>
+                                <td class="p-3 font-semibold text-brand-600">3.50 % - 3.95 %</td>
+                                <td class="p-3">10 %</td>
+                                <td class="p-3">400 €</td>
+                                <td class="p-3"><button onclick="switchTab('simulator')" class="text-xs font-bold text-brand-600 hover:underline">Simuler</button></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">KBC Brussels</td>
+                                <td class="p-3"><span class="px-2 py-0.5 bg-yellow-100 text-yellow-800 rounded font-semibold text-xs">Belgique</span></td>
+                                <td class="p-3 font-semibold text-brand-600">3.30 % - 3.75 %</td>
+                                <td class="p-3">10 %</td>
+                                <td class="p-3">500 €</td>
+                                <td class="p-3"><button onclick="switchTab('simulator')" class="text-xs font-bold text-brand-600 hover:underline">Simuler</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. DIRECTIVES & REGULATIONS SECTION -->
+        <section id="sec-regulations" class="hidden space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="max-w-3xl mb-8">
+                    <span class="px-3 py-1 text-xs font-semibold bg-eu-blue/10 text-eu-blue rounded-full inline-block mb-3">Cadre Légal Européen</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Modalités & Directives de Crédit dans l'UE</h2>
+                    <p class="text-slate-600 mt-2 text-sm">
+                        Tout emprunteur bénéficie d'une protection harmonisée à l'échelle de l'Union Européenne.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-5 border border-slate-200 rounded-xl bg-slate-50">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <i data-lucide="shield" class="w-6 h-6 text-eu-blue"></i>
+                            <h3 class="font-bold text-slate-900 text-base">Fiche FIPEN / SECCI</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            L'établissement bancaire doit impérativement vous remettre la **Fiche d'Information Standardisée Européenne** avant la signature. Elle résume le montant, la durée, le TAEG et le coût total de façon normalisée.
+                        </p>
+                    </div>
+
+                    <div class="p-5 border border-slate-200 rounded-xl bg-slate-50">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <i data-lucide="clock" class="w-6 h-6 text-eu-blue"></i>
+                            <h3 class="font-bold text-slate-900 text-base">Droit de Rétractation de 14 Jours</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Conformément à la Directive 2008/48/CE et la Directive CCDD 2023/2225, vous disposez d'un délai légal de **14 jours calendaires révolus** pour renoncer à votre crédit à la consommation sans justification.
+                        </p>
+                    </div>
+
+                    <div class="p-5 border border-slate-200 rounded-xl bg-slate-50">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <i data-lucide="arrow-right-left" class="w-6 h-6 text-eu-blue"></i>
+                            <h3 class="font-bold text-slate-900 text-base">Remboursement Anticipé</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Vous avez le droit de rembourser votre prêt par anticipation à tout moment. Les indemnités de remboursement anticipé (IRA) sont plafonnées par la loi européenne (ex: max 1% du montant remboursé).
+                        </p>
+                    </div>
+
+                    <div class="p-5 border border-slate-200 rounded-xl bg-slate-50">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <i data-lucide="file-check" class="w-6 h-6 text-eu-blue"></i>
+                            <h3 class="font-bold text-slate-900 text-base">Évaluation de la Solvabilité</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Le prêteur doit évaluer la capacité financière du client sur la base de ses revenus, charges et justificatifs bancaires pour prévenir le surendettement.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. COUNTRY RULES SECTION -->
+        <section id="sec-country-rules" class="hidden space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="max-w-3xl mb-8">
+                    <span class="px-3 py-1 text-xs font-semibold bg-indigo-50 text-indigo-700 rounded-full inline-block mb-3">Spécificités Nationales</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Règles & Taux d'Usure par Pays</h2>
+                    <p class="text-slate-600 mt-2 text-sm">
+                        Chaque pays membre applique des spécificités sur les taux maximaux autorisés (Taux d'Usure) et les garanties.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-5 border border-slate-200 rounded-xl hover:shadow-md transition">
+                        <span class="px-2 py-0.5 bg-blue-100 text-blue-800 font-bold text-xs rounded">France</span>
+                        <h3 class="font-bold text-slate-900 mt-2 mb-1">Taux d'Usure Strict & HCSF</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Taux maximum fixé chaque mois par la Banque de France. L'assurance de prêt est librement choisie (Loi Lemoine). Taux d'endettement max : 35%.
+                        </p>
+                    </div>
+
+                    <div class="p-5 border border-slate-200 rounded-xl hover:shadow-md transition">
+                        <span class="px-2 py-0.5 bg-amber-100 text-amber-800 font-bold text-xs rounded">Allemagne</span>
+                        <h3 class="font-bold text-slate-900 mt-2 mb-1">Système SCHUFA & Grundschuld</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Évaluation basée sur le score SCHUFA. Prêts hypothécaires inscrits au registre foncier (Grundschuld).
+                        </p>
+                    </div>
+
+                    <div class="p-5 border border-slate-200 rounded-xl hover:shadow-md transition">
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 font-bold text-xs rounded">Espagne</span>
+                        <h3 class="font-bold text-slate-900 mt-2 mb-1">Ley de Crédito Inmobiliario</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            La banque prend en charge la plupart des frais de notaire et d'enregistrement (IAJD).
+                        </p>
+                    </div>
+
+                    <div class="p-5 border border-slate-200 rounded-xl hover:shadow-md transition">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold text-xs rounded">Italie</span>
+                        <h3 class="font-bold text-slate-900 mt-2 mb-1">Tasso Soglia (Usura)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Fixé trimestriellement par la Banque d'Italie (Banca d'Italia). Présence fréquente de garanties parentales.
+                        </p>
+                    </div>
+
+                    <div class="p-5 border border-slate-200 rounded-xl hover:shadow-md transition">
+                        <span class="px-2 py-0.5 bg-yellow-100 text-yellow-800 font-bold text-xs rounded">Belgique</span>
+                        <h3 class="font-bold text-slate-900 mt-2 mb-1">Plafonds FSMA & Centrale des Crédits</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Consultation obligatoire de la Centrale des Crédits aux Particuliers (CCP) de la Banque Nationale de Belgique.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. CLIENT SPACE / DASHBOARD SECTION -->
+        <section id="sec-client-space" class="hidden space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-6 mb-6">
+                    <div>
+                        <span class="px-3 py-1 text-xs font-semibold bg-brand-50 text-brand-700 rounded-full inline-block mb-2">Espace Emprunteur</span>
+                        <h2 class="text-2xl font-bold text-slate-900">Tableau de Bord Client</h2>
+                        <p class="text-xs text-slate-500 mt-1">Identifiant : <span id="client-user-id" class="font-mono font-bold">USR-893021</span></p>
+                    </div>
+                    <div class="mt-4 sm:mt-0 flex items-center space-x-3">
+                        <button onclick="openDepositModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition shadow-sm flex items-center">
+                            <i data-lucide="plus-circle" class="w-4 h-4 mr-1.5"></i> Effectuer un Dépôt d'Apport
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Client Key Indicators -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                        <span class="text-xs font-medium text-slate-500">Solde / Apport Validé</span>
+                        <div class="text-2xl font-extrabold text-emerald-600 mt-1" id="client-balance-display">0,00 €</div>
+                        <span class="text-[11px] text-slate-400">Garantie obligatoire : 10%</span>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                        <span class="text-xs font-medium text-slate-500">Demande de Prêt</span>
+                        <div class="text-2xl font-extrabold text-slate-900 mt-1" id="client-loan-amount">-- €</div>
+                        <span class="text-[11px] text-slate-400" id="client-loan-duration">Durée: --</span>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                        <span class="text-xs font-medium text-slate-500">Statut du Dossier</span>
+                        <div class="mt-1" id="client-status-badge">
+                            <span class="px-2.5 py-1 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">Aucune demande</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                        <span class="text-xs font-medium text-slate-500">Prochaine Mensualité</span>
+                        <div class="text-2xl font-extrabold text-slate-900 mt-1" id="client-monthly-display">-- €</div>
+                        <span class="text-[11px] text-slate-400">Assurance incluse</span>
+                    </div>
+                </div>
+
+                <!-- Active Loan Details or Empty State -->
+                <div id="client-loan-details-card" class="p-6 border border-slate-200 rounded-xl bg-slate-50/50">
+                    <h3 class="font-bold text-slate-900 text-base mb-4">Détail de votre Dossier de Crédit</h3>
+                    <div id="client-loan-content">
+                        <p class="text-xs text-slate-500">Vous n'avez pas encore soumis de demande de prêt. Utilisez le simulateur pour démarrer votre projet.</p>
+                        <button onclick="switchTab('simulator')" class="mt-3 px-4 py-2 bg-brand-600 text-white text-xs font-bold rounded-lg hover:bg-brand-700 transition">Accéder au Simulateur</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. ADMIN PORTAL SECTION -->
+        <section id="sec-admin" class="hidden space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-6 mb-6">
+                    <div>
+                        <span class="px-3 py-1 text-xs font-bold bg-purple-100 text-purple-800 rounded-full inline-block mb-2">Espace Gestionnaire</span>
+                        <h2 class="text-2xl font-bold text-slate-900">Portail d'Administration des Prêts</h2>
+                        <p class="text-xs text-slate-500 mt-1">Supervision globale des demandes, vérification des 10% d'apport et validation des dossiers.</p>
+                    </div>
+                </div>
+
+                <!-- Admin Metrics KPIs -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="p-4 bg-slate-900 text-white rounded-xl">
+                        <span class="text-xs text-slate-400">Volume Total Demandé</span>
+                        <div class="text-2xl font-extrabold text-brand-400 mt-1" id="admin-kpi-volume">450 000 €</div>
+                        <span class="text-[11px] text-slate-400">3 Dossiers en attente</span>
+                    </div>
+
+                    <div class="p-4 bg-slate-900 text-white rounded-xl">
+                        <span class="text-xs text-slate-400">Dépôts / Apports Vérifiés</span>
+                        <div class="text-2xl font-extrabold text-emerald-400 mt-1" id="admin-kpi-deposits">45 000 €</div>
+                        <span class="text-[11px] text-slate-400">Garantie 10% contrôlée</span>
+                    </div>
+
+                    <div class="p-4 bg-slate-900 text-white rounded-xl">
+                        <span class="text-xs text-slate-400">Dossiers Approuvés</span>
+                        <div class="text-2xl font-extrabold text-amber-400 mt-1" id="admin-kpi-approved">1</div>
+                        <span class="text-[11px] text-slate-400">Prêts prêts pour déblocage</span>
+                    </div>
+
+                    <div class="p-4 bg-slate-900 text-white rounded-xl">
+                        <span class="text-xs text-slate-400">Taux de Validation</span>
+                        <div class="text-2xl font-extrabold text-indigo-300 mt-1">66.7 %</div>
+                        <span class="text-[11px] text-slate-400">Moyenne mensuelle</span>
+                    </div>
+                </div>
+
+                <!-- Applications Management Table -->
+                <div class="space-y-4">
+                    <h3 class="font-bold text-slate-900 text-base">Liste des Demandes de Crédit</h3>
+                    <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                        <table class="w-full text-xs text-left text-slate-600">
+                            <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                                <tr>
+                                    <th class="p-3">Réf. Dossier</th>
+                                    <th class="p-3">Client</th>
+                                    <th class="p-3">Montant</th>
+                                    <th class="p-3">Apport Requis (10%)</th>
+                                    <th class="p-3">Solde Déposé</th>
+                                    <th class="p-3">Statut</th>
+                                    <th class="p-3">Actions Administrateur</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-dossiers-tbody" class="divide-y divide-slate-200 bg-white">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-10 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-800 pb-6">
+                <div class="flex items-center space-x-2">
+                    <div class="w-6 h-6 gradient-eu rounded-md flex items-center justify-center text-eu-gold font-bold text-xs">★</div>
+                    <span class="font-bold text-white text-sm">EuroPrêt Expert</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-white transition">Mentions Légales</a>
+                    <a href="#" class="hover:text-white transition">Protection des Données (RGPD)</a>
+                    <a href="#" class="hover:text-white transition">Directive CCDD 2023/2225</a>
+                    <a href="#" class="hover:text-white transition">Contact</a>
+                </div>
+            </div>
+            <div class="text-center md:text-left text-slate-500 leading-relaxed">
+                <p>Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager.</p>
+                <p class="mt-1">Conformément aux directives européennes, aucun versement de quelque nature que ce soit ne peut être exigé d'un particulier avant l'obtention effective d'un prêt d'argent.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AUTHENTICATION MODAL -->
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-900 mb-1" id="auth-modal-title">Espace Emprunteur</h3>
+            <p class="text-xs text-slate-500 mb-6" id="auth-modal-subtitle">Connectez-vous pour déposer ou suivre votre dossier.</p>
+
+            <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Adresse E-mail</label>
+                    <input type="email" id="auth-email" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Mot de Passe</label>
+                    <input type="password" id="auth-password" required minlength="6" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500">
+                </div>
+                <button type="submit" id="auth-submit-btn" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-lg shadow transition">
+                    Se Connecter
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- LOAN APPLICATION MODAL (WIZARD) -->
+    <div id="loan-wizard-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeLoanWizard()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-900 mb-1">Formulaire de Demande de Prêt</h3>
+            <p class="text-xs text-slate-500 mb-6">Étape <span id="wizard-step-num">1</span> sur 3</p>
+
+            <form onsubmit="handleLoanWizardSubmit(event)" class="space-y-6">
+                <!-- Step 1: Personal Info -->
+                <div id="wizard-step-1" class="space-y-4">
+                    <h4 class="font-bold text-slate-800 text-sm border-b pb-2">1. Informations Personnelles</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nom</label>
+                            <input type="text" required id="wiz-lastname" class="w-full px-3 py-2 border rounded-lg text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Prénom</label>
+                            <input type="text" required id="wiz-firstname" class="w-full px-3 py-2 border rounded-lg text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Pays de Résidence UE</label>
+                        <select id="wiz-country" class="w-full px-3 py-2 border rounded-lg text-sm">
+                            <option value="France">France</option>
+                            <option value="Allemagne">Allemagne</option>
+                            <option value="Espagne">Espagne</option>
+                            <option value="Italie">Italie</option>
+                            <option value="Belgique">Belgique</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Step 2: Financial Proof -->
+                <div id="wizard-step-2" class="space-y-4">
+                    <h4 class="font-bold text-slate-800 text-sm border-b pb-2">2. Capacité & Condition d'Apport (10%)</h4>
+                    <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900">
+                        Montant du Prêt : <strong id="wiz-loan-amount-confirm">200 000 €</strong><br>
+                        Apport / Dépôt Minimum requis sur compte : <strong id="wiz-deposit-confirm">20 000 €</strong>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Solde Actuel / Apport Déclaré (€)</label>
+                        <input type="number" required id="wiz-declared-balance" value="20000" class="w-full px-3 py-2 border rounded-lg text-sm font-semibold">
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-4 border-t border-slate-200">
+                    <button type="button" onclick="closeLoanWizard()" class="px-4 py-2 border text-slate-600 rounded-lg text-xs font-bold">Annuler</button>
+                    <button type="submit" class="px-6 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-lg shadow">
+                        Valider la Demande
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DEPOSIT MODAL (For Client) -->
+    <div id="deposit-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeDepositModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-900 mb-1">Dépôt d'Apport / Garantie</h3>
+            <p class="text-xs text-slate-500 mb-4">Créditez votre solde bancaire pour valider les 10% d'apport obligatoires.</p>
+
+            <form onsubmit="handleDepositSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Montant à Déposer (€)</label>
+                    <input type="number" id="deposit-amount-input" required min="100" value="5000" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-bold">
+                </div>
+                <div class="p-3 bg-slate-50 rounded-lg border text-xs text-slate-600">
+                    Une notification sera envoyée à l'administrateur pour validation du crédit sur votre compte.
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-lg shadow">
+                    Confirmer le Dépôt
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN CREDIT MODAL -->
+    <div id="admin-credit-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeAdminCreditModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-900 mb-1">Créditer le Solde Client</h3>
+            <p class="text-xs text-slate-500 mb-4">Dossier : <span id="admin-credit-dossier-ref" class="font-bold">--</span></p>
+
+            <form onsubmit="handleAdminCreditSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nouveau Solde Validé (€)</label>
+                    <input type="number" id="admin-credit-input" required min="0" value="20000" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-bold">
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm rounded-lg shadow">
+                    Valider le Crédit de Solde
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script>
+        // State Management
+        let currentUser = null;
+        let activeTab = 'simulator';
+        let chartInstance = null;
+
+        // Mock Database of Applications
+        let mockDossiers = [
+            {
+                id: "DOS-2026-901",
+                userEmail: "jean.dupont@example.com",
+                userName: "Jean Dupont",
+                country: "France",
+                amount: 200000,
+                duration: 20,
+                rate: 3.5,
+                depositRequired: 20000,
+                depositBalance: 20000,
+                status: "Approuvé",
+                monthly: 1219.89
+            },
+            {
+                id: "DOS-2026-902",
+                userEmail: "marie.martin@example.com",
+                userName: "Marie Martin",
+                country: "Belgique",
+                amount: 150000,
+                duration: 15,
+                rate: 3.2,
+                depositRequired: 15000,
+                depositBalance: 5000,
+                status: "Acompte requis",
+                monthly: 1050.12
+            },
+            {
+                id: "DOS-2026-903",
+                userEmail: "pierre.durand@example.com",
+                userName: "Pierre Durand",
+                country: "Espagne",
+                amount: 100000,
+                duration: 10,
+                rate: 3.8,
+                depositRequired: 10000,
+                depositBalance: 10000,
+                status: "En attente",
+                monthly: 1003.11
+            }
+        ];
+
+        // Active Application for current user session
+        let activeClientDossier = null;
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            setupEventListeners();
+            calculateSimulation();
+            renderAdminDossiersTable();
+        });
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            activeTab = tabId;
+            const sections = ['simulator', 'eligibility', 'comparator', 'regulations', 'country-rules', 'client-space', 'admin'];
+            
+            sections.forEach(sec => {
+                const el = document.getElementById(`sec-${sec}`);
+                const nav = document.getElementById(`nav-${sec}`);
+                if (el) el.classList.add('hidden');
+                if (nav) {
+                    nav.classList.remove('text-brand-600', 'bg-brand-50');
+                    nav.classList.add('text-slate-600');
+                }
+            });
+
+            const targetSec = document.getElementById(`sec-${tabId}`);
+            const targetNav = document.getElementById(`nav-${tabId}`);
+            
+            if (targetSec) targetSec.classList.remove('hidden');
+            if (targetNav) {
+                targetNav.classList.add('text-brand-600', 'bg-brand-50');
+                targetNav.classList.remove('text-slate-600');
+            }
+
+            if (tabId === 'admin') renderAdminDossiersTable();
+            if (tabId === 'client-space') renderClientSpace();
+        }
+
+        // Event Listeners Registration
+        function setupEventListeners() {
+            const inputs = ['input-amount', 'input-duration', 'input-rate', 'input-insurance'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', syncInputsAndCalculate);
+            });
+
+            document.getElementById('input-amount-num').addEventListener('change', (e) => {
+                document.getElementById('input-amount').value = e.target.value;
+                calculateSimulation();
+            });
+
+            document.getElementById('input-duration-num').addEventListener('change', (e) => {
+                document.getElementById('input-duration').value = e.target.value;
+                calculateSimulation();
+            });
+        }
+
+        function syncInputsAndCalculate(e) {
+            if (e.target.id === 'input-amount') document.getElementById('input-amount-num').value = e.target.value;
+            if (e.target.id === 'input-duration') document.getElementById('input-duration-num').value = e.target.value;
+            calculateSimulation();
+        }
+
+        // Presets handler
+        function setPreset(type) {
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.classList.remove('border-brand-500', 'bg-brand-50', 'text-brand-700');
+                btn.classList.add('border-slate-200', 'bg-white', 'text-slate-600');
+            });
+
+            const activeBtn = document.getElementById(`preset-${type}`);
+            if (activeBtn) {
+                activeBtn.classList.add('border-brand-500', 'bg-brand-50', 'text-brand-700');
+                activeBtn.classList.remove('border-slate-200', 'bg-white', 'text-slate-600');
+            }
+
+            if (type === 'immo') {
+                document.getElementById('input-amount').value = 200000;
+                document.getElementById('input-amount-num').value = 200000;
+                document.getElementById('input-duration').value = 20;
+                document.getElementById('input-duration-num').value = 20;
+                document.getElementById('input-rate').value = 3.5;
+            } else if (type === 'perso') {
+                document.getElementById('input-amount').value = 15000;
+                document.getElementById('input-amount-num').value = 15000;
+                document.getElementById('input-duration').value = 5;
+                document.getElementById('input-duration-num').value = 5;
+                document.getElementById('input-rate').value = 4.8;
+            } else if (type === 'auto') {
+                document.getElementById('input-amount').value = 25000;
+                document.getElementById('input-amount-num').value = 25000;
+                document.getElementById('input-duration').value = 6;
+                document.getElementById('input-duration-num').value = 6;
+                document.getElementById('input-rate').value = 4.2;
+            } else if (type === 'renov') {
+                document.getElementById('input-amount').value = 40000;
+                document.getElementById('input-amount-num').value = 40000;
+                document.getElementById('input-duration').value = 10;
+                document.getElementById('input-duration-num').value = 10;
+                document.getElementById('input-rate').value = 2.9;
+            }
+
+            calculateSimulation();
+        }
+
+        // Main Calculation Engine
+        function calculateSimulation() {
+            const P = parseFloat(document.getElementById('input-amount').value) || 0;
+            const years = parseFloat(document.getElementById('input-duration').value) || 1;
+            const N = years * 12;
+            const annualRate = parseFloat(document.getElementById('input-rate').value) || 0;
+            const r = (annualRate / 100) / 12;
+            const annualInsuranceRate = parseFloat(document.getElementById('input-insurance').value) || 0;
+
+            // Monthly Principal & Interest Payment
+            let monthlyPmt = 0;
+            if (r > 0) {
+                monthlyPmt = (P * r * Math.pow(1 + r, N)) / (Math.pow(1 + r, N) - 1);
+            } else {
+                monthlyPmt = P / N;
+            }
+
+            // Insurance Calculation
+            const monthlyInsurancePmt = (P * (annualInsuranceRate / 100)) / 12;
+            const totalMonthlyPmt = monthlyPmt + monthlyInsurancePmt;
+
+            // Totals
+            const totalPaidPmt = monthlyPmt * N;
+            const totalInterest = totalPaidPmt - P;
+            const totalInsurance = monthlyInsurancePmt * N;
+            const grandTotal = totalPaidPmt + totalInsurance;
+
+            // TAEG Approximation
+            const approxTAEG = annualRate + annualInsuranceRate + 0.26;
+
+            // Required Guarantee Deposit (10%)
+            const depositRequired = P * 0.10;
+
+            // Format UI
+            document.getElementById('res-monthly').textContent = formatCurrency(totalMonthlyPmt);
+            document.getElementById('res-monthly-ins').textContent = formatCurrency(monthlyInsurancePmt);
+            document.getElementById('res-taeg').textContent = approxTAEG.toFixed(2) + ' %';
+            document.getElementById('res-deposit').textContent = formatCurrency(depositRequired);
+            document.getElementById('deposit-required-display').textContent = formatCurrency(depositRequired);
+            document.getElementById('res-interest').textContent = formatCurrency(totalInterest);
+            document.getElementById('res-insurance-total').textContent = formatCurrency(totalInsurance);
+            document.getElementById('res-total').textContent = formatCurrency(grandTotal);
+
+            renderChart(P, totalInterest, totalInsurance);
+            buildAmortizationTable(P, r, N, monthlyPmt, monthlyInsurancePmt);
+        }
+
+        // Chart Rendering
+        function renderChart(capital, interest, insurance) {
+            const ctx = document.getElementById('amortizationChart').getContext('2d');
+            
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Capital Emprunté', 'Total Intérêts', 'Total Assurance'],
+                    datasets: [{
+                        data: [capital, interest, insurance],
+                        backgroundColor: ['#0284c7', '#f59e0b', '#64748b'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // Build Amortization Table
+        function buildAmortizationTable(P, r, N, monthlyPmt, monthlyInsurancePmt) {
+            const tbody = document.getElementById('amortization-tbody');
+            tbody.innerHTML = '';
+
+            let remainingCapital = P;
+
+            for (let month = 1; month <= Math.min(N, 360); month++) {
+                const interestPayment = remainingCapital * r;
+                const capitalPayment = monthlyPmt - interestPayment;
+                remainingCapital -= capitalPayment;
+                if (remainingCapital < 0) remainingCapital = 0;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3 font-semibold">${month}</td>
+                    <td class="p-3">${formatCurrency(monthlyPmt + monthlyInsurancePmt)}</td>
+                    <td class="p-3 text-emerald-600 font-semibold">${formatCurrency(capitalPayment)}</td>
+                    <td class="p-3 text-amber-600">${formatCurrency(interestPayment)}</td>
+                    <td class="p-3 text-slate-500">${formatCurrency(monthlyInsurancePmt)}</td>
+                    <td class="p-3 font-semibold">${formatCurrency(remainingCapital)}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+
+        function toggleAmortizationTable() {
+            const container = document.getElementById('amortization-table-container');
+            const btn = document.getElementById('btn-toggle-table');
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                btn.textContent = "Masquer le Tableau d'Amortissement";
+            } else {
+                container.classList.add('hidden');
+                btn.textContent = "Afficher le Tableau d'Amortissement (Mois par Mois)";
+            }
+        }
+
+        // Eligibility Calculation
+        function calculateEligibility() {
+            const income = parseFloat(document.getElementById('elig-income').value) || 0;
+            const charges = parseFloat(document.getElementById('elig-charges').value) || 0;
+            const adults = parseInt(document.getElementById('elig-adults').value) || 1;
+            const kids = parseInt(document.getElementById('elig-kids').value) || 0;
+
+            const monthlyPmtStr = document.getElementById('res-monthly').textContent;
+            const monthlyLoanPmt = parseFloat(monthlyPmtStr.replace(/[^0-9,-]+/g, "").replace(',', '.'));
+
+            const totalCharges = charges + monthlyLoanPmt;
+            const debtRatio = income > 0 ? (totalCharges / income) * 100 : 0;
+            const restToLive = income - totalCharges;
+
+            // Required Minimum Rest to Live
+            const requiredRest = (adults * 800) + (kids * 300);
+
+            document.getElementById('elig-ratio-display').textContent = debtRatio.toFixed(1) + ' %';
+            document.getElementById('elig-bar').style.width = Math.min(debtRatio, 100) + '%';
+            document.getElementById('elig-rest-display').textContent = formatCurrency(restToLive);
+
+            const badge = document.getElementById('elig-badge');
+            const bar = document.getElementById('elig-bar');
+            const comment = document.getElementById('elig-comment');
+
+            if (debtRatio <= 35 && restToLive >= requiredRest) {
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800";
+                badge.textContent = "Favorable";
+                bar.className = "bg-emerald-500 h-full";
+                comment.textContent = "Votre dossier respecte le seuil d'endettement de 35% et offre un reste à vivre suffisant.";
+            } else if (debtRatio <= 40) {
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800";
+                badge.textContent = "À Réétudier";
+                bar.className = "bg-amber-500 h-full";
+                comment.textContent = "Votre taux d'endettement dépasse légèrement les 35%. Un apport complémentaire pourrait être requis.";
+            } else {
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800";
+                badge.textContent = "Risque Élevé";
+                bar.className = "bg-red-500 h-full";
+                comment.textContent = "Votre taux d'endettement excède les normes réglementaires HCSF. Risque de refus.";
+            }
+        }
+
+        // PDF Export Implementation
+        function exportPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const amount = document.getElementById('input-amount').value;
+            const duration = document.getElementById('input-duration').value;
+            const monthly = document.getElementById('res-monthly').textContent;
+            const taeg = document.getElementById('res-taeg').textContent;
+            const deposit = document.getElementById('res-deposit').textContent;
+
+            doc.setFontSize(18);
+            doc.text("EuroPrêt Expert - Fiche Récapitulative de Simulation", 14, 20);
+
+            doc.setFontSize(10);
+            doc.text(`Généré le: ${new Date().toLocaleDateString('fr-FR')}`, 14, 28);
+            doc.text("Document conforme aux recommandations de transparence de l'Union Européenne.", 14, 34);
+
+            doc.autoTable({
+                startY: 40,
+                head: [['Paramètre', 'Valeur Simulée']],
+                body: [
+                    ['Montant du Crédit', `${amount} €`],
+                    ['Durée', `${duration} ans`],
+                    ['Mensualité Globale (Assurance incluse)', monthly],
+                    ['TAEG Indicatif', taeg],
+                    ['Apport / Dépôt Obligatoire (10%)', deposit]
+                ],
+            });
+
+            doc.save("Simulation_EuroPret_Expert.pdf");
+        }
+
+        // Authentication & Client Session
+        function openAuthModal(type) {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            if (type === 'login') {
+                document.getElementById('auth-modal-title').textContent = "Connexion Client";
+                document.getElementById('auth-submit-btn').textContent = "Se Connecter";
+            } else {
+                document.getElementById('auth-modal-title').textContent = "Inscription Client";
+                document.getElementById('auth-submit-btn').textContent = "Créer un Compte";
+            }
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            currentUser = {
+                email: email,
+                name: email.split('@')[0]
+            };
+
+            document.getElementById('auth-buttons-container').classList.add('hidden');
+            document.getElementById('user-profile-container').classList.remove('hidden');
+            document.getElementById('user-email-display').textContent = currentUser.name;
+            document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+
+            closeAuthModal();
+
+            // Link or create client dossier
+            activeClientDossier = mockDossiers.find(d => d.userEmail === currentUser.email);
+            if (!activeClientDossier) {
+                activeClientDossier = {
+                    id: "DOS-2026-" + Math.floor(100 + Math.random() * 900),
+                    userEmail: currentUser.email,
+                    userName: currentUser.name,
+                    country: "France",
+                    amount: 0,
+                    duration: 0,
+                    rate: 3.5,
+                    depositRequired: 0,
+                    depositBalance: 0,
+                    status: "Aucun prêt",
+                    monthly: 0
+                };
+            }
+
+            switchTab('client-space');
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            activeClientDossier = null;
+            document.getElementById('auth-buttons-container').classList.remove('hidden');
+            document.getElementById('user-profile-container').classList.add('hidden');
+            switchTab('simulator');
+        }
+
+        // Loan Application Wizard
+        function initiateLoanApplication() {
+            if (!currentUser) {
+                alert("Veuillez créer un compte ou vous connecter pour déposer votre demande de prêt.");
+                openAuthModal('login');
+                return;
+            }
+
+            const amount = parseFloat(document.getElementById('input-amount').value);
+            const deposit = amount * 0.10;
+
+            document.getElementById('wiz-loan-amount-confirm').textContent = formatCurrency(amount);
+            document.getElementById('wiz-deposit-confirm').textContent = formatCurrency(deposit);
+            document.getElementById('wiz-declared-balance').value = deposit;
+
+            document.getElementById('loan-wizard-modal').classList.remove('hidden');
+        }
+
+        function closeLoanWizard() {
+            document.getElementById('loan-wizard-modal').classList.add('hidden');
+        }
+
+        function handleLoanWizardSubmit(e) {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('input-amount').value);
+            const duration = parseInt(document.getElementById('input-duration').value);
+            const declaredBalance = parseFloat(document.getElementById('wiz-declared-balance').value);
+            const monthlyStr = document.getElementById('res-monthly').textContent;
+            const monthlyPmt = parseFloat(monthlyStr.replace(/[^0-9,-]+/g, "").replace(',', '.'));
+
+            activeClientDossier.amount = amount;
+            activeClientDossier.duration = duration;
+            activeClientDossier.depositRequired = amount * 0.10;
+            activeClientDossier.depositBalance = declaredBalance;
+            activeClientDossier.monthly = monthlyPmt;
+            activeClientDossier.country = document.getElementById('wiz-country').value;
+
+            if (declaredBalance >= activeClientDossier.depositRequired) {
+                activeClientDossier.status = "En attente";
+            } else {
+                activeClientDossier.status = "Acompte requis";
+            }
+
+            // Update or add to mock global dossiers
+            const idx = mockDossiers.findIndex(d => d.id === activeClientDossier.id);
+            if (idx >= 0) {
+                mockDossiers[idx] = activeClientDossier;
+            } else {
+                mockDossiers.push(activeClientDossier);
+            }
+
+            closeLoanWizard();
+            switchTab('client-space');
+        }
+
+        // Client Space Rendering
+        function renderClientSpace() {
+            if (!activeClientDossier) return;
+
+            document.getElementById('client-user-id').textContent = activeClientDossier.id;
+            document.getElementById('client-balance-display').textContent = formatCurrency(activeClientDossier.depositBalance);
+            document.getElementById('client-loan-amount').textContent = activeClientDossier.amount > 0 ? formatCurrency(activeClientDossier.amount) : "-- €";
+            document.getElementById('client-loan-duration').textContent = activeClientDossier.duration > 0 ? `Durée: ${activeClientDossier.duration} ans` : "Durée: --";
+            document.getElementById('client-monthly-display').textContent = activeClientDossier.monthly > 0 ? formatCurrency(activeClientDossier.monthly) : "-- €";
+
+            const badgeContainer = document.getElementById('client-status-badge');
+            let badgeHTML = "";
+
+            if (activeClientDossier.status === "Approuvé") {
+                badgeHTML = `<span class="px-2.5 py-1 text-xs font-bold bg-emerald-100 text-emerald-800 rounded-full">Prêt Approuvé</span>`;
+            } else if (activeClientDossier.status === "En attente") {
+                badgeHTML = `<span class="px-2.5 py-1 text-xs font-bold bg-amber-100 text-amber-800 rounded-full">Etude en cours</span>`;
+            } else if (activeClientDossier.status === "Acompte requis") {
+                badgeHTML = `<span class="px-2.5 py-1 text-xs font-bold bg-red-100 text-red-800 rounded-full">Apport Insuffisant (10% Requis)</span>`;
+            } else {
+                badgeHTML = `<span class="px-2.5 py-1 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">Aucune demande</span>`;
+            }
+
+            badgeContainer.innerHTML = badgeHTML;
+
+            const contentContainer = document.getElementById('client-loan-content');
+            if (activeClientDossier.amount > 0) {
+                contentContainer.innerHTML = `
+                    <div class="space-y-3 text-xs text-slate-700">
+                        <p><strong>Pays de souscription :</strong> ${activeClientDossier.country}</p>
+                        <p><strong>Garantie 10% requise :</strong> ${formatCurrency(activeClientDossier.depositRequired)}</p>
+                        <p><strong>Solde de garantie actuel :</strong> ${formatCurrency(activeClientDossier.depositBalance)}</p>
+                        <div class="p-3 bg-white rounded-lg border border-slate-200 mt-2">
+                            ${activeClientDossier.depositBalance >= activeClientDossier.depositRequired ? 
+                                '<span class="text-emerald-600 font-bold">✔ Condition des 10% remplie. Votre dossier est prêt pour la décision finale de l\'administrateur.</span>' : 
+                                '<span class="text-red-600 font-bold">⚠ Veuillez créditer votre solde pour atteindre l\'apport obligatoire de 10% afin de débloquer la validation.</span>'}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Deposit Modal Handlers
+        function openDepositModal() {
+            if (!currentUser) {
+                alert("Veuillez vous connecter.");
+                return;
+            }
+            document.getElementById('deposit-modal').classList.remove('hidden');
+        }
+
+        function closeDepositModal() {
+            document.getElementById('deposit-modal').classList.add('hidden');
+        }
+
+        function handleDepositSubmit(e) {
+            e.preventDefault();
+            const added = parseFloat(document.getElementById('deposit-amount-input').value) || 0;
+            if (activeClientDossier) {
+                activeClientDossier.depositBalance += added;
+                if (activeClientDossier.depositBalance >= activeClientDossier.depositRequired && activeClientDossier.status === "Acompte requis") {
+                    activeClientDossier.status = "En attente";
+                }
+            }
+            closeDepositModal();
+            renderClientSpace();
+            renderAdminDossiersTable();
+        }
+
+        // Admin Management Table
+        function renderAdminDossiersTable() {
+            const tbody = document.getElementById('admin-dossiers-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+
+            let totalVol = 0;
+            let totalDep = 0;
+            let approvedCount = 0;
+
+            mockDossiers.forEach(dossier => {
+                totalVol += dossier.amount;
+                totalDep += dossier.depositBalance;
+                if (dossier.status === "Approuvé") approvedCount++;
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+
+                let statusBadge = "";
+                if (dossier.status === "Approuvé") statusBadge = `<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[11px]">Approuvé</span>`;
+                else if (dossier.status === "En attente") statusBadge = `<span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-bold text-[11px]">En attente</span>`;
+                else statusBadge = `<span class="px-2 py-0.5 bg-red-100 text-red-800 rounded font-bold text-[11px]">Dépôt Insuffisant</span>`;
+
+                tr.innerHTML = `
+                    <td class="p-3 font-mono font-bold text-slate-800">${dossier.id}</td>
+                    <td class="p-3">
+                        <div class="font-bold text-slate-900">${dossier.userName}</div>
+                        <div class="text-[11px] text-slate-400">${dossier.userEmail}</div>
+                    </td>
+                    <td class="p-3 font-semibold text-slate-900">${formatCurrency(dossier.amount)}</td>
+                    <td class="p-3 text-amber-700 font-semibold">${formatCurrency(dossier.depositRequired)}</td>
+                    <td class="p-3 text-emerald-700 font-semibold">${formatCurrency(dossier.depositBalance)}</td>
+                    <td class="p-3">${statusBadge}</td>
+                    <td class="p-3 space-x-1">
+                        <button onclick="adminApprove('${dossier.id}')" class="px-2 py-1 bg-emerald-600 text-white rounded text-[10px] font-bold hover:bg-emerald-700">Approuver</button>
+                        <button onclick="openAdminCreditModal('${dossier.id}')" class="px-2 py-1 bg-purple-600 text-white rounded text-[10px] font-bold hover:bg-purple-700">Créditer Solde</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('admin-kpi-volume').textContent = formatCurrency(totalVol);
+            document.getElementById('admin-kpi-deposits').textContent = formatCurrency(totalDep);
+            document.getElementById('admin-kpi-approved').textContent = approvedCount;
+        }
+
+        function adminApprove(dossierId) {
+            const dossier = mockDossiers.find(d => d.id === dossierId);
+            if (dossier) {
+                if (dossier.depositBalance < dossier.depositRequired) {
+                    alert(`Attention: Le client ne dispose pas encore des 10% d'apport requis (${formatCurrency(dossier.depositRequired)}).`);
+                    return;
+                }
+                dossier.status = "Approuvé";
+                renderAdminDossiersTable();
+                if (activeClientDossier && activeClientDossier.id === dossierId) renderClientSpace();
+            }
+        }
+
+        let selectedCreditDossierId = null;
+        function openAdminCreditModal(dossierId) {
+            selectedCreditDossierId = dossierId;
+            document.getElementById('admin-credit-dossier-ref').textContent = dossierId;
+            document.getElementById('admin-credit-modal').classList.remove('hidden');
+        }
+
+        function closeAdminCreditModal() {
+            document.getElementById('admin-credit-modal').classList.add('hidden');
+        }
+
+        function handleAdminCreditSubmit(e) {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('admin-credit-input').value) || 0;
+            const dossier = mockDossiers.find(d => d.id === selectedCreditDossierId);
+            if (dossier) {
+                dossier.depositBalance = amount;
+                if (dossier.depositBalance >= dossier.depositRequired && dossier.status === "Acompte requis") {
+                    dossier.status = "En attente";
+                }
+            }
+            closeAdminCreditModal();
+            renderAdminDossiersTable();
+            if (activeClientDossier && activeClientDossier.id === selectedCreditDossierId) renderClientSpace();
+        }
+
+        // Helper Utility
+        function formatCurrency(val) {
+            return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(val);
+        }
+    </script>
+</body>
+</html>
