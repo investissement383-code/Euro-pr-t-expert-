@@ -580,32 +580,28 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     <div class="p-4 bg-slate-900 text-white rounded-xl">
                         <span class="text-xs text-slate-400">Volume Total Demandé</span>
-                        <div class="text-2xl font-extrabold text-brand-400 mt-1" id="admin-kpi-volume">450 000 €</div>
-                        <span class="text-[11px] text-slate-400">3 Dossiers en attente</span>
+                        <div class="text-2xl font-extrabold text-brand-400 mt-1" id="admin-kpi-volume">0 €</div>
                     </div>
 
                     <div class="p-4 bg-slate-900 text-white rounded-xl">
                         <span class="text-xs text-slate-400">Dépôts / Apports Vérifiés</span>
-                        <div class="text-2xl font-extrabold text-emerald-400 mt-1" id="admin-kpi-deposits">45 000 €</div>
-                        <span class="text-[11px] text-slate-400">Garantie 10% contrôlée</span>
+                        <div class="text-2xl font-extrabold text-emerald-400 mt-1" id="admin-kpi-deposits">0 €</div>
                     </div>
 
                     <div class="p-4 bg-slate-900 text-white rounded-xl">
                         <span class="text-xs text-slate-400">Dossiers Approuvés</span>
-                        <div class="text-2xl font-extrabold text-amber-400 mt-1" id="admin-kpi-approved">1</div>
-                        <span class="text-[11px] text-slate-400">Prêts prêts pour déblocage</span>
+                        <div class="text-2xl font-extrabold text-amber-400 mt-1" id="admin-kpi-approved">0</div>
                     </div>
 
                     <div class="p-4 bg-slate-900 text-white rounded-xl">
-                        <span class="text-xs text-slate-400">Taux de Validation</span>
-                        <div class="text-2xl font-extrabold text-indigo-300 mt-1">66.7 %</div>
-                        <span class="text-[11px] text-slate-400">Moyenne mensuelle</span>
+                        <span class="text-xs text-slate-400">Statut Base de Données</span>
+                        <div class="text-xs font-bold text-emerald-300 mt-2">Connecté à Firebase 🟢</div>
                     </div>
                 </div>
 
                 <!-- Applications Management Table -->
                 <div class="space-y-4">
-                    <h3 class="font-bold text-slate-900 text-base">Liste des Demandes de Crédit</h3>
+                    <h3 class="font-bold text-slate-900 text-base">Liste des Demandes en Direct (Firestore)</h3>
                     <div class="overflow-x-auto border border-slate-200 rounded-xl">
                         <table class="w-full text-xs text-left text-slate-600">
                             <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
@@ -620,7 +616,7 @@
                                 </tr>
                             </thead>
                             <tbody id="admin-dossiers-tbody" class="divide-y divide-slate-200 bg-white">
-                                <!-- Populated dynamically -->
+                                <!-- Populated dynamically from Firebase -->
                             </tbody>
                         </table>
                     </div>
@@ -652,7 +648,7 @@
         </div>
     </footer>
 
-    <!-- AUTHENTICATION MODAL (AVEC PAYS ET LANGUE) -->
+    <!-- AUTHENTICATION MODAL -->
     <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -671,7 +667,6 @@
                     <input type="password" id="auth-password" required minlength="6" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500">
                 </div>
 
-                <!-- Champs supplémentaires visibles uniquement lors de l'inscription -->
                 <div id="signup-extra-fields" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Pays de résidence</label>
@@ -715,12 +710,12 @@
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
             <h3 class="text-xl font-bold text-slate-900 mb-1">Formulaire de Demande de Prêt</h3>
-            <p class="text-xs text-slate-500 mb-6">Étape <span id="wizard-step-num">1</span> sur 3</p>
+            <p class="text-xs text-slate-500 mb-6">Étape 1 sur 2</p>
 
             <form onsubmit="handleLoanWizardSubmit(event)" class="space-y-6">
                 <!-- Step 1: Personal Info -->
                 <div id="wizard-step-1" class="space-y-4">
-                    <h4 class="font-bold text-slate-800 text-sm border-b pb-2">1. Informations Personnelles</h4>
+                    <h4 class="font-bold text-slate-800 text-sm border-b pb-2">1. Informations Personnelles & Contact</h4>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Nom</label>
@@ -731,15 +726,21 @@
                             <input type="text" required id="wiz-firstname" class="w-full px-3 py-2 border rounded-lg text-sm">
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Pays de Résidence UE</label>
-                        <select id="wiz-country" class="w-full px-3 py-2 border rounded-lg text-sm">
-                            <option value="France">France</option>
-                            <option value="Allemagne">Allemagne</option>
-                            <option value="Espagne">Espagne</option>
-                            <option value="Italie">Italie</option>
-                            <option value="Belgique">Belgique</option>
-                        </select>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Numéro Téléphone</label>
+                            <input type="tel" required id="wiz-phone" placeholder="+33 6 12 34 56 78" class="w-full px-3 py-2 border rounded-lg text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Pays de Résidence UE</label>
+                            <select id="wiz-country" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="France">France</option>
+                                <option value="Allemagne">Allemagne</option>
+                                <option value="Espagne">Espagne</option>
+                                <option value="Italie">Italie</option>
+                                <option value="Belgique">Belgique</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -756,10 +757,10 @@
                     </div>
                 </div>
 
-                <div class="flex justify-between pt-4 border-t border-slate-200">
+                <div class="flex justify-between items-center pt-4 border-t border-slate-200">
                     <button type="button" onclick="closeLoanWizard()" class="px-4 py-2 border text-slate-600 rounded-lg text-xs font-bold">Annuler</button>
-                    <button type="submit" class="px-6 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-lg shadow">
-                        Valider la Demande
+                    <button type="submit" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-lg shadow">
+                        Valider la Demande de Prêt
                     </button>
                 </div>
             </form>
@@ -780,9 +781,6 @@
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Montant à Déposer (€)</label>
                     <input type="number" id="deposit-amount-input" required min="100" value="5000" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-bold">
                 </div>
-                <div class="p-3 bg-slate-50 rounded-lg border text-xs text-slate-600">
-                    Une notification sera envoyée à l'administrateur pour validation du crédit sur votre compte.
-                </div>
                 <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-lg shadow">
                     Confirmer le Dépôt
                 </button>
@@ -796,7 +794,7 @@
             <button onclick="closeAdminCreditModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
-            <h3 class="text-xl font-bold text-slate-900 mb-1">Créditer le Solde Client</h3>
+            <h3 class="text-xl font-bold text-slate-900 mb-1">Modifier / Créditer le Solde Client</h3>
             <p class="text-xs text-slate-500 mb-4">Dossier : <span id="admin-credit-dossier-ref" class="font-bold">--</span></p>
 
             <form onsubmit="handleAdminCreditSubmit(event)" class="space-y-4">
@@ -805,7 +803,7 @@
                     <input type="number" id="admin-credit-input" required min="0" value="20000" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-bold">
                 </div>
                 <button type="submit" class="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm rounded-lg shadow">
-                    Valider le Crédit de Solde
+                    Enregistrer le Nouveau Solde
                 </button>
             </form>
         </div>
@@ -827,12 +825,11 @@
             appId: "1:219259418337:web:a7acb09fbf194fe58ce9a0"
         };
 
-        // Initialisation de Firebase
         const app = initializeApp(firebaseConfig);
         window.firebaseAuth = getAuth(app);
         window.firebaseDb = getFirestore(app);
+        window.firebaseFns = { doc, setDoc, getDoc, collection, getDocs, updateDoc };
 
-        // Ecoute de l'état d'authentification
         onAuthStateChanged(window.firebaseAuth, async (user) => {
             if (user) {
                 currentUser = {
@@ -845,8 +842,7 @@
                 document.getElementById('user-email-display').textContent = currentUser.name;
                 document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
 
-                // Synchronisation avec Firestore
-                await syncClientDataFromFirestore(user.uid);
+                await syncClientDataFromFirestore(user.email.replace(/[^a-zA-Z0-9]/g, "_"));
             } else {
                 currentUser = null;
                 activeClientDossier = null;
@@ -855,9 +851,9 @@
             }
         });
 
-        async function syncClientDataFromFirestore(uid) {
+        async function syncClientDataFromFirestore(docKey) {
             try {
-                const docRef = doc(window.firebaseDb, "dossiers", uid);
+                const docRef = doc(window.firebaseDb, "dossiers", docKey);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     activeClientDossier = docSnap.data();
@@ -879,77 +875,26 @@
                 }
                 renderClientSpace();
             } catch(e) {
-                console.log("Mode offline ou secours:", e);
+                console.log("Erreur Firestore sync:", e);
             }
         }
     </script>
 
     <!-- MAIN JAVASCRIPT LOGIC -->
     <script>
-        // State Management
         let currentUser = null;
         let activeTab = 'simulator';
         let chartInstance = null;
-        let authMode = 'login'; // 'login' ou 'signup'
-
-        // Mock Database of Applications
-        let mockDossiers = [
-            {
-                id: "DOS-2026-901",
-                userEmail: "jean.dupont@example.com",
-                userName: "Jean Dupont",
-                country: "France",
-                language: "Français",
-                amount: 200000,
-                duration: 20,
-                rate: 3.5,
-                depositRequired: 20000,
-                depositBalance: 20000,
-                status: "Approuvé",
-                monthly: 1219.89
-            },
-            {
-                id: "DOS-2026-902",
-                userEmail: "marie.martin@example.com",
-                userName: "Marie Martin",
-                country: "Belgique",
-                language: "Français",
-                amount: 150000,
-                duration: 15,
-                rate: 3.2,
-                depositRequired: 15000,
-                depositBalance: 5000,
-                status: "Acompte requis",
-                monthly: 1050.12
-            },
-            {
-                id: "DOS-2026-903",
-                userEmail: "pierre.durand@example.com",
-                userName: "Pierre Durand",
-                country: "Espagne",
-                language: "Español",
-                amount: 100000,
-                duration: 10,
-                rate: 3.8,
-                depositRequired: 10000,
-                depositBalance: 10000,
-                status: "En attente",
-                monthly: 1003.11
-            }
-        ];
-
-        // Active Application for current user session
+        let authMode = 'login';
         let activeClientDossier = null;
+        let selectedCreditDocKey = null;
 
-        // Initialisation
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             setupEventListeners();
             calculateSimulation();
-            renderAdminDossiersTable();
         });
 
-        // Tab Switching Logic
         function switchTab(tabId) {
             activeTab = tabId;
             const sections = ['simulator', 'eligibility', 'comparator', 'regulations', 'country-rules', 'client-space', 'admin'];
@@ -977,7 +922,6 @@
             if (tabId === 'client-space') renderClientSpace();
         }
 
-        // Event Listeners Registration
         function setupEventListeners() {
             const inputs = ['input-amount', 'input-duration', 'input-rate', 'input-insurance'];
             inputs.forEach(id => {
@@ -1002,7 +946,6 @@
             calculateSimulation();
         }
 
-        // Presets handler
         function setPreset(type) {
             document.querySelectorAll('.preset-btn').forEach(btn => {
                 btn.classList.remove('border-brand-500', 'bg-brand-50', 'text-brand-700');
@@ -1044,7 +987,6 @@
             calculateSimulation();
         }
 
-        // Main Calculation Engine
         function calculateSimulation() {
             const P = parseFloat(document.getElementById('input-amount').value) || 0;
             const years = parseFloat(document.getElementById('input-duration').value) || 1;
@@ -1053,7 +995,6 @@
             const r = (annualRate / 100) / 12;
             const annualInsuranceRate = parseFloat(document.getElementById('input-insurance').value) || 0;
 
-            // Monthly Principal & Interest Payment
             let monthlyPmt = 0;
             if (r > 0) {
                 monthlyPmt = (P * r * Math.pow(1 + r, N)) / (Math.pow(1 + r, N) - 1);
@@ -1061,23 +1002,17 @@
                 monthlyPmt = P / N;
             }
 
-            // Insurance Calculation
             const monthlyInsurancePmt = (P * (annualInsuranceRate / 100)) / 12;
             const totalMonthlyPmt = monthlyPmt + monthlyInsurancePmt;
 
-            // Totals
             const totalPaidPmt = monthlyPmt * N;
             const totalInterest = totalPaidPmt - P;
             const totalInsurance = monthlyInsurancePmt * N;
             const grandTotal = totalPaidPmt + totalInsurance;
 
-            // TAEG Approximation
             const approxTAEG = annualRate + annualInsuranceRate + 0.26;
-
-            // Required Guarantee Deposit (10%)
             const depositRequired = P * 0.10;
 
-            // Format UI
             document.getElementById('res-monthly').textContent = formatCurrency(totalMonthlyPmt);
             document.getElementById('res-monthly-ins').textContent = formatCurrency(monthlyInsurancePmt);
             document.getElementById('res-taeg').textContent = approxTAEG.toFixed(2) + ' %';
@@ -1091,13 +1026,9 @@
             buildAmortizationTable(P, r, N, monthlyPmt, monthlyInsurancePmt);
         }
 
-        // Chart Rendering
         function renderChart(capital, interest, insurance) {
             const ctx = document.getElementById('amortizationChart').getContext('2d');
-            
-            if (chartInstance) {
-                chartInstance.destroy();
-            }
+            if (chartInstance) chartInstance.destroy();
 
             chartInstance = new Chart(ctx, {
                 type: 'doughnut',
@@ -1112,14 +1043,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom' }
-                    }
+                    plugins: { legend: { position: 'bottom' } }
                 }
             });
         }
 
-        // Build Amortization Table
         function buildAmortizationTable(P, r, N, monthlyPmt, monthlyInsurancePmt) {
             const tbody = document.getElementById('amortization-tbody');
             tbody.innerHTML = '';
@@ -1157,7 +1085,6 @@
             }
         }
 
-        // Eligibility Calculation
         function calculateEligibility() {
             const income = parseFloat(document.getElementById('elig-income').value) || 0;
             const charges = parseFloat(document.getElementById('elig-charges').value) || 0;
@@ -1171,7 +1098,6 @@
             const debtRatio = income > 0 ? (totalCharges / income) * 100 : 0;
             const restToLive = income - totalCharges;
 
-            // Required Minimum Rest to Live
             const requiredRest = (adults * 800) + (kids * 300);
 
             document.getElementById('elig-ratio-display').textContent = debtRatio.toFixed(1) + ' %';
@@ -1200,7 +1126,6 @@
             }
         }
 
-        // PDF Export Implementation
         function exportPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -1233,7 +1158,6 @@
             doc.save("Simulation_EuroPret_Expert.pdf");
         }
 
-        // Authentication & Client Session
         function openAuthModal(type) {
             authMode = type;
             document.getElementById('auth-modal').classList.remove('hidden');
@@ -1256,61 +1180,60 @@
             document.getElementById('auth-modal').classList.add('hidden');
         }
 
-        function handleAuthSubmit(e) {
+        async function handleAuthSubmit(e) {
             e.preventDefault();
             const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
             const country = document.getElementById('auth-country').value;
             const language = document.getElementById('auth-language').value;
 
-            currentUser = {
-                email: email,
-                name: email.split('@')[0]
-            };
+            const docKey = email.replace(/[^a-zA-Z0-9]/g, "_");
 
+            try {
+                if (authMode === 'signup') {
+                    await window.firebaseAuth.createUserWithEmailAndPassword(window.firebaseAuth, email, password);
+                    await window.firebaseFns.setDoc(window.firebaseFns.doc(window.firebaseDb, "dossiers", docKey), {
+                        id: "DOS-2026-" + Math.floor(100 + Math.random() * 900),
+                        userEmail: email,
+                        userName: email.split('@')[0],
+                        docKey: docKey,
+                        country: country,
+                        language: language,
+                        amount: 0,
+                        duration: 0,
+                        depositRequired: 0,
+                        depositBalance: 0,
+                        status: "Aucun prêt",
+                        monthly: 0
+                    });
+                } else {
+                    await window.firebaseAuth.signInWithEmailAndPassword(window.firebaseAuth, email, password);
+                }
+            } catch(err) {
+                console.log("Auth error:", err);
+            }
+
+            currentUser = { email: email, name: email.split('@')[0] };
             document.getElementById('auth-buttons-container').classList.add('hidden');
             document.getElementById('user-profile-container').classList.remove('hidden');
             document.getElementById('user-email-display').textContent = currentUser.name;
             document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
 
             closeAuthModal();
-
-            // Link or create client dossier
-            activeClientDossier = mockDossiers.find(d => d.userEmail === currentUser.email);
-            if (!activeClientDossier) {
-                activeClientDossier = {
-                    id: "DOS-2026-" + Math.floor(100 + Math.random() * 900),
-                    userEmail: currentUser.email,
-                    userName: currentUser.name,
-                    country: country || "France",
-                    language: language || "Français",
-                    amount: 0,
-                    duration: 0,
-                    rate: 3.5,
-                    depositRequired: 0,
-                    depositBalance: 0,
-                    status: "Aucun prêt",
-                    monthly: 0
-                };
-            } else if (authMode === 'signup') {
-                activeClientDossier.country = country;
-                activeClientDossier.language = language;
-            }
-
             switchTab('client-space');
         }
 
         function handleLogout() {
             currentUser = null;
             activeClientDossier = null;
-            document.getElementById('auth-buttons-container').classList.remove('hidden');
-            document.getElementById('user-profile-container').classList.add('hidden');
+            document.getElementById('auth-buttons-container').classList.add('hidden');
+            document.getElementById('user-profile-container').classList.remove('hidden');
             switchTab('simulator');
         }
 
-        // Loan Application Wizard
         function initiateLoanApplication() {
             if (!currentUser) {
-                alert("Veuillez créer un compte ou vous connecter pour déposer votre demande de prêt.");
+                alert("Veuillez vous connecter pour déposer votre demande de prêt.");
                 openAuthModal('signup');
                 return;
             }
@@ -1329,46 +1252,55 @@
             document.getElementById('loan-wizard-modal').classList.add('hidden');
         }
 
-        function handleLoanWizardSubmit(e) {
+        async function handleLoanWizardSubmit(e) {
             e.preventDefault();
+            const lastname = document.getElementById('wiz-lastname').value;
+            const firstname = document.getElementById('wiz-firstname').value;
+            const phone = document.getElementById('wiz-phone').value;
+            const country = document.getElementById('wiz-country').value;
             const amount = parseFloat(document.getElementById('input-amount').value);
             const duration = parseInt(document.getElementById('input-duration').value);
             const declaredBalance = parseFloat(document.getElementById('wiz-declared-balance').value);
             const monthlyStr = document.getElementById('res-monthly').textContent;
             const monthlyPmt = parseFloat(monthlyStr.replace(/[^0-9,-]+/g, "").replace(',', '.'));
 
+            const docKey = currentUser.email.replace(/[^a-zA-Z0-9]/g, "_");
+
+            if (!activeClientDossier) {
+                activeClientDossier = {
+                    id: "DOS-2026-" + Math.floor(100 + Math.random() * 900),
+                    userEmail: currentUser.email,
+                    docKey: docKey
+                };
+            }
+
+            activeClientDossier.userName = `${firstname} ${lastname}`;
+            activeClientDossier.phone = phone;
             activeClientDossier.amount = amount;
             activeClientDossier.duration = duration;
             activeClientDossier.depositRequired = amount * 0.10;
             activeClientDossier.depositBalance = declaredBalance;
             activeClientDossier.monthly = monthlyPmt;
-            activeClientDossier.country = document.getElementById('wiz-country').value;
+            activeClientDossier.country = country;
+            activeClientDossier.status = (declaredBalance >= activeClientDossier.depositRequired) ? "En attente" : "Acompte requis";
 
-            if (declaredBalance >= activeClientDossier.depositRequired) {
-                activeClientDossier.status = "En attente";
-            } else {
-                activeClientDossier.status = "Acompte requis";
-            }
-
-            // Update or add to mock global dossiers
-            const idx = mockDossiers.findIndex(d => d.id === activeClientDossier.id);
-            if (idx >= 0) {
-                mockDossiers[idx] = activeClientDossier;
-            } else {
-                mockDossiers.push(activeClientDossier);
+            try {
+                await window.firebaseFns.setDoc(window.firebaseFns.doc(window.firebaseDb, "dossiers", docKey), activeClientDossier);
+            } catch(err) {
+                console.log("Erreur écriture Firestore:", err);
             }
 
             closeLoanWizard();
             switchTab('client-space');
+            alert("Votre demande de prêt a été enregistrée avec succès !");
         }
 
-        // Client Space Rendering
         function renderClientSpace() {
             if (!activeClientDossier) return;
 
-            document.getElementById('client-user-id').textContent = activeClientDossier.id;
+            document.getElementById('client-user-id').textContent = activeClientDossier.id || 'DOS-2026';
             document.getElementById('client-profile-info').textContent = `Pays : ${activeClientDossier.country || 'France'} | Langue : ${activeClientDossier.language || 'Français'}`;
-            document.getElementById('client-balance-display').textContent = formatCurrency(activeClientDossier.depositBalance);
+            document.getElementById('client-balance-display').textContent = formatCurrency(activeClientDossier.depositBalance || 0);
             document.getElementById('client-loan-amount').textContent = activeClientDossier.amount > 0 ? formatCurrency(activeClientDossier.amount) : "-- €";
             document.getElementById('client-loan-duration').textContent = activeClientDossier.duration > 0 ? `Durée: ${activeClientDossier.duration} ans` : "Durée: --";
             document.getElementById('client-monthly-display').textContent = activeClientDossier.monthly > 0 ? formatCurrency(activeClientDossier.monthly) : "-- €";
@@ -1393,7 +1325,6 @@
                 contentContainer.innerHTML = `
                     <div class="space-y-3 text-xs text-slate-700">
                         <p><strong>Pays de souscription :</strong> ${activeClientDossier.country}</p>
-                        <p><strong>Langue de correspondance :</strong> ${activeClientDossier.language || 'Français'}</p>
                         <p><strong>Garantie 10% requise :</strong> ${formatCurrency(activeClientDossier.depositRequired)}</p>
                         <p><strong>Solde de garantie actuel :</strong> ${formatCurrency(activeClientDossier.depositBalance)}</p>
                         <div class="p-3 bg-white rounded-lg border border-slate-200 mt-2">
@@ -1406,7 +1337,6 @@
             }
         }
 
-        // Deposit Modal Handlers
         function openDepositModal() {
             if (!currentUser) {
                 alert("Veuillez vous connecter.");
@@ -1419,34 +1349,57 @@
             document.getElementById('deposit-modal').classList.add('hidden');
         }
 
-        function handleDepositSubmit(e) {
+        async function handleDepositSubmit(e) {
             e.preventDefault();
             const added = parseFloat(document.getElementById('deposit-amount-input').value) || 0;
             if (activeClientDossier) {
-                activeClientDossier.depositBalance += added;
+                activeClientDossier.depositBalance = (activeClientDossier.depositBalance || 0) + added;
                 if (activeClientDossier.depositBalance >= activeClientDossier.depositRequired && activeClientDossier.status === "Acompte requis") {
                     activeClientDossier.status = "En attente";
                 }
+                try {
+                    const docKey = currentUser.email.replace(/[^a-zA-Z0-9]/g, "_");
+                    await window.firebaseFns.setDoc(window.firebaseFns.doc(window.firebaseDb, "dossiers", docKey), activeClientDossier);
+                } catch(err) { console.log(err); }
             }
             closeDepositModal();
             renderClientSpace();
-            renderAdminDossiersTable();
+            alert("Dépôt pris en compte avec succès !");
         }
 
-        // Admin Management Table
-        function renderAdminDossiersTable() {
+        // Tableau Admin avec boutons pour Approuver et Créditer/Modifier le Solde
+        async function renderAdminDossiersTable() {
             const tbody = document.getElementById('admin-dossiers-tbody');
             if (!tbody) return;
 
+            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">Chargement des dossiers depuis Firebase...</td></tr>`;
+
+            let dossiersList = [];
+            try {
+                const querySnapshot = await window.firebaseFns.getDocs(window.firebaseFns.collection(window.firebaseDb, "dossiers"));
+                querySnapshot.forEach((docSnap) => {
+                    dossiersList.push({ idKey: docSnap.id, ...docSnap.data() });
+                });
+            } catch(e) {
+                console.log("Erreur lecture Firestore admin:", e);
+            }
+
             tbody.innerHTML = '';
+            if (dossiersList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Aucun dossier enregistré pour le moment.</td></tr>`;
+                document.getElementById('admin-kpi-volume').textContent = formatCurrency(0);
+                document.getElementById('admin-kpi-deposits').textContent = formatCurrency(0);
+                document.getElementById('admin-kpi-approved').textContent = 0;
+                return;
+            }
 
             let totalVol = 0;
             let totalDep = 0;
             let approvedCount = 0;
 
-            mockDossiers.forEach(dossier => {
-                totalVol += dossier.amount;
-                totalDep += dossier.depositBalance;
+            dossiersList.forEach(dossier => {
+                totalVol += (dossier.amount || 0);
+                totalDep += (dossier.depositBalance || 0);
                 if (dossier.status === "Approuvé") approvedCount++;
 
                 const tr = document.createElement('tr');
@@ -1455,22 +1408,22 @@
                 let statusBadge = "";
                 if (dossier.status === "Approuvé") statusBadge = `<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[11px]">Approuvé</span>`;
                 else if (dossier.status === "En attente") statusBadge = `<span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-bold text-[11px]">En attente</span>`;
-                else statusBadge = `<span class="px-2 py-0.5 bg-red-100 text-red-800 rounded font-bold text-[11px]">Dépôt Insuffisant</span>`;
+                else statusBadge = `<span class="px-2 py-0.5 bg-red-100 text-red-800 rounded font-bold text-[11px]">${dossier.status || 'Non soumis'}</span>`;
 
                 tr.innerHTML = `
-                    <td class="p-3 font-mono font-bold text-slate-800">${dossier.id}</td>
+                    <td class="p-3 font-mono font-bold text-slate-800">${dossier.id || 'DOS'}</td>
                     <td class="p-3">
-                        <div class="font-bold text-slate-900">${dossier.userName}</div>
-                        <div class="text-[11px] text-slate-400">${dossier.userEmail}</div>
+                        <div class="font-bold text-slate-900">${dossier.userName || 'Client'}</div>
+                        <div class="text-[11px] text-slate-400">${dossier.userEmail || ''}</div>
                         <div class="text-[10px] text-slate-500 font-medium">📍 ${dossier.country || 'France'} | 🗣️ ${dossier.language || 'Français'}</div>
                     </td>
-                    <td class="p-3 font-semibold text-slate-900">${formatCurrency(dossier.amount)}</td>
-                    <td class="p-3 text-amber-700 font-semibold">${formatCurrency(dossier.depositRequired)}</td>
-                    <td class="p-3 text-emerald-700 font-semibold">${formatCurrency(dossier.depositBalance)}</td>
+                    <td class="p-3 font-semibold text-slate-900">${formatCurrency(dossier.amount || 0)}</td>
+                    <td class="p-3 text-amber-700 font-semibold">${formatCurrency(dossier.depositRequired || 0)}</td>
+                    <td class="p-3 text-emerald-700 font-semibold">${formatCurrency(dossier.depositBalance || 0)}</td>
                     <td class="p-3">${statusBadge}</td>
-                    <td class="p-3 space-x-1">
-                        <button onclick="adminApprove('${dossier.id}')" class="px-2 py-1 bg-emerald-600 text-white rounded text-[10px] font-bold hover:bg-emerald-700">Approuver</button>
-                        <button onclick="openAdminCreditModal('${dossier.id}')" class="px-2 py-1 bg-purple-600 text-white rounded text-[10px] font-bold hover:bg-purple-700">Créditer Solde</button>
+                    <td class="p-3 space-x-1 flex">
+                        <button onclick="adminApprove('${dossier.idKey}', '${dossier.depositBalance || 0}', '${dossier.depositRequired || 0}')" class="px-2 py-1 bg-emerald-600 text-white rounded text-[10px] font-bold hover:bg-emerald-700">Approuver</button>
+                        <button onclick="openAdminCreditModal('${dossier.idKey}', ${dossier.depositBalance || 0})" class="px-2 py-1 bg-purple-600 text-white rounded text-[10px] font-bold hover:bg-purple-700">Modifier Solde</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1481,23 +1434,25 @@
             document.getElementById('admin-kpi-approved').textContent = approvedCount;
         }
 
-        function adminApprove(dossierId) {
-            const dossier = mockDossiers.find(d => d.id === dossierId);
-            if (dossier) {
-                if (dossier.depositBalance < dossier.depositRequired) {
-                    alert(`Attention: Le client ne dispose pas encore des 10% d'apport requis (${formatCurrency(dossier.depositRequired)}).`);
-                    return;
-                }
-                dossier.status = "Approuvé";
+        async function adminApprove(idKey, balance, required) {
+            if (parseFloat(balance) < parseFloat(required)) {
+                alert("Attention : Le client n'a pas encore atteint les 10% d'apport requis !");
+                return;
+            }
+            try {
+                const docRef = window.firebaseFns.doc(window.firebaseDb, "dossiers", idKey);
+                await window.firebaseFns.updateDoc(docRef, { status: "Approuvé" });
+                alert("Dossier approuvé avec succès !");
                 renderAdminDossiersTable();
-                if (activeClientDossier && activeClientDossier.id === dossierId) renderClientSpace();
+            } catch(e) {
+                alert("Erreur lors de l'approbation : " + e.message);
             }
         }
 
-        let selectedCreditDossierId = null;
-        function openAdminCreditModal(dossierId) {
-            selectedCreditDossierId = dossierId;
-            document.getElementById('admin-credit-dossier-ref').textContent = dossierId;
+        function openAdminCreditModal(idKey, currentBalance) {
+            selectedCreditDocKey = idKey;
+            document.getElementById('admin-credit-dossier-ref').textContent = idKey;
+            document.getElementById('admin-credit-input').value = currentBalance;
             document.getElementById('admin-credit-modal').classList.remove('hidden');
         }
 
@@ -1505,22 +1460,21 @@
             document.getElementById('admin-credit-modal').classList.add('hidden');
         }
 
-        function handleAdminCreditSubmit(e) {
+        async function handleAdminCreditSubmit(e) {
             e.preventDefault();
-            const amount = parseFloat(document.getElementById('admin-credit-input').value) || 0;
-            const dossier = mockDossiers.find(d => d.id === selectedCreditDossierId);
-            if (dossier) {
-                dossier.depositBalance = amount;
-                if (dossier.depositBalance >= dossier.depositRequired && dossier.status === "Acompte requis") {
-                    dossier.status = "En attente";
-                }
+            const newBalance = parseFloat(document.getElementById('admin-credit-input').value) || 0;
+
+            try {
+                const docRef = window.firebaseFns.doc(window.firebaseDb, "dossiers", selectedCreditDocKey);
+                await window.firebaseFns.updateDoc(docRef, { depositBalance: newBalance });
+                closeAdminCreditModal();
+                alert("Solde du client mis à jour avec succès dans Firebase !");
+                renderAdminDossiersTable();
+            } catch(err) {
+                alert("Erreur lors de la mise à jour : " + err.message);
             }
-            closeAdminCreditModal();
-            renderAdminDossiersTable();
-            if (activeClientDossier && activeClientDossier.id === selectedCreditDossierId) renderClientSpace();
         }
 
-        // Helper Utility
         function formatCurrency(val) {
             return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(val);
         }
