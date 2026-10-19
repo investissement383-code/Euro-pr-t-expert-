@@ -779,6 +779,78 @@
         </div>
     </div>
 
+    <!-- Firebase SDK Modular Import & Config -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // VOS CLÉS FIREBASE DÉFINITIVES INTEGRÉES
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoLXPKEAYjtQLSA4_GTknEapfzm3LetPc",
+            authDomain: "europret-cea9b.firebaseapp.com",
+            projectId: "europret-cea9b",
+            storageBucket: "europret-cea9b.firebasestorage.app",
+            messagingSenderId: "219259418337",
+            appId: "1:219259418337:web:a7acb09fbf194fe58ce9a0"
+        };
+
+        // Initialisation de Firebase
+        const app = initializeApp(firebaseConfig);
+        window.firebaseAuth = getAuth(app);
+        window.firebaseDb = getFirestore(app);
+
+        // Ecoute de l'état d'authentification
+        onAuthStateChanged(window.firebaseAuth, async (user) => {
+            if (user) {
+                currentUser = {
+                    email: user.email,
+                    name: user.email.split('@')[0],
+                    uid: user.uid
+                };
+                document.getElementById('auth-buttons-container').classList.add('hidden');
+                document.getElementById('user-profile-container').classList.remove('hidden');
+                document.getElementById('user-email-display').textContent = currentUser.name;
+                document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+
+                // Synchronisation avec Firestore
+                await syncClientDataFromFirestore(user.uid);
+            } else {
+                currentUser = null;
+                activeClientDossier = null;
+                document.getElementById('auth-buttons-container').classList.remove('hidden');
+                document.getElementById('user-profile-container').classList.add('hidden');
+            }
+        });
+
+        async function syncClientDataFromFirestore(uid) {
+            try {
+                const docRef = doc(window.firebaseDb, "dossiers", uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    activeClientDossier = docSnap.data();
+                } else {
+                    activeClientDossier = {
+                        id: "DOS-2026-" + Math.floor(100 + Math.random() * 900),
+                        userEmail: currentUser.email,
+                        userName: currentUser.name,
+                        country: "France",
+                        amount: 0,
+                        duration: 0,
+                        rate: 3.5,
+                        depositRequired: 0,
+                        depositBalance: 0,
+                        status: "Aucun prêt",
+                        monthly: 0
+                    };
+                }
+                renderClientSpace();
+            } catch(e) {
+                console.log("Mode offline ou secours:", e);
+            }
+        }
+    </script>
+
     <!-- MAIN JAVASCRIPT LOGIC -->
     <script>
         // State Management
