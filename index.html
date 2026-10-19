@@ -517,6 +517,7 @@
                         <span class="px-3 py-1 text-xs font-semibold bg-brand-50 text-brand-700 rounded-full inline-block mb-2">Espace Emprunteur</span>
                         <h2 class="text-2xl font-bold text-slate-900">Tableau de Bord Client</h2>
                         <p class="text-xs text-slate-500 mt-1">Identifiant : <span id="client-user-id" class="font-mono font-bold">USR-893021</span></p>
+                        <p class="text-xs text-slate-600 mt-1" id="client-profile-info"></p>
                     </div>
                     <div class="mt-4 sm:mt-0 flex items-center space-x-3">
                         <button onclick="openDepositModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition shadow-sm flex items-center">
@@ -651,9 +652,9 @@
         </div>
     </footer>
 
-    <!-- AUTHENTICATION MODAL -->
+    <!-- AUTHENTICATION MODAL (AVEC PAYS ET LANGUE) -->
     <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
@@ -669,6 +670,37 @@
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Mot de Passe</label>
                     <input type="password" id="auth-password" required minlength="6" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500">
                 </div>
+
+                <!-- Champs supplémentaires visibles uniquement lors de l'inscription -->
+                <div id="signup-extra-fields" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Pays de résidence</label>
+                        <select id="auth-country" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500">
+                            <option value="France">🇫🇷 France</option>
+                            <option value="Allemagne">🇩🇪 Allemagne</option>
+                            <option value="Belgique">🇧🇪 Belgique</option>
+                            <option value="Espagne">🇪🇸 Espagne</option>
+                            <option value="Italie">🇮🇹 Italie</option>
+                            <option value="Portugal">🇵🇹 Portugal</option>
+                            <option value="Luxembourg">🇱🇺 Luxembourg</option>
+                            <option value="Suisse">🇨🇭 Suisse</option>
+                            <option value="Autre UE">🇪🇺 Autre pays de l'UE</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Langue préférée</label>
+                        <select id="auth-language" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500">
+                            <option value="Français">Français</option>
+                            <option value="English">English</option>
+                            <option value="Deutsch">Deutsch</option>
+                            <option value="Español">Español</option>
+                            <option value="Italiano">Italiano</option>
+                            <option value="Nederlands">Nederlands</option>
+                        </select>
+                    </div>
+                </div>
+
                 <button type="submit" id="auth-submit-btn" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-lg shadow transition">
                     Se Connecter
                 </button>
@@ -835,6 +867,7 @@
                         userEmail: currentUser.email,
                         userName: currentUser.name,
                         country: "France",
+                        language: "Français",
                         amount: 0,
                         duration: 0,
                         rate: 3.5,
@@ -857,6 +890,7 @@
         let currentUser = null;
         let activeTab = 'simulator';
         let chartInstance = null;
+        let authMode = 'login'; // 'login' ou 'signup'
 
         // Mock Database of Applications
         let mockDossiers = [
@@ -865,6 +899,7 @@
                 userEmail: "jean.dupont@example.com",
                 userName: "Jean Dupont",
                 country: "France",
+                language: "Français",
                 amount: 200000,
                 duration: 20,
                 rate: 3.5,
@@ -878,6 +913,7 @@
                 userEmail: "marie.martin@example.com",
                 userName: "Marie Martin",
                 country: "Belgique",
+                language: "Français",
                 amount: 150000,
                 duration: 15,
                 rate: 3.2,
@@ -891,6 +927,7 @@
                 userEmail: "pierre.durand@example.com",
                 userName: "Pierre Durand",
                 country: "Espagne",
+                language: "Español",
                 amount: 100000,
                 duration: 10,
                 rate: 3.8,
@@ -1198,13 +1235,20 @@
 
         // Authentication & Client Session
         function openAuthModal(type) {
+            authMode = type;
             document.getElementById('auth-modal').classList.remove('hidden');
+            const extraFields = document.getElementById('signup-extra-fields');
+
             if (type === 'login') {
                 document.getElementById('auth-modal-title').textContent = "Connexion Client";
+                document.getElementById('auth-modal-subtitle').textContent = "Connectez-vous pour accéder à votre espace.";
                 document.getElementById('auth-submit-btn').textContent = "Se Connecter";
+                extraFields.classList.add('hidden');
             } else {
                 document.getElementById('auth-modal-title').textContent = "Inscription Client";
+                document.getElementById('auth-modal-subtitle').textContent = "Remplissez vos informations pour ouvrir votre compte.";
                 document.getElementById('auth-submit-btn').textContent = "Créer un Compte";
+                extraFields.classList.remove('hidden');
             }
         }
 
@@ -1215,6 +1259,9 @@
         function handleAuthSubmit(e) {
             e.preventDefault();
             const email = document.getElementById('auth-email').value;
+            const country = document.getElementById('auth-country').value;
+            const language = document.getElementById('auth-language').value;
+
             currentUser = {
                 email: email,
                 name: email.split('@')[0]
@@ -1234,7 +1281,8 @@
                     id: "DOS-2026-" + Math.floor(100 + Math.random() * 900),
                     userEmail: currentUser.email,
                     userName: currentUser.name,
-                    country: "France",
+                    country: country || "France",
+                    language: language || "Français",
                     amount: 0,
                     duration: 0,
                     rate: 3.5,
@@ -1243,6 +1291,9 @@
                     status: "Aucun prêt",
                     monthly: 0
                 };
+            } else if (authMode === 'signup') {
+                activeClientDossier.country = country;
+                activeClientDossier.language = language;
             }
 
             switchTab('client-space');
@@ -1260,7 +1311,7 @@
         function initiateLoanApplication() {
             if (!currentUser) {
                 alert("Veuillez créer un compte ou vous connecter pour déposer votre demande de prêt.");
-                openAuthModal('login');
+                openAuthModal('signup');
                 return;
             }
 
@@ -1316,6 +1367,7 @@
             if (!activeClientDossier) return;
 
             document.getElementById('client-user-id').textContent = activeClientDossier.id;
+            document.getElementById('client-profile-info').textContent = `Pays : ${activeClientDossier.country || 'France'} | Langue : ${activeClientDossier.language || 'Français'}`;
             document.getElementById('client-balance-display').textContent = formatCurrency(activeClientDossier.depositBalance);
             document.getElementById('client-loan-amount').textContent = activeClientDossier.amount > 0 ? formatCurrency(activeClientDossier.amount) : "-- €";
             document.getElementById('client-loan-duration').textContent = activeClientDossier.duration > 0 ? `Durée: ${activeClientDossier.duration} ans` : "Durée: --";
@@ -1341,6 +1393,7 @@
                 contentContainer.innerHTML = `
                     <div class="space-y-3 text-xs text-slate-700">
                         <p><strong>Pays de souscription :</strong> ${activeClientDossier.country}</p>
+                        <p><strong>Langue de correspondance :</strong> ${activeClientDossier.language || 'Français'}</p>
                         <p><strong>Garantie 10% requise :</strong> ${formatCurrency(activeClientDossier.depositRequired)}</p>
                         <p><strong>Solde de garantie actuel :</strong> ${formatCurrency(activeClientDossier.depositBalance)}</p>
                         <div class="p-3 bg-white rounded-lg border border-slate-200 mt-2">
@@ -1409,6 +1462,7 @@
                     <td class="p-3">
                         <div class="font-bold text-slate-900">${dossier.userName}</div>
                         <div class="text-[11px] text-slate-400">${dossier.userEmail}</div>
+                        <div class="text-[10px] text-slate-500 font-medium">📍 ${dossier.country || 'France'} | 🗣️ ${dossier.language || 'Français'}</div>
                     </td>
                     <td class="p-3 font-semibold text-slate-900">${formatCurrency(dossier.amount)}</td>
                     <td class="p-3 text-amber-700 font-semibold">${formatCurrency(dossier.depositRequired)}</td>
