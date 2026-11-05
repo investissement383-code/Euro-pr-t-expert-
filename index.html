@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <span class="text-xl font-extrabold tracking-tight text-slate-900">EuroPrêt<span class="text-brand-600">Expert</span></span>
-                    <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider" id="txt-eu-directive">Conforme Directives UE</span>
+                    <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider" id="t-directive">Conforme Directives UE</span>
                 </div>
             </div>
 
@@ -72,8 +72,8 @@
                 </button>
 
                 <div id="auth-buttons-container" class="flex items-center space-x-2">
-                    <button onclick="openAuthModal('login')" class="px-4 py-2 text-sm font-semibold text-brand-600 border border-brand-200 hover:bg-brand-50 rounded-lg transition">Connexion</button>
-                    <button onclick="openAuthModal('signup')" class="px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm transition">Inscription</button>
+                    <button onclick="openAuthModal('login')" id="btn-login" class="px-4 py-2 text-sm font-semibold text-brand-600 border border-brand-200 hover:bg-brand-50 rounded-lg transition">Connexion</button>
+                    <button onclick="openAuthModal('signup')" id="btn-signup" class="px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm transition">Inscription</button>
                 </div>
 
                 <div id="user-profile-container" class="hidden flex items-center space-x-3">
@@ -96,18 +96,15 @@
         <section id="sec-simulator" class="space-y-8">
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
                 <div class="max-w-3xl mb-8">
-                    <span class="px-3 py-1 text-xs font-semibold bg-brand-50 text-brand-700 rounded-full inline-block mb-3">Simulateur Conforme UE</span>
+                    <span class="px-3 py-1 text-xs font-semibold bg-brand-50 text-brand-700 rounded-full inline-block mb-3" id="t-sim-badge">Simulateur Conforme UE</span>
                     <h1 class="text-2xl md:text-3xl font-bold text-slate-900" id="t-sim-title">Simulateur de Prêt & Calculateur TAEG</h1>
                     <p class="text-slate-600 mt-2 text-sm md:text-base" id="t-sim-desc">
                         Calculez vos mensualités, vos frais d'assurance et vérifiez votre condition d'apport préalable (10% requis).
                     </p>
                 </div>
 
-                <!-- Simulation Inputs & Outputs Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    <!-- Controls Column -->
                     <div class="lg:col-span-7 space-y-6">
-                        <!-- Loan Type Selection -->
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2" id="t-loan-type">Type de Prêt</label>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -118,37 +115,33 @@
                             </div>
                         </div>
 
-                        <!-- Amount Slider -->
                         <div class="space-y-2">
                             <div class="flex justify-between items-center">
-                                <label for="input-amount" class="text-sm font-medium text-slate-700" id="t-loan-amount-lbl">Montant du Prêt (€)</label>
+                                <label for="input-amount" class="text-sm font-medium text-slate-700" id="t-amount-lbl">Montant du Prêt (€)</label>
                                 <input type="number" id="input-amount-num" value="200000" min="1000" max="1000000" step="1000" class="w-32 px-3 py-1 border border-slate-300 rounded-md text-right text-sm font-semibold focus:ring-2 focus:ring-brand-500">
                             </div>
                             <input type="range" id="input-amount" min="1000" max="1000000" step="1000" value="200000" class="w-full accent-brand-600 h-2 bg-slate-200 rounded-lg cursor-pointer">
                         </div>
 
-                        <!-- Duration Slider -->
                         <div class="space-y-2">
                             <div class="flex justify-between items-center">
-                                <label for="input-duration" class="text-sm font-medium text-slate-700" id="t-loan-duration-lbl">Durée du Prêt (Années)</label>
+                                <label for="input-duration" class="text-sm font-medium text-slate-700" id="t-duration-lbl">Durée du Prêt (Années)</label>
                                 <input type="number" id="input-duration-num" value="20" min="1" max="30" class="w-20 px-3 py-1 border border-slate-300 rounded-md text-right text-sm font-semibold focus:ring-2 focus:ring-brand-500">
                             </div>
                             <input type="range" id="input-duration" min="1" max="30" value="20" class="w-full accent-brand-600 h-2 bg-slate-200 rounded-lg cursor-pointer">
                         </div>
 
-                        <!-- Rates & Insurance Inputs -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                             <div>
-                                <label for="input-rate" class="block text-sm font-medium text-slate-700 mb-1" id="t-nominal-rate">Taux Nominal Annuel (%)</label>
+                                <label for="input-rate" class="block text-sm font-medium text-slate-700 mb-1" id="t-rate-lbl">Taux Nominal Annuel (%)</label>
                                 <input type="number" id="input-rate" value="3.5" step="0.1" min="0.1" max="20" class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm font-semibold focus:ring-2 focus:ring-brand-500">
                             </div>
                             <div>
-                                <label for="input-insurance" class="block text-sm font-medium text-slate-700 mb-1" id="t-insurance-rate">Taux Assurance Annuel (%)</label>
+                                <label for="input-insurance" class="block text-sm font-medium text-slate-700 mb-1" id="t-ins-lbl">Taux Assurance Annuel (%)</label>
                                 <input type="number" id="input-insurance" value="0.36" step="0.01" min="0" max="3" class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm font-semibold focus:ring-2 focus:ring-brand-500">
                             </div>
                         </div>
 
-                        <!-- Mandatory Pre-requisites Notice -->
                         <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-2 text-xs text-amber-900">
                             <div class="font-bold flex items-center text-amber-900" id="t-notice-title">
                                 <i data-lucide="alert-triangle" class="w-4 h-4 mr-1.5 text-amber-600"></i> Conditions Bancaires Européennes Requises
@@ -156,49 +149,47 @@
                             <p id="t-notice-desc">Conformément aux exigences de notre établissement :</p>
                             <ul class="list-disc list-inside space-y-1 text-amber-800">
                                 <li><strong id="t-notice-dep">Apport / Dépôt obligatoire (10%) :</strong> Un solde minimum de <span id="deposit-required-display" class="font-bold">20 000 €</span> doit être déposé en banque avant l'accord final.</li>
-                                <li id="t-notice-fees"><strong>Frais de dossier & d'assurance :</strong> Le montant initial de l'assurance doit être réglé pour valider l'ouverture du dossier.</li>
+                                <li id="t-notice-fees"><strong>Pièces justificatives obligatoires :</strong> Pièce d'identité, justificatif de domicile, avis d'imposition et relevés bancaires requis à l'inscription.</li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Summary Results Column -->
                     <div class="lg:col-span-5 bg-slate-900 text-white rounded-xl p-6 flex flex-col justify-between shadow-xl">
                         <div>
                             <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase" id="t-res-header">Résultat de la Simulation</span>
                             
                             <div class="mt-4 mb-6">
-                                <span class="text-slate-400 text-xs block" id="t-res-monthly-lbl">Mensualité Totale (avec assurance)</span>
+                                <span class="text-slate-400 text-xs block" id="t-monthly-tot-lbl">Mensualité Totale (avec assurance)</span>
                                 <div class="text-3xl md:text-4xl font-extrabold text-brand-50" id="res-monthly">1 219,89 €</div>
-                                <span class="text-xs text-brand-300 mt-1 block">dont <span id="res-monthly-ins">60,00 €</span> <span id="t-res-ins-sub">d'assurance mensuelle</span></span>
+                                <span class="text-xs text-brand-300 mt-1 block">dont <span id="res-monthly-ins">60,00 €</span> <span id="t-ins-sub">d'assurance mensuelle</span></span>
                             </div>
 
                             <div class="space-y-3 border-t border-slate-800 pt-4 text-xs sm:text-sm">
                                 <div class="flex justify-between">
-                                    <span class="text-slate-400" id="t-res-taeg-lbl">TAEG Estimé</span>
+                                    <span class="text-slate-400" id="t-taeg-lbl">TAEG Estimé</span>
                                     <span class="font-bold text-amber-400" id="res-taeg">4.12 %</span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="text-slate-400" id="t-res-dep-lbl">Dépôt Obligatoire (10%)</span>
+                                    <span class="text-slate-400" id="t-dep-lbl">Dépôt Obligatoire (10%)</span>
                                     <span class="font-bold text-amber-300" id="res-deposit">20 000,00 €</span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="text-slate-400" id="t-res-int-lbl">Total des Intérêts</span>
+                                    <span class="text-slate-400" id="t-int-lbl">Total des Intérêts</span>
                                     <span class="font-semibold text-slate-200" id="res-interest">78 773,60 €</span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="text-slate-400" id="t-res-ins-tot-lbl">Total Assurance</span>
+                                    <span class="text-slate-400" id="t-ins-tot-lbl">Total Assurance</span>
                                     <span class="font-semibold text-slate-200" id="res-insurance-total">14 400,00 €</span>
                                 </div>
                                 <div class="flex justify-between border-t border-slate-800 pt-2 font-bold text-sm">
-                                    <span class="text-slate-300" id="t-res-cost-tot-lbl">Coût Total du Crédit</span>
+                                    <span class="text-slate-300" id="t-cost-tot-lbl">Coût Total du Crédit</span>
                                     <span class="text-brand-400" id="res-total">293 173,60 €</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Action Buttons -->
                         <div class="mt-6 space-y-2">
-                            <button onclick="initiateLoanApplication()" class="w-full py-3 bg-brand-500 hover:bg-brand-600 font-bold text-white text-sm rounded-lg shadow-lg hover:shadow-brand-500/20 transition flex items-center justify-center" id="t-btn-apply">
+                            <button onclick="initiateLoanApplication()" class="w-full py-3 bg-brand-500 hover:bg-brand-600 font-bold text-white text-sm rounded-lg shadow-lg transition flex items-center justify-center" id="t-btn-apply">
                                 <i data-lucide="send" class="w-4 h-4 mr-2"></i> Déposer la Demande de Prêt
                             </button>
                             <button onclick="exportPDF()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-lg transition flex items-center justify-center" id="t-btn-pdf">
@@ -223,28 +214,25 @@
                         </div>
                         <div class="space-y-3 text-xs text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-200">
                             <h3 class="font-bold text-slate-800 text-sm mb-2" id="t-understand-title">Comprendre la Répartition</h3>
-                            <p><strong id="t-und-cap">Capital Emprunté :</strong> Le montant net injecté dans votre projet.</p>
-                            <p><strong id="t-und-int">Intérêts Bancaires :</strong> La rémunération du risque calculée sur le solde restant dû.</p>
-                            <p><strong id="t-und-ins">Assurance Emprunteur :</strong> Couverture contre le décès, l'invalidité ou la perte d'emploi.</p>
+                            <p><strong>Capital Emprunté :</strong> Le montant net injecté dans votre projet.</p>
+                            <p><strong>Intérêts Bancaires :</strong> La rémunération du risque calculée sur le solde restant dû.</p>
+                            <p><strong>Assurance Emprunteur :</strong> Couverture contre le décès, l'invalidité ou la perte d'emploi.</p>
                         </div>
                     </div>
 
-                    <!-- Collapsible Table -->
                     <div id="amortization-table-container" class="hidden mt-6 overflow-x-auto max-h-96 border border-slate-200 rounded-lg">
                         <table class="w-full text-xs text-left text-slate-600">
                             <thead class="bg-slate-100 text-slate-700 font-bold sticky top-0">
                                 <tr>
-                                    <th class="p-3" id="th-month">Mois</th>
-                                    <th class="p-3" id="th-pmt">Mensualité</th>
-                                    <th class="p-3" id="th-cap">Capital Amorti</th>
-                                    <th class="p-3" id="th-int">Intérêts</th>
-                                    <th class="p-3" id="th-ins">Assurance</th>
-                                    <th class="p-3" id="th-rem">Capital Restant Dû</th>
+                                    <th class="p-3">Mois</th>
+                                    <th class="p-3">Mensualité</th>
+                                    <th class="p-3">Capital Amorti</th>
+                                    <th class="p-3">Intérêts</th>
+                                    <th class="p-3">Assurance</th>
+                                    <th class="p-3">Capital Restant Dû</th>
                                 </tr>
                             </thead>
-                            <tbody id="amortization-tbody" class="divide-y divide-slate-200 bg-white">
-                                <!-- Populated dynamically -->
-                            </tbody>
+                            <tbody id="amortization-tbody" class="divide-y divide-slate-200 bg-white"></tbody>
                         </table>
                     </div>
                 </div>
@@ -256,64 +244,54 @@
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
                 <div class="max-w-3xl mb-8">
                     <span class="px-3 py-1 text-xs font-semibold bg-emerald-50 text-emerald-700 rounded-full inline-block mb-3">Normes HCSF / UE</span>
-                    <h2 class="text-2xl font-bold text-slate-900" id="t-elig-title">Module d'Éligibilité & Taux d'Endettement (35% Max)</h2>
-                    <p class="text-slate-600 mt-2 text-sm" id="t-elig-desc">
-                        Évaluez la faisabilité de votre crédit selon le ratio d'endettement maximal légal et votre reste à vivre.
-                    </p>
+                    <h2 class="text-2xl font-bold text-slate-900">Module d'Éligibilité & Taux d'Endettement (35% Max)</h2>
+                    <p class="text-slate-600 mt-2 text-sm">Évaluez la faisabilité de votre crédit selon le ratio d'endettement maximal légal et votre reste à vivre.</p>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1" id="t-lbl-income">Revenus Mensuels Nets du Foyer (€)</label>
-                            <input type="number" id="elig-income" value="4500" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-brand-500">
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Revenus Mensuels Nets du Foyer (€)</label>
+                            <input type="number" id="elig-income" value="4500" class="w-full px-3 py-2 border rounded-lg text-sm font-semibold">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1" id="t-lbl-charges">Charges Mensuelles & Crédits en Cours (€)</label>
-                            <input type="number" id="elig-charges" value="300" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-brand-500">
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Charges Mensuelles & Crédits en Cours (€)</label>
+                            <input type="number" id="elig-charges" value="300" class="w-full px-3 py-2 border rounded-lg text-sm font-semibold">
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1" id="t-lbl-adults">Adultes dans le Foyer</label>
-                                <input type="number" id="elig-adults" value="2" min="1" max="5" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-semibold">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Adultes dans le Foyer</label>
+                                <input type="number" id="elig-adults" value="2" min="1" max="5" class="w-full px-3 py-2 border rounded-lg text-sm font-semibold">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1" id="t-lbl-kids">Enfants à Charge</label>
-                                <input type="number" id="elig-kids" value="1" min="0" max="10" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-semibold">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Enfants à Charge</label>
+                                <input type="number" id="elig-kids" value="1" min="0" max="10" class="w-full px-3 py-2 border rounded-lg text-sm font-semibold">
                             </div>
                         </div>
-                        <button onclick="calculateEligibility()" class="w-full py-2.5 bg-brand-600 text-white font-bold text-sm rounded-lg shadow hover:bg-brand-700 transition" id="t-btn-elig">
-                            Calculer l'Éligibilité
-                        </button>
+                        <button onclick="calculateEligibility()" class="w-full py-2.5 bg-brand-600 text-white font-bold text-sm rounded-lg shadow hover:bg-brand-700 transition">Calculer l'Éligibilité</button>
                     </div>
-
                     <div id="eligibility-verdict-card" class="p-6 rounded-xl border bg-slate-50 flex flex-col justify-between">
                         <div>
                             <div class="flex items-center justify-between mb-4">
-                                <span class="text-xs font-bold uppercase tracking-wider text-slate-500" id="t-diag-title">Diagnostic d'Endettement</span>
+                                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Diagnostic d'Endettement</span>
                                 <span id="elig-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">Favorable</span>
                             </div>
-
                             <div class="space-y-4">
                                 <div>
-                                    <span class="text-xs text-slate-500 block" id="t-diag-ratio-lbl">Taux d'Endettement Actuel + Prêt</span>
+                                    <span class="text-xs text-slate-500 block">Taux d'Endettement Actuel + Prêt</span>
                                     <div class="text-3xl font-extrabold text-slate-900" id="elig-ratio-display">27.1 %</div>
                                     <div class="w-full bg-slate-200 h-2 rounded-full mt-2 overflow-hidden">
                                         <div id="elig-bar" class="bg-emerald-500 h-full w-[27%]"></div>
                                     </div>
-                                    <span class="text-[11px] text-slate-500 mt-1 block" id="t-diag-limit">Plafond recommandé : 35.0 %</span>
+                                    <span class="text-[11px] text-slate-500 mt-1 block">Plafond recommandé : 35.0 %</span>
                                 </div>
-
                                 <div class="border-t border-slate-200 pt-3">
-                                    <span class="text-xs text-slate-500 block" id="t-diag-rest-lbl">Reste à Vivre Estimé</span>
+                                    <span class="text-xs text-slate-500 block">Reste à Vivre Estimé</span>
                                     <div class="text-xl font-bold text-slate-800" id="elig-rest-display">2 980,11 €</div>
-                                    <span class="text-[11px] text-slate-500" id="t-diag-rest-min">Seuil minimum requis : 1 400,00 €</span>
                                 </div>
                             </div>
                         </div>
-
                         <div class="mt-6 p-3 bg-white rounded-lg border border-slate-200 text-xs text-slate-600" id="elig-comment">
-                            Votre profil financier est conforme aux règles du Haut Conseil de Stabilité Financière (HCSF). Votre capacité d'emprunt est validée.
+                            Votre profil financier est conforme aux règles du Haut Conseil de Stabilité Financière (HCSF).
                         </div>
                     </div>
                 </div>
@@ -325,10 +303,26 @@
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
                 <div class="max-w-3xl mb-8">
                     <span class="px-3 py-1 text-xs font-semibold bg-purple-50 text-purple-700 rounded-full inline-block mb-3">Transparence Européenne</span>
-                    <h2 class="text-2xl font-bold text-slate-900" id="t-comp-title">Comparateur des Offres de Crédit Européennes</h2>
-                    <p class="text-slate-600 mt-2 text-sm" id="t-comp-desc">
-                        Comparez les taux fixes et variables pratiqués par les principaux établissements bancaires de la zone euro.
-                    </p>
+                    <h2 class="text-2xl font-bold text-slate-900">Comparateur des Offres de Crédit Européennes</h2>
+                    <p class="text-slate-600 mt-2 text-sm">Comparez les taux fixes et variables pratiqués par les principaux établissements bancaires de la zone euro.</p>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs md:text-sm text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                                <th class="p-3">Établissement</th>
+                                <th class="p-3">Pays</th>
+                                <th class="p-3">Taux Fixe Indicatif</th>
+                                <th class="p-3">Apport Requis</th>
+                                <th class="p-3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-slate-50"><td class="p-3 font-bold">BNP Paribas</td><td class="p-3">France</td><td class="p-3 text-brand-600 font-semibold">3.40% - 3.80%</td><td class="p-3">10 %</td><td class="p-3"><button onclick="switchTab('simulator')" class="text-xs font-bold text-brand-600 hover:underline">Simuler</button></td></tr>
+                            <tr class="hover:bg-slate-50"><td class="p-3 font-bold">Deutsche Bank</td><td class="p-3">Allemagne</td><td class="p-3 text-brand-600 font-semibold">3.65% - 4.10%</td><td class="p-3">15 %</td><td class="p-3"><button onclick="switchTab('simulator')" class="text-xs font-bold text-brand-600 hover:underline">Simuler</button></td></tr>
+                            <tr class="hover:bg-slate-50"><td class="p-3 font-bold">Banco Santander</td><td class="p-3">Espagne</td><td class="p-3 text-brand-600 font-semibold">3.25% - 3.70%</td><td class="p-3">20 %</td><td class="p-3"><button onclick="switchTab('simulator')" class="text-xs font-bold text-brand-600 hover:underline">Simuler</button></td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
@@ -338,10 +332,12 @@
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
                 <div class="max-w-3xl mb-8">
                     <span class="px-3 py-1 text-xs font-semibold bg-eu-blue/10 text-eu-blue rounded-full inline-block mb-3">Cadre Légal Européen</span>
-                    <h2 class="text-2xl font-bold text-slate-900" id="t-reg-title">Modalités & Directives de Crédit dans l'UE</h2>
-                    <p class="text-slate-600 mt-2 text-sm" id="t-reg-desc">
-                        Tout emprunteur bénéficie d'une protection harmonisée à l'échelle de l'Union Européenne.
-                    </p>
+                    <h2 class="text-2xl font-bold text-slate-900">Modalités & Directives de Crédit dans l'UE</h2>
+                    <p class="text-slate-600 mt-2 text-sm">Tout emprunteur bénéficie d'une protection harmonisée à l'échelle de l'Union Européenne.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-5 border rounded-xl bg-slate-50"><h3 class="font-bold mb-2">Fiche FIPEN / SECCI</h3><p class="text-xs text-slate-600">Remise obligatoire de la Fiche d'Information Standardisée Européenne avant la signature.</p></div>
+                    <div class="p-5 border rounded-xl bg-slate-50"><h3 class="font-bold mb-2">Droit de Rétractation (14 Jours)</h3><p class="text-xs text-slate-600">Délai légal de 14 jours calendaires révolus sans justification pour renoncer au crédit.</p></div>
                 </div>
             </div>
         </section>
@@ -351,10 +347,12 @@
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
                 <div class="max-w-3xl mb-8">
                     <span class="px-3 py-1 text-xs font-semibold bg-indigo-50 text-indigo-700 rounded-full inline-block mb-3">Spécificités Nationales</span>
-                    <h2 class="text-2xl font-bold text-slate-900" id="t-rules-title">Règles & Taux d'Usure par Pays</h2>
-                    <p class="text-slate-600 mt-2 text-sm" id="t-rules-desc">
-                        Chaque pays membre applique des spécificités sur les taux maximaux autorisés et les garanties.
-                    </p>
+                    <h2 class="text-2xl font-bold text-slate-900">Règles & Taux par Pays</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div class="p-5 border rounded-xl"><span class="px-2 py-0.5 bg-blue-100 text-blue-800 font-bold text-xs rounded">France</span><h3 class="font-bold mt-2">Taux d'Usure & HCSF</h3></div>
+                    <div class="p-5 border rounded-xl"><span class="px-2 py-0.5 bg-amber-100 text-amber-800 font-bold text-xs rounded">Allemagne</span><h3 class="font-bold mt-2">SCHUFA</h3></div>
+                    <div class="p-5 border rounded-xl"><span class="px-2 py-0.5 bg-red-100 text-red-800 font-bold text-xs rounded">Espagne</span><h3 class="font-bold mt-2">Ley de Crédito</h3></div>
                 </div>
             </div>
         </section>
@@ -364,52 +362,50 @@
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-6 mb-6">
                     <div>
-                        <span class="px-3 py-1 text-xs font-semibold bg-brand-50 text-brand-700 rounded-full inline-block mb-2" id="t-client-space-badge">Espace Emprunteur</span>
-                        <h2 class="text-2xl font-bold text-slate-900" id="t-client-space-title">Tableau de Bord Client</h2>
-                        <p class="text-xs text-slate-500 mt-1"><span id="t-client-id-lbl">Identifiant</span> : <span id="client-user-id" class="font-mono font-bold">USR-893021</span></p>
+                        <span class="px-3 py-1 text-xs font-semibold bg-brand-50 text-brand-700 rounded-full inline-block mb-2" id="t-cs-badge">Espace Emprunteur</span>
+                        <h2 class="text-2xl font-bold text-slate-900" id="t-cs-title">Tableau de Bord Client</h2>
+                        <p class="text-xs text-slate-500 mt-1"><span id="t-cs-id-lbl">Identifiant</span> : <span id="client-user-id" class="font-mono font-bold">USR-893021</span></p>
                         <p class="text-xs text-slate-600 mt-1" id="client-profile-info"></p>
                     </div>
                     <div class="mt-4 sm:mt-0 flex items-center space-x-3">
-                        <button onclick="openDepositModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition shadow-sm flex items-center" id="t-btn-deposit">
+                        <button onclick="openDepositModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition shadow-sm flex items-center" id="t-cs-btn-dep">
                             <i data-lucide="plus-circle" class="w-4 h-4 mr-1.5"></i> Effectuer un Dépôt d'Apport
                         </button>
                     </div>
                 </div>
 
-                <!-- Client Key Indicators -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                        <span class="text-xs font-medium text-slate-500" id="t-kpi-bal">Solde / Apport Validé</span>
+                        <span class="text-xs font-medium text-slate-500" id="t-kpi-1-lbl">Solde / Apport Validé</span>
                         <div class="text-2xl font-extrabold text-emerald-600 mt-1" id="client-balance-display">0,00 €</div>
-                        <span class="text-[11px] text-slate-400" id="t-kpi-bal-sub">Garantie obligatoire : 10%</span>
+                        <span class="text-[11px] text-slate-400" id="t-kpi-1-sub">Garantie obligatoire : 10%</span>
                     </div>
 
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                        <span class="text-xs font-medium text-slate-500" id="t-kpi-loan">Demande de Prêt</span>
+                        <span class="text-xs font-medium text-slate-500" id="t-kpi-2-lbl">Demande de Prêt</span>
                         <div class="text-2xl font-extrabold text-slate-900 mt-1" id="client-loan-amount">-- €</div>
                         <span class="text-[11px] text-slate-400" id="client-loan-duration">Durée: --</span>
                     </div>
 
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                        <span class="text-xs font-medium text-slate-500" id="t-kpi-status">Statut du Dossier</span>
+                        <span class="text-xs font-medium text-slate-500" id="t-kpi-3-lbl">Statut du Dossier</span>
                         <div class="mt-1" id="client-status-badge">
-                            <span class="px-2.5 py-1 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">Aucune demande</span>
+                            <span class="px-2.5 py-1 text-xs font-bold bg-slate-200 text-slate-700 rounded-full" id="t-no-request">Aucune demande</span>
                         </div>
                     </div>
 
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                        <span class="text-xs font-medium text-slate-500" id="t-kpi-monthly">Prochaine Mensualité</span>
+                        <span class="text-xs font-medium text-slate-500" id="t-kpi-4-lbl">Prochaine Mensualité</span>
                         <div class="text-2xl font-extrabold text-slate-900 mt-1" id="client-monthly-display">-- €</div>
-                        <span class="text-[11px] text-slate-400" id="t-kpi-monthly-sub">Assurance incluse</span>
+                        <span class="text-[11px] text-slate-400" id="t-kpi-4-sub">Assurance incluse</span>
                     </div>
                 </div>
 
-                <!-- Active Loan Details or Empty State -->
                 <div id="client-loan-details-card" class="p-6 border border-slate-200 rounded-xl bg-slate-50/50">
-                    <h3 class="font-bold text-slate-900 text-base mb-4" id="t-client-details-title">Détail de votre Dossier de Crédit</h3>
+                    <h3 class="font-bold text-slate-900 text-base mb-4" id="t-details-title">Détail de votre Dossier de Crédit</h3>
                     <div id="client-loan-content">
-                        <p class="text-xs text-slate-500" id="t-client-no-loan">Vous n'avez pas encore soumis de demande de prêt. Utilisez le simulateur pour démarrer votre projet.</p>
-                        <button onclick="switchTab('simulator')" class="mt-3 px-4 py-2 bg-brand-600 text-white text-xs font-bold rounded-lg hover:bg-brand-700 transition" id="t-btn-goto-sim">Accéder au Simulateur</button>
+                        <p class="text-xs text-slate-500" id="t-no-loan-msg">Vous n'avez pas encore soumis de demande de prêt. Utilisez le simulateur pour démarrer votre projet.</p>
+                        <button onclick="switchTab('simulator')" class="mt-3 px-4 py-2 bg-brand-600 text-white text-xs font-bold rounded-lg hover:bg-brand-700 transition" id="t-goto-sim-btn">Accéder au Simulateur</button>
                     </div>
                 </div>
             </div>
@@ -426,30 +422,25 @@
                     </div>
                 </div>
 
-                <!-- Admin Metrics KPIs -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     <div class="p-4 bg-slate-900 text-white rounded-xl">
                         <span class="text-xs text-slate-400">Volume Total Demandé</span>
                         <div class="text-2xl font-extrabold text-brand-400 mt-1" id="admin-kpi-volume">0 €</div>
                     </div>
-
                     <div class="p-4 bg-slate-900 text-white rounded-xl">
                         <span class="text-xs text-slate-400">Dépôts / Apports Vérifiés</span>
                         <div class="text-2xl font-extrabold text-emerald-400 mt-1" id="admin-kpi-deposits">0 €</div>
                     </div>
-
                     <div class="p-4 bg-slate-900 text-white rounded-xl">
                         <span class="text-xs text-slate-400">Dossiers Approuvés / Versés</span>
                         <div class="text-2xl font-extrabold text-amber-400 mt-1" id="admin-kpi-approved">0</div>
                     </div>
-
                     <div class="p-4 bg-slate-900 text-white rounded-xl">
                         <span class="text-xs text-slate-400">Statut Base de Données</span>
                         <div class="text-xs font-bold text-emerald-300 mt-2">Connecté à Firebase 🟢</div>
                     </div>
                 </div>
 
-                <!-- Applications Management Table -->
                 <div class="space-y-4">
                     <h3 class="font-bold text-slate-900 text-base">Liste des Demandes en Direct (Firestore)</h3>
                     <div class="overflow-x-auto border border-slate-200 rounded-xl">
@@ -465,9 +456,7 @@
                                     <th class="p-3">Actions Administrateur</th>
                                 </tr>
                             </thead>
-                            <tbody id="admin-dossiers-tbody" class="divide-y divide-slate-200 bg-white">
-                                <!-- Populated dynamically from Firebase -->
-                            </tbody>
+                            <tbody id="admin-dossiers-tbody" class="divide-y divide-slate-200 bg-white"></tbody>
                         </table>
                     </div>
                 </div>
@@ -487,13 +476,11 @@
                 <div class="flex space-x-6">
                     <a href="#" class="hover:text-white transition">Mentions Légales</a>
                     <a href="#" class="hover:text-white transition">Protection des Données (RGPD)</a>
-                    <a href="#" class="hover:text-white transition">Directive CCDD 2023/2225</a>
                     <a href="#" class="hover:text-white transition">Contact</a>
                 </div>
             </div>
             <div class="text-center md:text-left text-slate-500 leading-relaxed">
                 <p>Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager.</p>
-                <p class="mt-1">Conformément aux directives européennes, aucun versement de quelque nature que ce soit ne peut être exigé d'un particulier avant l'obtention effective d'un prêt d'argent.</p>
             </div>
         </div>
     </footer>
@@ -501,32 +488,27 @@
     <!-- AUTHENTICATION MODAL -->
     <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
             <h3 class="text-xl font-bold text-slate-900 mb-1" id="auth-modal-title">Espace Emprunteur</h3>
             <p class="text-xs text-slate-500 mb-6" id="auth-modal-subtitle">Connectez-vous pour déposer ou suivre votre dossier.</p>
 
             <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Adresse E-mail</label>
-                    <input type="email" id="auth-email" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1" id="t-auth-email">Adresse E-mail</label>
+                    <input type="email" id="auth-email" required class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Mot de Passe</label>
-                    <input type="password" id="auth-password" required minlength="6" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1" id="t-auth-pass">Mot de Passe</label>
+                    <input type="password" id="auth-password" required minlength="6" class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
-
                 <div id="signup-extra-fields" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Pays de résidence (UE)</label>
-                        <select id="auth-country" onchange="onCountrySelected(this.value)" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500">
-                        </select>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1" id="t-auth-country">Pays de résidence (UE)</label>
+                        <select id="auth-country" onchange="onCountrySelected(this.value)" class="w-full px-3 py-2 border rounded-lg text-sm"></select>
                     </div>
-
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Langue de l'interface</label>
-                        <select id="auth-language" onchange="changeLanguage(this.value)" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1" id="t-auth-lang">Langue de l'interface</label>
+                        <select id="auth-language" onchange="changeLanguage(this.value)" class="w-full px-3 py-2 border rounded-lg text-sm">
                             <option value="fr">🇫🇷 Français</option>
                             <option value="en">🇬🇧 English</option>
                             <option value="de">🇩🇪 Deutsch</option>
@@ -537,156 +519,109 @@
                         </select>
                     </div>
                 </div>
-
-                <button type="submit" id="auth-submit-btn" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-lg shadow transition">
-                    Se Connecter
-                </button>
+                <button type="submit" id="auth-submit-btn" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-lg shadow transition">Se Connecter</button>
             </form>
         </div>
     </div>
 
-    <!-- LOAN APPLICATION MODAL (WIZARD) -->
+    <!-- LOAN WIZARD MODAL WITH MANDATORY DOCUMENTS -->
     <div id="loan-wizard-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeLoanWizard()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
+            <button onclick="closeLoanWizard()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
             <h3 class="text-xl font-bold text-slate-900 mb-1">Formulaire de Demande de Prêt</h3>
-            <p class="text-xs text-slate-500 mb-6">Étape 1 sur 2</p>
+            <p class="text-xs text-slate-500 mb-6">Soumission du dossier complet avec pièces justificatives obligatoires</p>
 
             <form onsubmit="handleLoanWizardSubmit(event)" class="space-y-6">
-                <div id="wizard-step-1" class="space-y-4">
-                    <h4 class="font-bold text-slate-800 text-sm border-b pb-2">1. Informations Personnelles & Contact WhatsApp</h4>
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-800 text-sm border-b pb-2">1. Informations Personnelles & WhatsApp</h4>
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nom</label>
-                            <input type="text" required id="wiz-lastname" class="w-full px-3 py-2 border rounded-lg text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Prénom</label>
-                            <input type="text" required id="wiz-firstname" class="w-full px-3 py-2 border rounded-lg text-sm">
-                        </div>
+                        <div><label class="block text-xs font-semibold text-slate-700 mb-1">Nom</label><input type="text" required id="wiz-lastname" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                        <div><label class="block text-xs font-semibold text-slate-700 mb-1">Prénom</label><input type="text" required id="wiz-firstname" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-emerald-700 mb-1">Numéro WhatsApp direct</label>
-                            <input type="tel" required id="wiz-whatsapp" placeholder="+33 6 12 34 56 78" class="w-full px-3 py-2 border border-emerald-300 bg-emerald-50/30 rounded-lg text-sm font-bold">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Pays de Résidence UE</label>
-                            <select id="wiz-country" class="w-full px-3 py-2 border rounded-lg text-sm"></select>
-                        </div>
+                        <div><label class="block text-xs font-semibold text-emerald-700 mb-1">Numéro WhatsApp direct</label><input type="tel" required id="wiz-whatsapp" placeholder="+33 6 12 34 56 78" class="w-full px-3 py-2 border border-emerald-300 bg-emerald-50/30 rounded-lg text-sm font-bold"></div>
+                        <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pays de Résidence UE</label><select id="wiz-country" class="w-full px-3 py-2 border rounded-lg text-sm"></select></div>
                     </div>
                 </div>
 
-                <div id="wizard-step-2" class="space-y-4">
-                    <h4 class="font-bold text-slate-800 text-sm border-b pb-2">2. Capacité & Condition d'Apport (10%)</h4>
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-800 text-sm border-b pb-2">2. Pièces Justificatives Obligatoires (Zone Euro)</h4>
+                    <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
+                        <div><label class="block font-semibold text-slate-700 mb-1">1. Pièce d'Identité (CNI / Passeport)</label><input type="file" required accept="image/*,.pdf" class="w-full p-1 border rounded bg-white text-xs"></div>
+                        <div><label class="block font-semibold text-slate-700 mb-1">2. Justificatif de Domicile (-3 mois)</label><input type="file" required accept="image/*,.pdf" class="w-full p-1 border rounded bg-white text-xs"></div>
+                        <div><label class="block font-semibold text-slate-700 mb-1">3. Avis d'Imposition / Bulletins de Paie</label><input type="file" required accept="image/*,.pdf" class="w-full p-1 border rounded bg-white text-xs"></div>
+                        <div><label class="block font-semibold text-slate-700 mb-1">4. Relevés Bancaires (3 derniers mois)</label><input type="file" required accept="image/*,.pdf" class="w-full p-1 border rounded bg-white text-xs"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-800 text-sm border-b pb-2">3. Condition d'Apport Préalable (10%)</h4>
                     <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900">
                         Montant du Prêt : <strong id="wiz-loan-amount-confirm">200 000 €</strong><br>
-                        Apport / Dépôt Minimum requis sur compte : <strong id="wiz-deposit-confirm">20 000 €</strong>
+                        Apport Minimum requis : <strong id="wiz-deposit-confirm">20 000 €</strong>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Solde Actuel / Apport Déclaré (€)</label>
-                        <input type="number" required id="wiz-declared-balance" value="20000" class="w-full px-3 py-2 border rounded-lg text-sm font-semibold">
-                    </div>
+                    <div><label class="block text-xs font-semibold text-slate-700 mb-1">Solde / Apport Déclaré (€)</label><input type="number" required id="wiz-declared-balance" value="20000" class="w-full px-3 py-2 border rounded-lg text-sm font-semibold"></div>
                 </div>
 
                 <div class="flex justify-between items-center pt-4 border-t border-slate-200">
                     <button type="button" onclick="closeLoanWizard()" class="px-4 py-2 border text-slate-600 rounded-lg text-xs font-bold">Annuler</button>
-                    <button type="submit" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-lg shadow">
-                        Valider la Demande de Prêt
-                    </button>
+                    <button type="submit" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-lg shadow">Soumettre mon Dossier Complet</button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <!-- SUCCESS CONFIRMATION MODAL -->
-    <div id="success-notice-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-center space-y-4">
-            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
-                ✓
-            </div>
-            <h3 class="text-xl font-bold text-slate-900">Demande de Prêt Transmise avec Succès !</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-                Votre dossier de crédit a bien été enregistré. 
-                <br><br>
-                <strong class="text-brand-700">Veuillez rester à l'écoute et surveiller votre WhatsApp ainsi que vos e-mails.</strong> Notre équipe vous contactera rapidement par message WhatsApp dès la validation de votre apport de 10%.
-            </p>
-            <button onclick="closeSuccessNoticeModal()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-lg shadow transition">
-                Accéder à mon Espace Client
-            </button>
         </div>
     </div>
 
     <!-- DEPOSIT MODAL -->
     <div id="deposit-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
-            <button onclick="closeDepositModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
+            <button onclick="closeDepositModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
             <h3 class="text-xl font-bold text-slate-900 mb-1">Dépôt d'Apport / Garantie</h3>
-            <p class="text-xs text-slate-500 mb-4">Créditez votre solde bancaire pour valider les 10% d'apport obligatoires.</p>
-
+            <p class="text-xs text-slate-500 mb-4">Créditez votre solde bancaire pour valider les 10% d'apport.</p>
             <form onsubmit="handleDepositSubmit(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Montant à Déposer (€)</label>
-                    <input type="number" id="deposit-amount-input" required min="100" value="5000" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-bold">
-                </div>
-                <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-lg shadow">
-                    Confirmer le Dépôt
-                </button>
+                <div><label class="block text-xs font-semibold text-slate-700 mb-1">Montant à Déposer (€)</label><input type="number" id="deposit-amount-input" required min="100" value="5000" class="w-full px-3 py-2 border rounded-lg text-sm font-bold"></div>
+                <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-lg shadow">Confirmer le Dépôt</button>
             </form>
         </div>
     </div>
 
-    <!-- BANK TRANSFER REQUEST MODAL (CLIENT) -->
+    <!-- TRANSFER MODAL (IBAN) -->
     <div id="transfer-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
-            <button onclick="closeTransferModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
+            <button onclick="closeTransferModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
             <h3 class="text-xl font-bold text-slate-900 mb-1">Demande de Virement du Prêt</h3>
             <p class="text-xs text-slate-500 mb-4">Indiquez vos coordonnées bancaires pour recevoir les fonds après validation de l'administrateur.</p>
-
             <form onsubmit="handleTransferSubmit(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nom de la Banque</label>
-                    <input type="text" id="transfer-bank-name" required placeholder="Ex: BNP Paribas, Deutsche Bank..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Code IBAN / Numéro de Compte</label>
-                    <input type="text" id="transfer-iban" required placeholder="FR76 1234 5678 9012 3456 7890 123" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono font-bold">
-                </div>
-                <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-lg shadow">
-                    Soumettre la Demande de Virement
-                </button>
+                <div><label class="block text-xs font-semibold text-slate-700 mb-1">Nom de la Banque</label><input type="text" id="transfer-bank-name" required class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                <div><label class="block text-xs font-semibold text-slate-700 mb-1">Code IBAN / Numéro de Compte</label><input type="text" id="transfer-iban" required class="w-full px-3 py-2 border rounded-lg text-sm font-mono font-bold"></div>
+                <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-lg shadow">Soumettre la Demande de Virement</button>
             </form>
+        </div>
+    </div>
+
+    <!-- SUCCESS NOTICE MODAL -->
+    <div id="success-notice-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-center space-y-4">
+            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">✓</div>
+            <h3 class="text-xl font-bold text-slate-900">Demande Transmise avec Succès !</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">Votre dossier complet a bien été enregistré. Restez à l'écoute sur WhatsApp.</p>
+            <button onclick="closeSuccessNoticeModal()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-lg shadow">Accéder à mon Espace Client</button>
         </div>
     </div>
 
     <!-- ADMIN CREDIT MODAL -->
     <div id="admin-credit-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
-            <button onclick="closeAdminCreditModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
+            <button onclick="closeAdminCreditModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
             <h3 class="text-xl font-bold text-slate-900 mb-1">Modifier / Créditer le Solde Client</h3>
             <p class="text-xs text-slate-500 mb-4">Dossier : <span id="admin-credit-dossier-ref" class="font-bold">--</span></p>
-
             <form onsubmit="handleAdminCreditSubmit(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nouveau Solde Validé (€)</label>
-                    <input type="number" id="admin-credit-input" required min="0" value="20000" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-bold">
-                </div>
-                <button type="submit" class="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm rounded-lg shadow">
-                    Enregistrer le Nouveau Solde
-                </button>
+                <div><label class="block text-xs font-semibold text-slate-700 mb-1">Nouveau Solde Validé (€)</label><input type="number" id="admin-credit-input" required min="0" value="20000" class="w-full px-3 py-2 border rounded-lg text-sm font-bold"></div>
+                <button type="submit" class="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm rounded-lg shadow">Enregistrer</button>
             </form>
         </div>
     </div>
 
-    <!-- Firebase SDK Modular Import & Config -->
+    <!-- Firebase SDK & Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -713,7 +648,6 @@
                 document.getElementById('user-profile-container').classList.remove('hidden');
                 document.getElementById('user-email-display').textContent = currentUser.name;
                 document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
-
                 await syncClientDataFromFirestore(user.email.replace(/[^a-zA-Z0-9]/g, "_"));
             } else {
                 currentUser = null;
@@ -745,7 +679,6 @@
                         iban: "",
                         amount: 0,
                         duration: 0,
-                        rate: 3.5,
                         depositRequired: 0,
                         depositBalance: 0,
                         status: "Aucun prêt",
@@ -753,86 +686,106 @@
                     };
                 }
                 renderClientSpace();
-            } catch(e) {
-                console.log("Erreur Firestore sync:", e);
-            }
+            } catch(e) { console.log(e); }
         }
     </script>
 
-    <!-- MAIN JAVASCRIPT LOGIC & EUROPEAN MULTILINGUAL DICTIONARY -->
+    <!-- MAIN JAVASCRIPT & MULTILINGUAL LOGIC -->
     <script>
         const euCountries = [
-            { name: "Allemagne", code: "de", flag: "🇩🇪" },
-            { name: "Autriche", code: "de", flag: "🇦🇹" },
-            { name: "Belgique", code: "fr", flag: "🇧🇪" },
-            { name: "Bulgarie", code: "en", flag: "🇧🇬" },
-            { name: "Chypre", code: "en", flag: "🇨🇾" },
-            { name: "Croatie", code: "en", flag: "🇭🇷" },
-            { name: "Danemark", code: "en", flag: "🇩🇰" },
-            { name: "Espagne", code: "es", flag: "🇪🇸" },
-            { name: "Estonie", code: "en", flag: "🇪🇪" },
-            { name: "Finlande", code: "en", flag: "🇫🇮" },
-            { name: "France", code: "fr", flag: "🇫🇷" },
-            { name: "Grèce", code: "en", flag: "🇬🇷" },
-            { name: "Hongrie", code: "en", flag: "🇭🇺" },
-            { name: "Irlande", code: "en", flag: "🇮🇪" },
-            { name: "Italie", code: "it", flag: "🇮🇹" },
-            { name: "Lettonie", code: "en", flag: "🇱🇻" },
-            { name: "Lituanie", code: "en", flag: "🇱🇹" },
-            { name: "Luxembourg", code: "fr", flag: "🇱🇺" },
-            { name: "Malte", code: "en", flag: "🇲🇹" },
-            { name: "Pays-Bas", code: "nl", flag: "🇳🇱" },
-            { name: "Pologne", code: "en", flag: "🇵🇱" },
-            { name: "Portugal", code: "pt", flag: "🇵🇹" },
-            { name: "République tchèque", code: "en", flag: "🇨🇿" },
-            { name: "Roumanie", code: "en", flag: "🇷🇴" },
-            { name: "Slovaquie", code: "en", flag: "🇸🇰" },
-            { name: "Slovénie", code: "en", flag: "🇸🇮" },
+            { name: "Allemagne", code: "de", flag: "🇩🇪" }, { name: "Autriche", code: "de", flag: "🇦🇹" },
+            { name: "Belgique", code: "fr", flag: "🇧🇪" }, { name: "Bulgarie", code: "en", flag: "🇧🇬" },
+            { name: "Chypre", code: "en", flag: "🇨🇾" }, { name: "Croatie", code: "en", flag: "🇭🇷" },
+            { name: "Danemark", code: "en", flag: "🇩🇰" }, { name: "Espagne", code: "es", flag: "🇪🇸" },
+            { name: "Estonie", code: "en", flag: "🇪🇪" }, { name: "Finlande", code: "en", flag: "🇫🇮" },
+            { name: "France", code: "fr", flag: "🇫🇷" }, { name: "Grèce", code: "en", flag: "🇬🇷" },
+            { name: "Hongrie", code: "en", flag: "🇭🇺" }, { name: "Irlande", code: "en", flag: "🇮🇪" },
+            { name: "Italie", code: "it", flag: "🇮🇹" }, { name: "Lettonie", code: "en", flag: "🇱🇻" },
+            { name: "Lituanie", code: "en", flag: "🇱🇹" }, { name: "Luxembourg", code: "fr", flag: "🇱🇺" },
+            { name: "Malte", code: "en", flag: "🇲🇹" }, { name: "Pays-Bas", code: "nl", flag: "🇳🇱" },
+            { name: "Pologne", code: "en", flag: "🇵🇱" }, { name: "Portugal", code: "pt", flag: "🇵🇹" },
+            { name: "République tchèque", code: "en", flag: "🇨🇿" }, { name: "Roumanie", code: "en", flag: "🇷🇴" },
+            { name: "Slovaquie", code: "en", flag: "🇸🇰" }, { name: "Slovénie", code: "en", flag: "🇸🇮" },
             { name: "Suède", code: "en", flag: "🇸🇪" }
         ];
 
         const translations = {
             fr: {
-                directive: "Conforme Directives UE",
-                simTab: "Simulateur & TAEG", eligTab: "Éligibilité & 35%", compTab: "Offres UE", regTab: "Directives UE", rulesTab: "Règles par Pays", adminBtn: "Espace Admin", loginBtn: "Connexion", signupBtn: "Inscription", mySpace: "Mon Espace",
-                simTitle: "Simulateur de Prêt & Calculateur TAEG",
-                simDesc: "Calculez vos mensualités, vos frais d'assurance et vérifiez votre condition d'apport préalable (10% requis)."
+                directive: "Conforme Directives UE", simTab: "Simulateur & TAEG", eligTab: "Éligibilité & 35%", compTab: "Offres UE", regTab: "Directives UE", rulesTab: "Règles par Pays",
+                simBadge: "Simulateur Conforme UE", simTitle: "Simulateur de Prêt & Calculateur TAEG", simDesc: "Calculez vos mensualités, vos frais d'assurance et vérifiez votre condition d'apport préalable (10% requis).",
+                loanType: "Type de Prêt", amountLbl: "Montant du Prêt (€)", durationLbl: "Durée du Prêt (Années)", rateLbl: "Taux Nominal Annuel (%)", insLbl: "Taux Assurance Annuel (%)",
+                resHeader: "Résultat de la Simulation", monthlyTotLbl: "Mensualité Totale (avec assurance)", insSub: "d'assurance mensuelle", taegLbl: "TAEG Estimé", depLbl: "Dépôt Obligatoire (10%)", intLbl: "Total des Intérêts", insTotLbl: "Total Assurance", costTotLbl: "Coût Total du Crédit",
+                applyBtn: "Déposer la Demande de Prêt", pdfBtn: "Télécharger la Fiche Récapitulative (PDF)",
+                csBadge: "Espace Emprunteur", csTitle: "Tableau de Bord Client", csIdLbl: "Identifiant", csBtnDep: "Effectuer un Dépôt d'Apport",
+                kpi1Lbl: "Solde / Apport Validé", kpi1Sub: "Garantie obligatoire : 10%", kpi2Lbl: "Demande de Prêt", kpi3Lbl: "Statut du Dossier", noRequest: "Aucune demande", kpi4Lbl: "Prochaine Mensualité", kpi4Sub: "Assurance incluse",
+                detailsTitle: "Détail de votre Dossier de Crédit", noLoanMsg: "Vous n'avez pas encore soumis de demande de prêt. Utilisez le simulateur pour démarrer votre projet.", gotoSimBtn: "Accéder au Simulateur",
+                authEmail: "Adresse E-mail", authPass: "Mot de Passe", authCountry: "Pays de résidence (UE)", authLang: "Langue de l'interface"
             },
             it: {
-                directive: "Conforme Direttive UE",
-                simTab: "Simulatore & TAEG", eligTab: "Idoneità & 35%", compTab: "Offerte UE", regTab: "Direttive UE", rulesTab: "Regole per Paese", adminBtn: "Area Admin", loginBtn: "Accedi", signupTab: "Registrazione", mySpace: "La Mia Area",
-                simTitle: "Simulatore di Prestito & Calcolatore TAEG",
-                simDesc: "Calcola le rate, i costi assicurativi e verifica la condizione di acconto iniziale (10% richiesto)."
+                directive: "Conforme Direttive UE", simTab: "Simulatore & TAEG", eligTab: "Idoneità & 35%", compTab: "Offerte UE", regTab: "Direttive UE", rulesTab: "Regole per Paese",
+                simBadge: "Simulatore Conforme UE", simTitle: "Simulatore di Prestito & Calcolatore TAEG", simDesc: "Calcola le rate, i costi assicurativi e verifica la condizione di acconto iniziale (10% richiesto).",
+                loanType: "Tipo di Prestito", amountLbl: "Importo del Prestito (€)", durationLbl: "Durata del Prestito (Anni)", rateLbl: "Tasso Nominale Annuo (%)", insLbl: "Tasso Assicurativo Annuo (%)",
+                resHeader: "Risultato della Simulazione", monthlyTotLbl: "Rata Totale (assicurazione inclusa)", insSub: "di assicurazione mensile", taegLbl: "TAEG Stimato", depLbl: "Deposito Obbligatorio (10%)", intLbl: "Interessi Totali", insTotLbl: "Assicurazione Totale", costTotLbl: "Costo Totale del Credito",
+                applyBtn: "Invia Richiesta di Prestito", pdfBtn: "Scarica Scheda Riepilogativa (PDF)",
+                csBadge: "Area Mutuatario", csTitle: "Dashboard Cliente", csIdLbl: "Identificativo", csBtnDep: "Effettua un Deposito di Acconto",
+                kpi1Lbl: "Saldo / Acconto Validato", kpi1Sub: "Garanzia obbligatoria: 10%", kpi2Lbl: "Richiesta di Prestito", kpi3Lbl: "Stato della Pratica", noRequest: "Nessuna richiesta", kpi4Lbl: "Prossima Rata", kpi4Sub: "Assicurazione inclusa",
+                detailsTitle: "Dettaglio della tua Pratica di Credito", noLoanMsg: "Non hai ancora inviato una richiesta di prestito. Utilizza il simulatore per iniziare.", gotoSimBtn: "Accedi al Simulatore",
+                authEmail: "Indirizzo Email", authPass: "Password", authCountry: "Paese di residenza (UE)", authLang: "Lingua dell'interfaccia"
             },
             de: {
-                directive: "EU-Richtlinienkonform",
-                simTab: "Rechner & effektiver Jahreszins", eligTab: "Bonität & 35%", compTab: "EU-Angebote", regTab: "EU-Richtlinien", rulesTab: "Länderregeln", adminBtn: "Admin-Bereich", loginBtn: "Anmelden", signupBtn: "Registrieren", mySpace: "Mein Bereich",
-                simTitle: "Kreditrechner & Zinsrechner",
-                simDesc: "Berechnen Sie monatliche Raten, Versicherungsgebühren und prüfen Sie die Anzahlungsbedingung (10% erforderlich)."
+                directive: "EU-Richtlinienkonform", simTab: "Rechner & eff. Jahreszins", eligTab: "Bonität & 35%", compTab: "EU-Angebote", regTab: "EU-Richtlinien", rulesTab: "Länderregeln",
+                simBadge: "EU-konformer Rechner", simTitle: "Kreditrechner & Zinsrechner", simDesc: "Berechnen Sie monatliche Raten, Versicherungsgebühren und prüfen Sie die Anzahlungsbedingung (10% erforderlich).",
+                loanType: "Kreditart", amountLbl: "Kreditbetrag (€)", durationLbl: "Laufzeit (Jahre)", rateLbl: "Nominalzins p.a. (%)", insLbl: "Versicherungssatz p.a. (%)",
+                resHeader: "Simulationsergebnis", monthlyTotLbl: "Gesamtrate (inkl. Versicherung)", insSub: "monatliche Versicherung", taegLbl: "Geschätzter eff. Jahreszins", depLbl: "Obligatorische Anzahlung (10%)", intLbl: "Zinsen gesamt", insTotLbl: "Versicherung gesamt", costTotLbl: "Gesamtkosten des Kredits",
+                applyBtn: "Kreditantrag einreichen", pdfBtn: "Zusammenfassung Herunterladen (PDF)",
+                csBadge: "Kundenbereich", csTitle: "Kunden-Dashboard", csIdLbl: "ID", csBtnDep: "Anzahlung Leisten",
+                kpi1Lbl: "Bestätigtes Guthaben", kpi1Sub: "Obligatorische Sicherheit: 10%", kpi2Lbl: "Kreditantrag", kpi3Lbl: "Antragsstatus", noRequest: "Kein Antrag", kpi4Lbl: "Nächste Rate", kpi4Sub: "Inkl. Versicherung",
+                detailsTitle: "Details zu Ihrem Kreditantrag", noLoanMsg: "Sie haben noch keinen Kreditantrag eingereicht.", gotoSimBtn: "Zum Rechner",
+                authEmail: "E-Mail-Adresse", authPass: "Passwort", authCountry: "Wohnsitzland (EU)", authLang: "Oberflächensprache"
             },
             es: {
-                directive: "Conforme a Directivas UE",
-                simTab: "Simulador & TAE", eligTab: "Elegibilidad & 35%", compTab: "Ofertas UE", regTab: "Directivas UE", rulesTab: "Reglas por País", adminBtn: "Espacio Admin", loginBtn: "Conectarse", signupBtn: "Registro", mySpace: "Mi Espacio",
-                simTitle: "Simulador de Préstamo y Calculadora TAE",
-                simDesc: "Calcule sus cuotas mensuales, seguros y verifique su condición de aportación inicial (10% requerido)."
+                directive: "Conforme a Directivas UE", simTab: "Simulador & TAE", eligTab: "Elegibilidad & 35%", compTab: "Ofertas UE", regTab: "Directivas UE", rulesTab: "Reglas por País",
+                simBadge: "Simulador Conforme UE", simTitle: "Simulador de Préstamo y Calculadora TAE", simDesc: "Calcule sus cuotas mensuales, seguros y verifique su condición de aportación inicial (10% requerido).",
+                loanType: "Tipo de Préstamo", amountLbl: "Importe del Préstamo (€)", durationLbl: "Duración (Años)", rateLbl: "Tipo Nominal Anual (%)", insLbl: "Tasa de Seguro Anual (%)",
+                resHeader: "Resultado de la Simulación", monthlyTotLbl: "Cuota Total (seguro incluido)", insSub: "de seguro mensual", taegLbl: "TAE Estimado", depLbl: "Depósito Obligatorio (10%)", intLbl: "Intereses Totales", insTotLbl: "Seguro Total", costTotLbl: "Coste Total del Crédito",
+                applyBtn: "Presentar Solicitud de Préstamo", pdfBtn: "Descargar Ficha Resumen (PDF)",
+                csBadge: "Espacio Cliente", csTitle: "Panel de Control", csIdLbl: "Identificador", csBtnDep: "Realizar Depósito",
+                kpi1Lbl: "Saldo / Aportación Validada", kpi1Sub: "Garantía obligatoria: 10%", kpi2Lbl: "Solicitud de Préstamo", kpi3Lbl: "Estado del Expediente", noRequest: "Sin solicitud", kpi4Lbl: "Próxima Cuota", kpi4Sub: "Seguro incluido",
+                detailsTitle: "Detalle de su Expediente de Crédito", noLoanMsg: "Aún no ha enviado ninguna solicitud de préstamo.", gotoSimBtn: "Acceder al Simulador",
+                authEmail: "Correo electrónico", authPass: "Contraseña", authCountry: "País de residencia (UE)", authLang: "Idioma de la interfaz"
             },
             nl: {
-                directive: "Conform EU-Richtlijnen",
-                simTab: "Simulator & JKP", eligTab: "Geschiktheid", compTab: "EU Aanbiedingen", regTab: "EU Richtlijnen", rulesTab: "Landregels", adminBtn: "Beheer", loginBtn: "Inloggen", signupBtn: "Registreren", mySpace: "Mijn Ruimte",
-                simTitle: "Lening Simulator & JKP Calculator",
-                simDesc: "Bereken uw maandlasten en controleer de vereiste aanbetaling van 10%."
+                directive: "Conform EU-Richtlijnen", simTab: "Simulator & JKP", eligTab: "Geschiktheid", compTab: "EU Aanbiedingen", regTab: "EU Richtlijnen", rulesTab: "Landregels",
+                simBadge: "EU-Conforme Simulator", simTitle: "Lening Simulator & JKP Calculator", simDesc: "Bereken uw maandlasten en controleer de vereiste aanbetaling van 10%.",
+                loanType: "Soort Lening", amountLbl: "Geleend Bedrag (€)", durationLbl: "Looptijd (Jaren)", rateLbl: "Nominale Rente (%)", insLbl: "Verzekeringsrente (%)",
+                resHeader: "Simulatieresultaat", monthlyTotLbl: "Totaal Maandbedrag (incl. verzekering)", insSub: "maandelijkse verzekering", taegLbl: "Geschat JKP", depLbl: "Verplichte Storting (10%)", intLbl: "Totale Rente", insTotLbl: "Totale Verzekering", costTotLbl: "Totale Kredietkosten",
+                applyBtn: "Leningaanvraag Indienen", pdfBtn: "Samenvatting Downloaden (PDF)",
+                csBadge: "Klantruimte", csTitle: "Klantenportaal", csIdLbl: "ID", csBtnDep: "Aanbetaling Storten",
+                kpi1Lbl: "Goedgekeurd Saldo", kpi1Sub: "Verplichte garantie: 10%", kpi2Lbl: "Leningaanvraag", kpi3Lbl: "Dossierstatus", noRequest: "Geen aanvraag", kpi4Lbl: "Volgende Termijn", kpi4Sub: "Verzekering inbegrepen",
+                detailsTitle: "Details van uw Kredietdossier", noLoanMsg: "U heeft nog geen leningaanvraag ingediend.", gotoSimBtn: "Naar de Simulator",
+                authEmail: "E-mailadres", authPass: "Wachtwoord", authCountry: "Land van verblijf (EU)", authLang: "Interfacetaal"
             },
             pt: {
-                directive: "Conforme Diretivas UE",
-                simTab: "Simulador & TAEG", eligTab: "Elegibilidade", compTab: "Ofertas UE", regTab: "Diretivas UE", rulesTab: "Regras por País", adminBtn: "Área Admin", loginBtn: "Entrar", signupBtn: "Registar", mySpace: "A Minha Área",
-                simTitle: "Simulador de Crédito & Calculadora TAEG",
-                simDesc: "Calcule as suas mensalidades e verifique a condição de entrada inicial (10% obrigatório)."
+                directive: "Conforme Diretivas UE", simTab: "Simulador & TAEG", eligTab: "Elegibilidade", compTab: "Ofertas UE", regTab: "Diretivas UE", rulesTab: "Regras por País",
+                simBadge: "Simulador Conforme UE", simTitle: "Simulador de Crédito & Calculadora TAEG", simDesc: "Calcule as suas mensalidades e verifique a condição de entrada inicial (10% obrigatório).",
+                loanType: "Tipo de Crédito", amountLbl: "Montante do Crédito (€)", durationLbl: "Prazo (Anos)", rateLbl: "Taxa Nominal Anual (%)", insLbl: "Taxa de Seguro Anual (%)",
+                resHeader: "Resultado da Simulação", monthlyTotLbl: "Prestação Total (com seguro)", insSub: "de seguro mensal", taegLbl: "TAEG Estimada", depLbl: "Depósito Obrigatório (10%)", intLbl: "Total de Juros", insTotLbl: "Total de Seguro", costTotLbl: "Custo Total do Crédito",
+                applyBtn: "Submeter Pedido de Crédito", pdfBtn: "Descarregar Ficha Resumo (PDF)",
+                csBadge: "Área do Mutuário", csTitle: "Painel do Cliente", csIdLbl: "Identificador", csBtnDep: "Efetuar Depósito",
+                kpi1Lbl: "Saldo / Entrada Validada", kpi1Sub: "Garantia obrigatória: 10%", kpi2Lbl: "Pedido de Crédito", kpi3Lbl: "Estado do Processo", noRequest: "Nenhum pedido", kpi4Lbl: "Próxima Prestação", kpi4Sub: "Seguro incluído",
+                detailsTitle: "Detalhe do seu Processo de Crédito", noLoanMsg: "Ainda não submeteu nenhum pedido de crédito.", gotoSimBtn: "Aceder ao Simulador",
+                authEmail: "Endereço de E-mail", authPass: "Palavra-passe", authCountry: "País de residência (UE)", authLang: "Idioma da interface"
             },
             en: {
-                directive: "EU Directives Compliant",
-                simTab: "Simulator & APR", eligTab: "Eligibility & 35%", compTab: "EU Offers", regTab: "EU Directives", rulesTab: "Country Rules", adminBtn: "Admin Area", loginBtn: "Login", signupBtn: "Sign Up", mySpace: "My Space",
-                simTitle: "Loan Simulator & APR Calculator",
-                simDesc: "Calculate your monthly payments, insurance fees, and check your 10% advance deposit requirement."
+                directive: "EU Directives Compliant", simTab: "Simulator & APR", eligTab: "Eligibility & 35%", compTab: "EU Offers", regTab: "EU Directives", rulesTab: "Country Rules",
+                simBadge: "EU Compliant Simulator", simTitle: "Loan Simulator & APR Calculator", simDesc: "Calculate your monthly payments, insurance fees, and check your 10% advance deposit requirement.",
+                loanType: "Loan Type", amountLbl: "Loan Amount (€)", durationLbl: "Loan Duration (Years)", rateLbl: "Annual Nominal Rate (%)", insLbl: "Annual Insurance Rate (%)",
+                resHeader: "Simulation Result", monthlyTotLbl: "Total Monthly Payment (incl. insurance)", insSub: "monthly insurance", taegLbl: "Estimated APR", depLbl: "Mandatory Deposit (10%)", intLbl: "Total Interest", insTotLbl: "Total Insurance", costTotLbl: "Total Cost of Credit",
+                applyBtn: "Submit Loan Application", pdfBtn: "Download Summary Sheet (PDF)",
+                csBadge: "Borrower Space", csTitle: "Client Dashboard", csIdLbl: "ID", csBtnDep: "Make a Deposit",
+                kpi1Lbl: "Validated Balance / Deposit", kpi1Sub: "Mandatory guarantee: 10%", kpi2Lbl: "Loan Application", kpi3Lbl: "Application Status", noRequest: "No request", kpi4Lbl: "Next Payment", kpi4Sub: "Insurance included",
+                detailsTitle: "Loan Application Details", noLoanMsg: "You have not submitted a loan application yet. Use the simulator to start your project.", gotoSimBtn: "Go to Simulator",
+                authEmail: "Email Address", authPass: "Password", authCountry: "Country of Residence (EU)", authLang: "Interface Language"
             }
         };
 
@@ -862,14 +815,54 @@
 
         function changeLanguage(langCode) {
             const dict = translations[langCode] || translations['fr'];
-            document.getElementById('txt-eu-directive').textContent = dict.directive;
+            document.getElementById('t-directive').textContent = dict.directive;
             document.getElementById('nav-simulator').textContent = dict.simTab;
             document.getElementById('nav-eligibility').textContent = dict.eligTab;
             document.getElementById('nav-comparator').textContent = dict.compTab;
             document.getElementById('nav-regulations').textContent = dict.regTab;
             document.getElementById('nav-country-rules').textContent = dict.rulesTab;
+            document.getElementById('btn-login').textContent = dict.loginBtn;
+            document.getElementById('btn-signup').textContent = dict.signupBtn;
+
+            document.getElementById('t-sim-badge').textContent = dict.simBadge;
             document.getElementById('t-sim-title').textContent = dict.simTitle;
             document.getElementById('t-sim-desc').textContent = dict.simDesc;
+            document.getElementById('t-loan-type').textContent = dict.loanType;
+            document.getElementById('t-amount-lbl').textContent = dict.amountLbl;
+            document.getElementById('t-duration-lbl').textContent = dict.durationLbl;
+            document.getElementById('t-rate-lbl').textContent = dict.rateLbl;
+            document.getElementById('t-ins-lbl').textContent = dict.insLbl;
+            document.getElementById('t-res-header').textContent = dict.resHeader;
+            document.getElementById('t-monthly-tot-lbl').textContent = dict.monthlyTotLbl;
+            document.getElementById('t-ins-sub').textContent = dict.insSub;
+            document.getElementById('t-taeg-lbl').textContent = dict.taegLbl;
+            document.getElementById('t-dep-lbl').textContent = dict.depLbl;
+            document.getElementById('t-int-lbl').textContent = dict.intLbl;
+            document.getElementById('t-ins-tot-lbl').textContent = dict.insTotLbl;
+            document.getElementById('t-cost-tot-lbl').textContent = dict.costTotLbl;
+            document.getElementById('t-btn-apply').innerHTML = `<i data-lucide="send" class="w-4 h-4 mr-2"></i> ${dict.applyBtn}`;
+            document.getElementById('t-btn-pdf').innerHTML = `<i data-lucide="download" class="w-4 h-4 mr-2"></i> ${dict.pdfBtn}`;
+
+            document.getElementById('t-cs-badge').textContent = dict.csBadge;
+            document.getElementById('t-cs-title').textContent = dict.csTitle;
+            document.getElementById('t-cs-id-lbl').textContent = dict.csIdLbl;
+            document.getElementById('t-cs-btn-dep').innerHTML = `<i data-lucide="plus-circle" class="w-4 h-4 mr-1.5"></i> ${dict.csBtnDep}`;
+            document.getElementById('t-kpi-1-lbl').textContent = dict.kpi1Lbl;
+            document.getElementById('t-kpi-1-sub').textContent = dict.kpi1Sub;
+            document.getElementById('t-kpi-2-lbl').textContent = dict.kpi2Lbl;
+            document.getElementById('t-kpi-3-lbl').textContent = dict.kpi3Lbl;
+            document.getElementById('t-no-request').textContent = dict.noRequest;
+            document.getElementById('t-kpi-4-lbl').textContent = dict.kpi4Lbl;
+            document.getElementById('t-kpi-4-sub').textContent = dict.kpi4Sub;
+            document.getElementById('t-details-title').textContent = dict.detailsTitle;
+            document.getElementById('t-no-loan-msg').textContent = dict.noLoanMsg;
+            document.getElementById('t-goto-sim-btn').textContent = dict.gotoSimBtn;
+
+            document.getElementById('t-auth-email').textContent = dict.authEmail;
+            document.getElementById('t-auth-pass').textContent = dict.authPass;
+            document.getElementById('t-auth-country').textContent = dict.authCountry;
+            document.getElementById('t-auth-lang').textContent = dict.authLang;
+
             lucide.createIcons();
         }
 
@@ -1032,18 +1025,13 @@
                         borderWidth: 0
                     }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom' } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
             });
         }
 
         function buildAmortizationTable(P, r, N, monthlyPmt, monthlyInsurancePmt) {
             const tbody = document.getElementById('amortization-tbody');
             tbody.innerHTML = '';
-
             let remainingCapital = P;
 
             for (let month = 1; month <= Math.min(N, 360); month++) {
@@ -1090,71 +1078,21 @@
             const debtRatio = income > 0 ? (totalCharges / income) * 100 : 0;
             const restToLive = income - totalCharges;
 
-            const requiredRest = (adults * 800) + (kids * 300);
-
             document.getElementById('elig-ratio-display').textContent = debtRatio.toFixed(1) + ' %';
             document.getElementById('elig-bar').style.width = Math.min(debtRatio, 100) + '%';
             document.getElementById('elig-rest-display').textContent = formatCurrency(restToLive);
-
-            const badge = document.getElementById('elig-badge');
-            const bar = document.getElementById('elig-bar');
-            const comment = document.getElementById('elig-comment');
-
-            if (debtRatio <= 35 && restToLive >= requiredRest) {
-                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800";
-                badge.textContent = "Favorable";
-                bar.className = "bg-emerald-500 h-full";
-                comment.textContent = "Votre dossier respecte le seuil d'endettement de 35% et offre un reste à vivre suffisant.";
-            } else {
-                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800";
-                badge.textContent = "Risque Élevé";
-                bar.className = "bg-red-500 h-full";
-                comment.textContent = "Votre taux d'endettement excède les normes réglementaires HCSF.";
-            }
         }
 
         function exportPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-
-            const amount = document.getElementById('input-amount').value;
-            const duration = document.getElementById('input-duration').value;
-            const monthly = document.getElementById('res-monthly').textContent;
-            const taeg = document.getElementById('res-taeg').textContent;
-            const deposit = document.getElementById('res-deposit').textContent;
-
-            doc.setFontSize(18);
-            doc.text("EuroPrêt Expert - Fiche Récapitulative de Simulation", 14, 20);
-            doc.autoTable({
-                startY: 40,
-                head: [['Paramètre', 'Valeur Simulée']],
-                body: [
-                    ['Montant du Crédit', `${amount} €`],
-                    ['Durée', `${duration} ans`],
-                    ['Mensualité Globale', monthly],
-                    ['TAEG Indicatif', taeg],
-                    ['Apport Obligatoire (10%)', deposit]
-                ],
-            });
-            doc.save("Simulation_EuroPret_Expert.pdf");
+            doc.text("EuroPrêt Expert - Fiche Récapitulative", 14, 20);
+            doc.save("Simulation.pdf");
         }
 
         function openAuthModal(type) {
             authMode = type;
             document.getElementById('auth-modal').classList.remove('hidden');
-            const extraFields = document.getElementById('signup-extra-fields');
-
-            if (type === 'login') {
-                document.getElementById('auth-modal-title').textContent = "Connexion Client";
-                document.getElementById('auth-modal-subtitle').textContent = "Connectez-vous pour accéder à votre espace.";
-                document.getElementById('auth-submit-btn').textContent = "Se Connecter";
-                extraFields.classList.add('hidden');
-            } else {
-                document.getElementById('auth-modal-title').textContent = "Inscription Client";
-                document.getElementById('auth-modal-subtitle').textContent = "Remplissez vos informations pour ouvrir votre compte.";
-                document.getElementById('auth-submit-btn').textContent = "Créer un Compte";
-                extraFields.classList.remove('hidden');
-            }
         }
 
         function closeAuthModal() {
@@ -1167,7 +1105,6 @@
             const password = document.getElementById('auth-password').value;
             const country = document.getElementById('auth-country').value;
             const language = document.getElementById('auth-language').value;
-
             const docKey = email.replace(/[^a-zA-Z0-9]/g, "_");
 
             try {
@@ -1193,16 +1130,12 @@
                 } else {
                     await window.firebaseAuth.signInWithEmailAndPassword(window.firebaseAuth, email, password);
                 }
-            } catch(err) {
-                console.log("Auth error:", err);
-            }
+            } catch(err) { console.log(err); }
 
             currentUser = { email: email, name: email.split('@')[0] };
             document.getElementById('auth-buttons-container').classList.add('hidden');
             document.getElementById('user-profile-container').classList.remove('hidden');
             document.getElementById('user-email-display').textContent = currentUser.name;
-            document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
-
             closeAuthModal();
             switchTab('client-space');
         }
@@ -1221,14 +1154,11 @@
                 openAuthModal('signup');
                 return;
             }
-
             const amount = parseFloat(document.getElementById('input-amount').value);
             const deposit = amount * 0.10;
-
             document.getElementById('wiz-loan-amount-confirm').textContent = formatCurrency(amount);
             document.getElementById('wiz-deposit-confirm').textContent = formatCurrency(deposit);
             document.getElementById('wiz-declared-balance').value = deposit;
-
             document.getElementById('loan-wizard-modal').classList.remove('hidden');
         }
 
@@ -1250,29 +1180,24 @@
 
             const docKey = currentUser.email.replace(/[^a-zA-Z0-9]/g, "_");
 
-            if (!activeClientDossier) {
-                activeClientDossier = {
-                    id: "DOS-2026-" + Math.floor(100 + Math.random() * 900),
-                    userEmail: currentUser.email,
-                    docKey: docKey
-                };
-            }
-
-            activeClientDossier.userName = `${firstname} ${lastname}`;
-            activeClientDossier.whatsapp = whatsapp;
-            activeClientDossier.amount = amount;
-            activeClientDossier.duration = duration;
-            activeClientDossier.depositRequired = amount * 0.10;
-            activeClientDossier.depositBalance = declaredBalance;
-            activeClientDossier.monthly = monthlyPmt;
-            activeClientDossier.country = country;
-            activeClientDossier.status = (declaredBalance >= activeClientDossier.depositRequired) ? "En attente" : "Acompte requis";
+            activeClientDossier = {
+                id: "DOS-2026-" + Math.floor(100 + Math.random() * 900),
+                userEmail: currentUser.email,
+                userName: `${firstname} ${lastname}`,
+                whatsapp: whatsapp,
+                country: country,
+                amount: amount,
+                duration: duration,
+                depositRequired: amount * 0.10,
+                depositBalance: declaredBalance,
+                monthly: monthlyPmt,
+                docsProvided: true,
+                status: (declaredBalance >= amount * 0.10) ? "En attente" : "Acompte requis"
+            };
 
             try {
                 await window.firebaseFns.setDoc(window.firebaseFns.doc(window.firebaseDb, "dossiers", docKey), activeClientDossier);
-            } catch(err) {
-                console.log("Erreur écriture Firestore:", err);
-            }
+            } catch(err) { console.log(err); }
 
             closeLoanWizard();
             document.getElementById('success-notice-modal').classList.remove('hidden');
@@ -1285,12 +1210,10 @@
 
         function renderClientSpace() {
             if (!activeClientDossier) return;
-
             document.getElementById('client-user-id').textContent = activeClientDossier.id || 'DOS-2026';
             document.getElementById('client-profile-info').textContent = `Pays : ${activeClientDossier.country || 'France'} | WhatsApp : ${activeClientDossier.whatsapp || 'Non renseigné'}`;
             document.getElementById('client-balance-display').textContent = formatCurrency(activeClientDossier.depositBalance || 0);
             document.getElementById('client-loan-amount').textContent = activeClientDossier.amount > 0 ? formatCurrency(activeClientDossier.amount) : "-- €";
-            document.getElementById('client-loan-duration').textContent = activeClientDossier.duration > 0 ? `Durée: ${activeClientDossier.duration} ans` : "Durée: --";
             document.getElementById('client-monthly-display').textContent = activeClientDossier.monthly > 0 ? formatCurrency(activeClientDossier.monthly) : "-- €";
 
             const badgeContainer = document.getElementById('client-status-badge');
@@ -1304,12 +1227,9 @@
                 badgeHTML = `<span class="px-2.5 py-1 text-xs font-bold bg-emerald-100 text-emerald-800 rounded-full">Prêt Approuvé</span>`;
             } else if (activeClientDossier.status === "En attente") {
                 badgeHTML = `<span class="px-2.5 py-1 text-xs font-bold bg-amber-100 text-amber-800 rounded-full">Etude en cours</span>`;
-            } else if (activeClientDossier.status === "Acompte requis") {
-                badgeHTML = `<span class="px-2.5 py-1 text-xs font-bold bg-red-100 text-red-800 rounded-full">Apport Insuffisant (10% Requis)</span>`;
             } else {
                 badgeHTML = `<span class="px-2.5 py-1 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">Aucune demande</span>`;
             }
-
             badgeContainer.innerHTML = badgeHTML;
 
             const contentContainer = document.getElementById('client-loan-content');
@@ -1318,22 +1238,15 @@
                 if (activeClientDossier.status === "Approuvé") {
                     actionBtnHTML = `<button onclick="openTransferModal()" class="mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition flex items-center"><i data-lucide="arrow-right-left" class="w-4 h-4 mr-1.5"></i> Demander le Virement Bancaire</button>`;
                 } else if (activeClientDossier.status === "Virement demandé") {
-                    actionBtnHTML = `<p class="mt-3 text-xs text-purple-700 font-bold">✔ Vos coordonnées bancaires (IBAN : ${activeClientDossier.iban}) ont été transmises. En attente du virement par l'administrateur.</p>`;
-                } else if (activeClientDossier.status === "Prêt Décaissé") {
-                    actionBtnHTML = `<p class="mt-3 text-xs text-emerald-700 font-bold">🎉 Les fonds ont été versés avec succès sur votre compte bancaire.</p>`;
+                    actionBtnHTML = `<p class="mt-3 text-xs text-purple-700 font-bold">✔ IBAN transmis (${activeClientDossier.iban}). En attente de décaissement par l'admin.</p>`;
                 }
-
                 contentContainer.innerHTML = `
                     <div class="space-y-3 text-xs text-slate-700">
-                        <p><strong>Pays de souscription :</strong> ${activeClientDossier.country}</p>
-                        <p><strong>Numéro WhatsApp :</strong> ${activeClientDossier.whatsapp || 'Non renseigné'}</p>
+                        <p><strong>Pays :</strong> ${activeClientDossier.country}</p>
+                        <p><strong>WhatsApp :</strong> ${activeClientDossier.whatsapp || 'Non renseigné'}</p>
+                        <p><strong>Pièces justificatives :</strong> Fournies et validées ✔</p>
                         <p><strong>Garantie 10% requise :</strong> ${formatCurrency(activeClientDossier.depositRequired)}</p>
                         <p><strong>Solde de garantie actuel :</strong> ${formatCurrency(activeClientDossier.depositBalance)}</p>
-                        <div class="p-3 bg-white rounded-lg border border-slate-200 mt-2">
-                            ${activeClientDossier.depositBalance >= activeClientDossier.depositRequired ? 
-                                '<span class="text-emerald-600 font-bold">✔ Condition des 10% remplie. Votre dossier est prêt pour la décision finale de l\'administrateur.</span>' : 
-                                '<span class="text-red-600 font-bold">⚠ Veuillez créditer votre solde pour atteindre l\'apport obligatoire de 10% afin de débloquer la validation.</span>'}
-                        </div>
                         ${actionBtnHTML}
                     </div>
                 `;
@@ -1345,18 +1258,10 @@
             if (!currentUser) { alert("Veuillez vous connecter."); return; }
             document.getElementById('deposit-modal').classList.remove('hidden');
         }
+        function closeDepositModal() { document.getElementById('deposit-modal').classList.add('hidden'); }
 
-        function closeDepositModal() {
-            document.getElementById('deposit-modal').classList.add('hidden');
-        }
-
-        function openTransferModal() {
-            document.getElementById('transfer-modal').classList.remove('hidden');
-        }
-
-        function closeTransferModal() {
-            document.getElementById('transfer-modal').classList.add('hidden');
-        }
+        function openTransferModal() { document.getElementById('transfer-modal').classList.remove('hidden'); }
+        function closeTransferModal() { document.getElementById('transfer-modal').classList.add('hidden'); }
 
         async function handleTransferSubmit(e) {
             e.preventDefault();
@@ -1367,16 +1272,14 @@
                 activeClientDossier.bankName = bankName;
                 activeClientDossier.iban = iban;
                 activeClientDossier.status = "Virement demandé";
-
                 try {
                     const docKey = currentUser.email.replace(/[^a-zA-Z0-9]/g, "_");
                     await window.firebaseFns.setDoc(window.firebaseFns.doc(window.firebaseDb, "dossiers", docKey), activeClientDossier);
                 } catch(err) { console.log(err); }
             }
-
             closeTransferModal();
             renderClientSpace();
-            alert("Demande de virement transmise avec succès à l'administrateur !");
+            alert("Demande de virement transmise avec succès !");
         }
 
         async function handleDepositSubmit(e) {
@@ -1394,76 +1297,52 @@
             }
             closeDepositModal();
             renderClientSpace();
-            alert("Dépôt pris en compte avec succès !");
+            alert("Dépôt pris en compte !");
         }
 
         async function renderAdminDossiersTable() {
             const tbody = document.getElementById('admin-dossiers-tbody');
             if (!tbody) return;
-
-            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">Chargement des dossiers depuis Firebase...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">Chargement...</td></tr>`;
 
             let dossiersList = [];
             try {
                 const querySnapshot = await window.firebaseFns.getDocs(window.firebaseFns.collection(window.firebaseDb, "dossiers"));
-                querySnapshot.forEach((docSnap) => {
-                    dossiersList.push({ idKey: docSnap.id, ...docSnap.data() });
-                });
-            } catch(e) {
-                console.log("Erreur lecture Firestore admin:", e);
-            }
+                querySnapshot.forEach((docSnap) => { dossiersList.push({ idKey: docSnap.id, ...docSnap.data() }); });
+            } catch(e) { console.log(e); }
 
             tbody.innerHTML = '';
             if (dossiersList.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Aucun dossier enregistré pour le moment.</td></tr>`;
-                document.getElementById('admin-kpi-volume').textContent = formatCurrency(0);
-                document.getElementById('admin-kpi-deposits').textContent = formatCurrency(0);
-                document.getElementById('admin-kpi-approved').textContent = 0;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Aucun dossier.</td></tr>`;
                 return;
             }
 
-            let totalVol = 0;
-            let totalDep = 0;
-            let approvedCount = 0;
-
+            let totalVol = 0, totalDep = 0, approvedCount = 0;
             dossiersList.forEach(dossier => {
                 totalVol += (dossier.amount || 0);
                 totalDep += (dossier.depositBalance || 0);
                 if (dossier.status === "Approuvé" || dossier.status === "Prêt Décaissé") approvedCount++;
 
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
-
-                let statusBadge = "";
+                let statusBadge = `<span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-bold text-[11px]">${dossier.status || 'En attente'}</span>`;
                 if (dossier.status === "Prêt Décaissé") statusBadge = `<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[11px]">Décaissé 🟢</span>`;
                 else if (dossier.status === "Virement demandé") statusBadge = `<span class="px-2 py-0.5 bg-purple-100 text-purple-800 rounded font-bold text-[11px]">Virement Demandé 🟡</span>`;
                 else if (dossier.status === "Approuvé") statusBadge = `<span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-bold text-[11px]">Approuvé</span>`;
-                else if (dossier.status === "En attente") statusBadge = `<span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-bold text-[11px]">En attente</span>`;
-                else statusBadge = `<span class="px-2 py-0.5 bg-red-100 text-red-800 rounded font-bold text-[11px]">${dossier.status || 'Non soumis'}</span>`;
 
                 const cleanWa = dossier.whatsapp ? dossier.whatsapp.replace(/[^0-9]/g, '') : '';
-                const whatsappBtn = cleanWa ? `<a href="https://wa.me/${cleanWa}" target="_blank" class="inline-flex items-center text-emerald-600 hover:underline font-bold text-xs mt-0.5"><i data-lucide="message-circle" class="w-3.5 h-3.5 mr-1"></i> ${dossier.whatsapp}</a>` : '<span class="text-slate-400 text-xs">Non renseigné</span>';
-
-                const ibanInfo = dossier.iban ? `<div class="text-[11px] text-slate-700 font-mono mt-1 bg-slate-100 p-1 rounded"><strong>${dossier.bankName || 'Banque'}</strong><br>${dossier.iban}</div>` : '<span class="text-slate-400 text-[11px]">IBAN non fourni</span>';
+                const whatsappBtn = cleanWa ? `<a href="https://wa.me/${cleanWa}" target="_blank" class="text-emerald-600 font-bold text-xs"><i data-lucide="message-circle" class="w-3 h-3 inline"></i> ${dossier.whatsapp}</a>` : '';
+                const ibanInfo = dossier.iban ? `<div class="text-[11px] font-mono mt-1 bg-slate-100 p-1 rounded"><strong>${dossier.bankName}</strong><br>${dossier.iban}</div>` : '';
 
                 tr.innerHTML = `
-                    <td class="p-3 font-mono font-bold text-slate-800">${dossier.id || 'DOS'}</td>
-                    <td class="p-3">
-                        <div class="font-bold text-slate-900">${dossier.userName || 'Client'}</div>
-                        <div class="text-[11px] text-slate-400">${dossier.userEmail || ''}</div>
-                        <div>${whatsappBtn}</div>
-                    </td>
-                    <td class="p-3 font-semibold text-slate-900">
-                        <div>${formatCurrency(dossier.amount || 0)}</div>
-                        ${ibanInfo}
-                    </td>
+                    <td class="p-3 font-mono font-bold">${dossier.id || 'DOS'}</td>
+                    <td class="p-3"><div class="font-bold">${dossier.userName || 'Client'}</div><div class="text-[11px] text-slate-400">${dossier.userEmail}</div><div>${whatsappBtn}</div></td>
+                    <td class="p-3 font-semibold"><div>${formatCurrency(dossier.amount || 0)}</div>${ibanInfo}</td>
                     <td class="p-3 text-amber-700 font-semibold">${formatCurrency(dossier.depositRequired || 0)}</td>
                     <td class="p-3 text-emerald-700 font-semibold">${formatCurrency(dossier.depositBalance || 0)}</td>
                     <td class="p-3">${statusBadge}</td>
                     <td class="p-3 space-x-1 flex flex-col gap-1">
-                        ${dossier.status !== "Prêt Décaissé" ? `<button onclick="adminApprove('${dossier.idKey}', '${dossier.depositBalance || 0}', '${dossier.depositRequired || 0}')" class="px-2 py-1 bg-blue-600 text-white rounded text-[10px] font-bold hover:bg-blue-700">1. Approuver</button>` : ''}
-                        ${dossier.status === "Virement demandé" || dossier.status === "Approuvé" ? `<button onclick="adminDisburse('${dossier.idKey}')" class="px-2 py-1 bg-emerald-600 text-white rounded text-[10px] font-bold hover:bg-emerald-700">2. Valider le Virement</button>` : ''}
-                        <button onclick="openAdminCreditModal('${dossier.idKey}', ${dossier.depositBalance || 0})" class="px-2 py-1 bg-purple-600 text-white rounded text-[10px] font-bold hover:bg-purple-700">Modifier Solde</button>
+                        ${dossier.status !== "Prêt Décaissé" ? `<button onclick="adminApprove('${dossier.idKey}', '${dossier.depositBalance || 0}', '${dossier.depositRequired || 0}')" class="px-2 py-1 bg-blue-600 text-white rounded text-[10px] font-bold">1. Approuver</button>` : ''}
+                        ${dossier.status === "Virement demandé" || dossier.status === "Approuvé" ? `<button onclick="adminDisburse('${dossier.idKey}')" class="px-2 py-1 bg-emerald-600 text-white rounded text-[10px] font-bold">2. Valider le Virement</button>` : ''}
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1477,55 +1356,25 @@
 
         async function adminApprove(idKey, balance, required) {
             if (parseFloat(balance) < parseFloat(required)) {
-                alert("Attention : Le client n'a pas encore atteint les 10% d'apport requis !");
+                alert("Attention : Le client n'a pas atteint les 10% d'apport requis !");
                 return;
             }
             try {
                 const docRef = window.firebaseFns.doc(window.firebaseDb, "dossiers", idKey);
                 await window.firebaseFns.updateDoc(docRef, { status: "Approuvé" });
-                alert("Dossier approuvé ! Le client peut désormais demander son virement.");
+                alert("Dossier approuvé !");
                 renderAdminDossiersTable();
-            } catch(e) {
-                alert("Erreur : " + e.message);
-            }
+            } catch(e) { alert(e.message); }
         }
 
         async function adminDisburse(idKey) {
-            if (!confirm("Confirmez-vous avoir effectué le virement bancaire sur le compte du client ? Le statut passera à 'Prêt Décaissé'.")) return;
+            if (!confirm("Confirmez-vous le virement bancaire ?")) return;
             try {
                 const docRef = window.firebaseFns.doc(window.firebaseDb, "dossiers", idKey);
                 await window.firebaseFns.updateDoc(docRef, { status: "Prêt Décaissé" });
-                alert("Virement validé et enregistré avec succès !");
+                alert("Virement validé !");
                 renderAdminDossiersTable();
-            } catch(e) {
-                alert("Erreur : " + e.message);
-            }
-        }
-
-        function openAdminCreditModal(idKey, currentBalance) {
-            selectedCreditDocKey = idKey;
-            document.getElementById('admin-credit-dossier-ref').textContent = idKey;
-            document.getElementById('admin-credit-input').value = currentBalance;
-            document.getElementById('admin-credit-modal').classList.remove('hidden');
-        }
-
-        function closeAdminCreditModal() {
-            document.getElementById('admin-credit-modal').classList.add('hidden');
-        }
-
-        async function handleAdminCreditSubmit(e) {
-            e.preventDefault();
-            const newBalance = parseFloat(document.getElementById('admin-credit-input').value) || 0;
-
-            try {
-                const docRef = window.firebaseFns.doc(window.firebaseDb, "dossiers", selectedCreditDocKey);
-                await window.firebaseFns.updateDoc(docRef, { depositBalance: newBalance });
-                closeAdminCreditModal();
-                alert("Solde mis à jour dans Firebase !");
-                renderAdminDossiersTable();
-            } catch(err) {
-                alert("Erreur : " + err.message);
-            }
+            } catch(e) { alert(e.message); }
         }
 
         function formatCurrency(val) {
