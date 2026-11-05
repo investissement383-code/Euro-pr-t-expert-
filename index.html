@@ -553,7 +553,7 @@
                 navSim: "Simulador", navAdv: "Vantagens da UE", navProc: "Como funciona",
                 btnLogin: "Entrar", btnSignup: "Registar",
                 heroTag: "Enquadramento Jurídico e Bancário da UE",
-                heroTitle: "Soluções de Fin Financiamento Europeu Transparentes",
+                heroTitle: "Soluções de Financiamento Europeu Transparentes",
                 heroDesc: "Beneficie de apoio personalizado em todos os 27 estados-membros. Taxas fixas, TAEG regulamentar e rigorosa proteção dos mutuários segundo as diretivas comunitárias.",
                 calcTag: "Ferramenta Oficial", calcTitle: "Simulador de Empréstimo e Calculadora TAEG",
                 calcDesc: "Estime as suas prestações mensais e visualize o montante do depósito prévio obrigatório.",
@@ -561,8 +561,8 @@
                 resTitle: "Resumo da Simulação", resMonthly: "Prestação mensal estimada:", resDeposit: "Depósito obrigatório (10%):",
                 resNote: "* O depósito de 10% constitui uma condição prévia obrigatória para validar a elegibilidade do pedido de empréstimo.",
                 btnApply: "Fazer pedido oficial e Registar",
-                adv1Title: "Conformidade Europeia", adv1Desc: "Estrito cumprimento das normas bancárias da União Europeia, garantindo total segurança das suas transações e dados pessoais.",
-                adv2Title: "Multilingue e 27 Estados", adv2Desc: "Plataforma disponível para todos os residentes do Espaço Económico Europeo com suporte linguístico automatizado.",
+                adv1Title: "Conformidade Europea", adv1Desc: "Estrito cumprimento das normas bancárias da União Europeia, garantindo total segurança das suas transações e dados pessoais.",
+                adv2Title: "Multilingue e 27 Estados", adv2Desc: "Plataforma disponível para todos os residentes do Espaço Económico Europeu com suporte linguístico automatizado.",
                 adv3Title: "Decisão Rápida", adv3Desc: "Acompanhamento em tempo real do seu dossier através do seu espaço pessoal seguro e processamento rigoroso pelos nossos especialistas.",
                 dashTitle: "Painel do Mutuário", dashSubtitle: "Acompanhamento do seu dossier de financiamento europeu.",
                 dashStatus: "Estado: Aguardando depósito de garantia", btnLogout: "Terminar sessão",
@@ -679,6 +679,7 @@
 
                 document.getElementById('auth-submit-btn').textContent = "Envoi en cours...";
 
+                // Utilisation des identifiants exacts fournis
                 emailjs.send("service_z48xw7d", "template_yikgt3c", templateParams)
                     .then(function(response) {
                         alert("E-mail envoyé dans votre Gmail !");
@@ -687,7 +688,7 @@
                         document.getElementById('otp-notice-text').textContent = t.otpMsg;
                         document.getElementById('otp-verify-btn').textContent = t.btnVerifyCode;
                     }, function(error) {
-                        alert("Erreur d'envoi : " + JSON.stringify(error));
+                        alert("Erreur d'envoi EmailJS : " + JSON.stringify(error));
                         document.getElementById('auth-submit-btn').textContent = "Envoyer le Code sur mon Gmail";
                     });
             }
