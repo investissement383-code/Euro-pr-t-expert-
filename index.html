@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr" class="scroll-smooth" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EuroPrêt Expert - Plateforme de Crédit & Réglementation Européenne</title>
+    <title id="page-title">EuroPrêt Expert - Plateforme de Crédit & Réglementation Européenne</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -40,17 +40,17 @@
                 <div class="w-10 h-10 gradient-eu rounded-xl flex items-center justify-center text-eu-gold font-bold text-xl shadow-md">★</div>
                 <div>
                     <span class="text-xl font-extrabold tracking-tight text-slate-900">EuroPrêt<span class="text-brand-600">Expert</span></span>
-                    <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Conforme Directives UE</span>
+                    <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider" data-i18n="headerSub">Conforme Directives UE</span>
                 </div>
             </div>
             <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
-                <a href="#simulateur" class="hover:text-brand-600 transition">Simulateur</a>
-                <a href="#avantages" class="hover:text-brand-600 transition">Avantages UE</a>
-                <a href="#processus" class="hover:text-brand-600 transition">Fonctionnement</a>
+                <a href="#simulateur" class="hover:text-brand-600 transition" data-i18n="navSim">Simulateur</a>
+                <a href="#avantages" class="hover:text-brand-600 transition" data-i18n="navAdv">Avantages UE</a>
+                <a href="#processus" class="hover:text-brand-600 transition" data-i18n="navProc">Fonctionnement</a>
             </nav>
             <div class="flex items-center space-x-3" id="header-auth-btns">
-                <button onclick="openAuthModal('login')" class="px-4 py-2 text-sm font-semibold text-brand-600 border border-brand-200 hover:bg-brand-50 rounded-lg transition">Connexion</button>
-                <button onclick="openAuthModal('signup')" class="px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm transition">Inscription</button>
+                <button onclick="openAuthModal('login')" class="px-4 py-2 text-sm font-semibold text-brand-600 border border-brand-200 hover:bg-brand-50 rounded-lg transition" data-i18n="btnLogin">Connexion</button>
+                <button onclick="openAuthModal('signup')" class="px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm transition" data-i18n="btnSignup">Inscription</button>
             </div>
         </div>
     </header>
@@ -63,9 +63,9 @@
             <!-- Hero Banner Détaillé -->
             <div class="gradient-eu rounded-3xl p-8 md:p-14 text-white shadow-xl relative overflow-hidden">
                 <div class="relative z-10 max-w-3xl space-y-4">
-                    <span class="px-3 py-1 text-xs font-semibold bg-white/20 backdrop-blur rounded-full text-white inline-block">Cadre Juridique & Bancaire de l'UE</span>
-                    <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">Solutions de Financement Européennes Transparentes</h1>
-                    <p class="text-slate-100 text-base md:text-lg leading-relaxed">
+                    <span class="px-3 py-1 text-xs font-semibold bg-white/20 backdrop-blur rounded-full text-white inline-block" data-i18n="heroTag">Cadre Juridique & Bancaire de l'UE</span>
+                    <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight" data-i18n="heroTitle">Solutions de Financement Européennes Transparentes</h1>
+                    <p class="text-slate-100 text-base md:text-lg leading-relaxed" data-i18n="heroDesc">
                         Bénéficiez d'un accompagnement sur mesure dans les 27 états membres. Taux fixes, TAEG réglementaire et protection rigoureuse des emprunteurs selon les directives communautaires.
                     </p>
                 </div>
@@ -75,29 +75,29 @@
             <div id="simulateur" class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <div class="space-y-6">
                     <div>
-                        <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Outil Officiel</span>
-                        <h2 class="text-2xl font-bold text-slate-900 mt-1">Simulateur de Prêt & Calculateur TAEG</h2>
-                        <p class="text-xs text-slate-500 mt-1">Estimez vos mensualités et visualisez le montant de l'apport préalable obligatoire.</p>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-wider" data-i18n="calcTag">Outil Officiel</span>
+                        <h2 class="text-2xl font-bold text-slate-900 mt-1" data-i18n="calcTitle">Simulateur de Prêt & Calculateur TAEG</h2>
+                        <p class="text-xs text-slate-500 mt-1" data-i18n="calcDesc">Estimez vos mensualités et visualisez le montant de l'apport préalable obligatoire.</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Montant du prêt souhaité (€)</label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2" data-i18n="lblAmount">Montant du prêt souhaité (€)</label>
                         <input type="number" id="sim-amount" value="15000" min="1000" max="100000" step="500" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-base font-bold text-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500" oninput="calculateLoan()">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Durée de remboursement (Mois)</label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2" data-i18n="lblDuration">Durée de remboursement (Mois)</label>
                         <input type="range" id="sim-duration" value="36" min="6" max="84" step="6" class="w-full accent-brand-600" oninput="calculateLoan()">
                         <div class="flex justify-between text-xs font-semibold text-slate-500 mt-1"><span id="lbl-duration">36 mois</span><span>84 mois</span></div>
                     </div>
                 </div>
 
                 <div class="bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 flex flex-col justify-between space-y-6">
-                    <h3 class="font-bold text-slate-900 border-b pb-3 text-lg">Résumé de la Simulation</h3>
+                    <h3 class="font-bold text-slate-900 border-b pb-3 text-lg" data-i18n="resTitle">Résumé de la Simulation</h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center text-sm"><span class="text-slate-600">Mensualité estimée :</span><span class="font-extrabold text-brand-600 text-2xl" id="res-monthly">0.00 €</span></div>
-                        <div class="flex justify-between items-center text-sm"><span class="text-slate-600">Apport obligatoire (10%) :</span><span class="font-bold text-slate-900 text-lg" id="res-deposit">0.00 €</span></div>
-                        <p class="text-xs text-slate-500 italic pt-2">* L'apport de 10% constitue une condition préalable obligatoire pour valider l'éligibilité du dossier de prêt.</p>
+                        <div class="flex justify-between items-center text-sm"><span class="text-slate-600" data-i18n="resMonthly">Mensualité estimée :</span><span class="font-extrabold text-brand-600 text-2xl" id="res-monthly">0.00 €</span></div>
+                        <div class="flex justify-between items-center text-sm"><span class="text-slate-600" data-i18n="resDeposit">Apport obligatoire (10%) :</span><span class="font-bold text-slate-900 text-lg" id="res-deposit">0.00 €</span></div>
+                        <p class="text-xs text-slate-500 italic pt-2" data-i18n="resNote">* L'apport de 10% constitue une condition préalable obligatoire pour valider l'éligibilité du dossier de prêt.</p>
                     </div>
-                    <button onclick="openAuthModal('signup')" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-md transition text-center">
+                    <button onclick="openAuthModal('signup')" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-md transition text-center" data-i18n="btnApply">
                         Faire une demande officielle & S'inscrire
                     </button>
                 </div>
@@ -107,18 +107,18 @@
             <div id="avantages" class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
                     <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold"><i data-lucide="shield" class="w-5 h-5"></i></div>
-                    <h3 class="font-bold text-slate-900 text-lg">Conformité Européenne</h3>
-                    <p class="text-xs text-slate-600 leading-relaxed">Respect strict des normes bancaires de l'Union Européenne garantissant la sécurité totale de vos transactions et de vos données personnelles.</p>
+                    <h3 class="font-bold text-slate-900 text-lg" data-i18n="adv1Title">Conformité Européenne</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="adv1Desc">Respect strict des normes bancaires de l'Union Européenne garantissant la sécurité totale de vos transactions et de vos données personnelles.</p>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
                     <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold"><i data-lucide="globe" class="w-5 h-5"></i></div>
-                    <h3 class="font-bold text-slate-900 text-lg">Multilingue & 27 États</h3>
-                    <p class="text-xs text-slate-600 leading-relaxed">Plateforme disponible pour l'ensemble des résidents de l'Espace Économique Européen avec un support linguistique automatisé.</p>
+                    <h3 class="font-bold text-slate-900 text-lg" data-i18n="adv2Title">Multilingue & 27 États</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="adv2Desc">Plateforme disponible pour l'ensemble des résidents de l'Espace Économique Européen avec un support linguistique automatisé.</p>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
                     <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold"><i data-lucide="check-circle" class="w-5 h-5"></i></div>
-                    <h3 class="font-bold text-slate-900 text-lg">Décision Rapide</h3>
-                    <p class="text-xs text-slate-600 leading-relaxed">Un suivi en temps réel de votre dossier via votre espace personnel sécurisé et un traitement rigoureux par nos experts.</p>
+                    <h3 class="font-bold text-slate-900 text-lg" data-i18n="adv3Title">Décision Rapide</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="adv3Desc">Un suivi en temps réel de votre dossier via votre espace personnel sécurisé et un traitement rigoureux par nos experts.</p>
                 </div>
             </div>
         </section>
@@ -128,27 +128,27 @@
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-10 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
                     <div>
-                        <h2 class="text-2xl font-bold text-slate-900">Tableau de Bord Emprunteur</h2>
-                        <p class="text-xs text-slate-500 mt-1">Suivi de votre dossier de financement européen.</p>
+                        <h2 class="text-2xl font-bold text-slate-900" data-i18n="dashTitle">Tableau de Bord Emprunteur</h2>
+                        <p class="text-xs text-slate-500 mt-1" data-i18n="dashSubtitle">Suivi de votre dossier de financement européen.</p>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <span class="px-3 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full text-xs font-semibold" id="client-status-badge">Statut : En attente du dépôt de garantie</span>
-                        <button onclick="logoutClient()" class="px-3 py-1.5 text-xs font-semibold text-rose-600 border border-rose-200 hover:bg-rose-50 rounded-lg transition">Déconnexion</button>
+                        <span class="px-3 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full text-xs font-semibold" id="client-status-badge" data-i18n="dashStatus">Statut : En attente du dépôt de garantie</span>
+                        <button onclick="logoutClient()" class="px-3 py-1.5 text-xs font-semibold text-rose-600 border border-rose-200 hover:bg-rose-50 rounded-lg transition" data-i18n="btnLogout">Déconnexion</button>
                     </div>
                 </div>
 
                 <!-- Grille d'information du dossier -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                        <span class="text-xs font-semibold text-slate-500 uppercase">Référence Dossier</span>
+                        <span class="text-xs font-semibold text-slate-500 uppercase" data-i18n="dashRefLabel">Référence Dossier</span>
                         <p class="text-lg font-mono font-bold text-slate-900 mt-1" id="dash-ref">DOS-2026-XXXX</p>
                     </div>
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                        <span class="text-xs font-semibold text-slate-500 uppercase">Pays & Résidence</span>
+                        <span class="text-xs font-semibold text-slate-500 uppercase" data-i18n="dashCountryLabel">Pays & Résidence</span>
                         <p class="text-lg font-bold text-slate-900 mt-1" id="dash-country">France</p>
                     </div>
                     <div class="p-4 bg-brand-50 rounded-xl border border-brand-200">
-                        <span class="text-xs font-semibold text-brand-700 uppercase">Apport Requis (10%)</span>
+                        <span class="text-xs font-semibold text-brand-700 uppercase" data-i18n="dashDepositLabel">Apport Requis (10%)</span>
                         <p class="text-lg font-bold text-brand-700 mt-1" id="dash-deposit-amount">0.00 €</p>
                     </div>
                 </div>
@@ -159,19 +159,19 @@
                     <div class="border rounded-2xl p-6 space-y-4 bg-white shadow-sm">
                         <div class="flex items-center space-x-3 text-brand-600">
                             <i data-lucide="landmark" class="w-6 h-6"></i>
-                            <h3 class="font-bold text-lg text-slate-900">Instructions pour le Virement (10%)</h3>
+                            <h3 class="font-bold text-lg text-slate-900" data-i18n="wireTitle">Instructions pour le Virement (10%)</h3>
                         </div>
-                        <p class="text-xs text-slate-600 leading-relaxed">
+                        <p class="text-xs text-slate-600 leading-relaxed" data-i18n="wireDesc">
                             Conformément aux protocoles de garantie bancaire européenne, veuillez effectuer le virement de l'apport préalable de 10 % sur le compte officiel ci-dessous :
                         </p>
                         <div class="p-4 bg-slate-50 rounded-xl border text-xs space-y-2">
-                            <div class="flex justify-between"><span class="text-slate-500">Banque :</span><span class="font-bold">EuroPrêt Central Bank EU</span></div>
-                            <div class="flex justify-between"><span class="text-slate-500">Titulaire :</span><span class="font-bold">EuroPrêt Expert Official</span></div>
+                            <div class="flex justify-between"><span class="text-slate-500" data-i18n="bankName">Banque :</span><span class="font-bold">EuroPrêt Central Bank EU</span></div>
+                            <div class="flex justify-between"><span class="text-slate-500" data-i18n="bankHolder">Titulaire :</span><span class="font-bold">EuroPrêt Expert Official</span></div>
                             <div class="flex justify-between"><span class="text-slate-500">IBAN :</span><span class="font-bold font-mono">EU87 3000 2000 1982 7711</span></div>
                             <div class="flex justify-between"><span class="text-slate-500">BIC / SWIFT :</span><span class="font-bold font-mono">EURPRT11XXX</span></div>
-                            <div class="flex justify-between border-t pt-2"><span class="text-slate-500">Motif obligatoire :</span><span class="font-bold font-mono text-brand-600" id="pay-ref-code">DOS-REF</span></div>
+                            <div class="flex justify-between border-t pt-2"><span class="text-slate-500" data-i18n="bankMotif">Motif obligatoire :</span><span class="font-bold font-mono text-brand-600" id="pay-ref-code">DOS-REF</span></div>
                         </div>
-                        <button onclick="alert('Instructions de virement enregistrées. Veuillez transmettre votre avis de virement.')" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition">
+                        <button onclick="alert('Instructions de virement enregistrées. Veuillez transmettre votre avis de virement.')" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition" data-i18n="wireBtn">
                             J'ai effectué le virement bancaire
                         </button>
                     </div>
@@ -180,20 +180,20 @@
                     <div class="border rounded-2xl p-6 space-y-4 bg-white shadow-sm">
                         <div class="flex items-center space-x-3 text-brand-600">
                             <i data-lucide="file-text" class="w-6 h-6"></i>
-                            <h3 class="font-bold text-lg text-slate-900">Pièces Justificatives à Fournir</h3>
+                            <h3 class="font-bold text-lg text-slate-900" data-i18n="docsTitle">Pièces Justificatives à Fournir</h3>
                         </div>
-                        <p class="text-xs text-slate-600 leading-relaxed">
+                        <p class="text-xs text-slate-600 leading-relaxed" data-i18n="docsDesc">
                             Veuillez téléverser les documents réglementaires requis pour l'activation et le déblocage des fonds de votre prêt :
                         </p>
                         <ul class="space-y-2 text-xs text-slate-700">
-                            <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span>Pièce d'identité en cours de validité (Passeport ou Carte d'identité UE)</span></li>
-                            <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span>Justificatif de domicile récent (&lt; 3 mois)</span></li>
-                            <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span>Derniers justificatifs de revenus ou avis d'imposition</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span data-i18n="doc1">Pièce d'identité en cours de validité (Passeport ou Carte d'identité UE)</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span data-i18n="doc2">Justificatif de domicile récent (< 3 mois)</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span data-i18n="doc3">Derniers justificatifs de revenus ou avis d'imposition</span></li>
                         </ul>
                         <div class="pt-2">
                             <input type="file" id="file-upload" multiple class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100"/>
                         </div>
-                        <button onclick="alert('Documents téléversés avec succès. En cours de vérification par l\'administration.')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow transition">
+                        <button onclick="alert('Documents téléversés avec succès. En cours de vérification par l\'administration.')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow transition" data-i18n="docsBtn">
                             Envoyer les pièces pour validation
                         </button>
                     </div>
@@ -206,21 +206,21 @@
     <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
-            <h3 class="text-xl font-bold text-slate-900 mb-1" id="auth-modal-title">Espace Emprunteur</h3>
-            <p class="text-xs text-slate-500 mb-6" id="auth-modal-subtitle">Veuillez vous identifier.</p>
+            <h3 class="text-xl font-bold text-slate-900 mb-1" id="auth-modal-title" data-i18n="modalTitle">Espace Emprunteur</h3>
+            <p class="text-xs text-slate-500 mb-6" id="auth-modal-subtitle" data-i18n="modalSub">Veuillez vous identifier.</p>
 
             <form id="auth-main-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Adresse E-mail (Gmail)</label>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblEmail">Adresse E-mail (Gmail)</label>
                     <input type="email" id="auth-email" required class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Mot de Passe</label>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblPass">Mot de Passe</label>
                     <input type="password" id="auth-password" required minlength="6" class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
                 <div id="signup-extra-fields" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Pays de résidence (UE - 27 États)</label>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblCountry">Pays de résidence (UE - 27 États)</label>
                         <select id="auth-country" onchange="onCountrySelected(this.value)" class="w-full px-3 py-2 border rounded-lg text-sm">
                             <option value="Allemagne">🇩🇪 Allemagne</option>
                             <option value="Autriche">🇦🇹 Autriche</option>
@@ -252,8 +252,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Langue de l'interface & de l'e-mail</label>
-                        <select id="auth-language" class="w-full px-3 py-2 border rounded-lg text-sm">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblLang">Langue de l'interface & de l'e-mail</label>
+                        <select id="auth-language" onchange="changeLanguage(this.value)" class="w-full px-3 py-2 border rounded-lg text-sm">
                             <option value="fr">🇫🇷 Français</option>
                             <option value="en">🇬🇧 English</option>
                             <option value="de">🇩🇪 Deutsch</option>
@@ -264,7 +264,7 @@
                         </select>
                     </div>
                 </div>
-                <button type="submit" id="auth-submit-btn" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-lg shadow transition">Se Connecter</button>
+                <button type="submit" id="auth-submit-btn" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-lg shadow transition" data-i18n="btnLoginSubmit">Se Connecter</button>
             </form>
 
             <div id="otp-verify-section" class="hidden space-y-4 pt-4 border-t">
@@ -272,10 +272,10 @@
                     ✉️ Un code à 6 chiffres vient d'être envoyé à votre Gmail. Veuillez le saisir ci-dessous :
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Code de Vérification (6 chiffres)</label>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblOtpCode">Code de Vérification (6 chiffres)</label>
                     <input type="text" id="otp-input-code" maxlength="6" placeholder="Ex: 849201" class="w-full px-3 py-2 border border-brand-300 bg-white rounded-lg text-center text-lg font-mono font-bold tracking-widest">
                 </div>
-                <button type="button" onclick="verifyOtpAndRegister()" id="otp-verify-btn" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-lg shadow transition">
+                <button type="button" onclick="verifyOtpAndRegister()" id="otp-verify-btn" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-lg shadow transition" data-i18n="btnVerifyCode">
                     Valider le Code & Créer mon Compte
                 </button>
             </div>
@@ -323,26 +323,294 @@
         });
     </script>
 
-    <!-- LOGIQUE & EMAILJS -->
+    <!-- LOGIQUE, TRADUCTIONS & EMAILJS -->
     <script>
         const translations = {
-            fr: { otpMsg: "✉️ Un e-mail contenant un code à 6 chiffres vient d'être envoyé à votre Gmail.", btnVerify: "Valider le Code & Créer mon Compte", emailSubject: "Code de vérification - EuroPrêt Expert", emailBody: "Bonjour,\n\nVoici votre code de vérification à 6 chiffres pour finaliser votre inscription sur EuroPrêt Expert : " },
-            en: { otpMsg: "✉️ An email with a 6-digit code has been sent to your Gmail.", btnVerify: "Verify Code & Create Account", emailSubject: "Verification Code - EuroPrêt Expert", emailBody: "Hello,\n\nHere is your 6-digit verification code to complete your registration on EuroPrêt Expert: " },
-            it: { otpMsg: "✉️ Un'email con un codice a 6 cifre è stata inviata al tuo Gmail.", btnVerify: "Verifica Codice e Crea Account", emailSubject: "Codice di Verifica - EuroPrêt Expert", emailBody: "Buongiorno,\n\nEcco il tuo codice di verifica a 6 cifre per completare la registrazione su EuroPrêt Expert: " },
-            es: { otpMsg: "✉️ Se ha enviado un correo con un código de 6 dígitos a su Gmail.", btnVerify: "Verificar Código y Crear Cuenta", emailSubject: "Código de Verificación - EuroPrêt Expert", emailBody: "Hola,\n\nAquí tiene su código de verificación de 6 dígitos para completar su registro en EuroPrêt Expert: " },
-            de: { otpMsg: "✉️ Eine E-Mail mit einem 6-stelligen Code wurde an Ihr Gmail gesendet.", btnVerify: "Code bestätigen & Konto erstellen", emailSubject: "Bestätigungscode - EuroPrêt Expert", emailBody: "Hallo,\n\nhier ist Ihr 6-stelliger Bestätigungscode für die Registrierung bei EuroPrêt Expert: " },
-            nl: { otpMsg: "✉️ Er is een e-mail met een 6-cijferige code naar uw Gmail verzonden.", btnVerify: "Code Verifiëren & Account Aanmaken", emailSubject: "Verificatiecode - EuroPrêt Expert", emailBody: "Hallo,\n\nHier is uw 6-cijferige verificatiecode om uw registratie bij EuroPrêt Expert te voltooien: " },
-            pt: { otpMsg: "✉️ Um e-mail com um código de 6 dígitos foi enviado para o seu Gmail.", btnVerify: "Verificar Código e Criar Conta", emailSubject: "Código de Verificação - EuroPrêt Expert", emailBody: "Olá,\n\nAqui está o seu código de verificação de 6 dígitos para concluir o seu registo no EuroPrêt Expert: " }
+            fr: {
+                headerSub: "Conforme Directives UE",
+                navSim: "Simulateur", navAdv: "Avantages UE", navProc: "Fonctionnement",
+                btnLogin: "Connexion", btnSignup: "Inscription",
+                heroTag: "Cadre Juridique & Bancaire de l'UE",
+                heroTitle: "Solutions de Financement Européennes Transparentes",
+                heroDesc: "Bénéficiez d'un accompagnement sur mesure dans les 27 états membres. Taux fixes, TAEG réglementaire et protection rigoureuse des emprunteurs selon les directives communautaires.",
+                calcTag: "Outil Officiel", calcTitle: "Simulateur de Prêt & Calculateur TAEG",
+                calcDesc: "Estimez vos mensualités et visualisez le montant de l'apport préalable obligatoire.",
+                lblAmount: "Montant du prêt souhaité (€)", lblDuration: "Durée de remboursement (Mois)",
+                resTitle: "Résumé de la Simulation", resMonthly: "Mensualité estimée :", resDeposit: "Apport obligatoire (10%) :",
+                resNote: "* L'apport de 10% constitue une condition préalable obligatoire pour valider l'éligibilité du dossier de prêt.",
+                btnApply: "Faire une demande officielle & S'inscrire",
+                adv1Title: "Conformité Européenne", adv1Desc: "Respect strict des normes bancaires de l'Union Européenne garantissant la sécurité totale de vos transactions et de vos données personnelles.",
+                adv2Title: "Multilingue & 27 États", adv2Desc: "Plateforme disponible pour l'ensemble des résidents de l'Espace Économique Européen avec un support linguistique automatisé.",
+                adv3Title: "Décision Rapide", adv3Desc: "Un suivi en temps réel de votre dossier via votre espace personnel sécurisé et un traitement rigoureux par nos experts.",
+                dashTitle: "Tableau de Bord Emprunteur", dashSubtitle: "Suivi de votre dossier de financement européen.",
+                dashStatus: "Statut : En attente du dépôt de garantie", btnLogout: "Déconnexion",
+                dashRefLabel: "Référence Dossier", dashCountryLabel: "Pays & Résidence", dashDepositLabel: "Apport Requis (10%)",
+                wireTitle: "Instructions pour le Virement (10%)",
+                wireDesc: "Conformément aux protocoles de garantie bancaire européenne, veuillez effectuer le virement de l'apport préalable de 10 % sur le compte officiel ci-dessous :",
+                bankName: "Banque :", bankHolder: "Titulaire :", bankMotif: "Motif obligatoire :",
+                wireBtn: "J'ai effectué le virement bancaire",
+                docsTitle: "Pièces Justificatives à Fournir",
+                docsDesc: "Veuillez téléverser les documents réglementaires requis pour l'activation et le déblocage des fonds de votre prêt :",
+                doc1: "Pièce d'identité en cours de validité (Passeport ou Carte d'identité UE)",
+                doc2: "Justificatif de domicile récent (< 3 mois)",
+                doc3: "Derniers justificatifs de revenus ou avis d'imposition",
+                docsBtn: "Envoyer les pièces pour validation",
+                modalTitle: "Espace Emprunteur", modalSub: "Veuillez vous identifier.",
+                lblEmail: "Adresse E-mail (Gmail)", lblPass: "Mot de Passe", lblCountry: "Pays de résidence (UE - 27 États)",
+                lblLang: "Langue de l'interface & de l'e-mail", btnLoginSubmit: "Se Connecter",
+                lblOtpCode: "Code de Vérification (6 chiffres)", btnVerifyCode: "Valider le Code & Créer mon Compte",
+                otpMsg: "✉️ Un e-mail contenant un code à 6 chiffres vient d'être envoyé à votre Gmail.",
+                emailSubject: "Code de vérification - EuroPrêt Expert",
+                emailBody: "Bonjour,\n\nVoici votre code de vérification à 6 chiffres pour finaliser votre inscription sur EuroPrêt Expert : "
+            },
+            en: {
+                headerSub: "EU Directives Compliant",
+                navSim: "Simulator", navAdv: "EU Advantages", navProc: "How it works",
+                btnLogin: "Login", btnSignup: "Sign Up",
+                heroTag: "EU Legal & Banking Framework",
+                heroTitle: "Transparent European Financing Solutions",
+                heroDesc: "Benefit from tailor-made support across all 27 member states. Fixed rates, regulatory APR, and strict borrower protection according to community directives.",
+                calcTag: "Official Tool", calcTitle: "Loan Simulator & APR Calculator",
+                calcDesc: "Estimate your monthly payments and view the required prior deposit amount.",
+                lblAmount: "Desired loan amount (€)", lblDuration: "Repayment duration (Months)",
+                resTitle: "Simulation Summary", resMonthly: "Estimated monthly payment:", resDeposit: "Mandatory deposit (10%):",
+                resNote: "* The 10% deposit is a mandatory prerequisite to validate loan application eligibility.",
+                btnApply: "Make Official Request & Sign Up",
+                adv1Title: "European Compliance", adv1Desc: "Strict compliance with European Union banking standards guaranteeing total security for your transactions and personal data.",
+                adv2Title: "Multilingual & 27 States", adv2Desc: "Platform available for all residents of the European Economic Area with automated language support.",
+                adv3Title: "Fast Decision", adv3Desc: "Real-time tracking of your file via your secure personal space and rigorous processing by our experts.",
+                dashTitle: "Borrower Dashboard", dashSubtitle: "Tracking your European financing file.",
+                dashStatus: "Status: Awaiting deposit guarantee", btnLogout: "Logout",
+                dashRefLabel: "File Reference", dashCountryLabel: "Country & Residence", dashDepositLabel: "Required Deposit (10%)",
+                wireTitle: "Wire Transfer Instructions (10%)",
+                wireDesc: "In accordance with European banking guarantee protocols, please wire the 10% upfront deposit to the official account below:",
+                bankName: "Bank:", bankHolder: "Account Holder:", bankMotif: "Mandatory reference:",
+                wireBtn: "I have made the bank transfer",
+                docsTitle: "Required Supporting Documents",
+                docsDesc: "Please upload the regulatory documents required for activation and disbursement of your loan funds:",
+                doc1: "Valid ID (Passport or EU ID card)",
+                doc2: "Recent proof of address (< 3 months)",
+                doc3: "Recent income proof or tax notice",
+                docsBtn: "Submit documents for validation",
+                modalTitle: "Borrower Space", modalSub: "Please identify yourself.",
+                lblEmail: "Email Address (Gmail)", lblPass: "Password", lblCountry: "Country of Residence (EU - 27 States)",
+                lblLang: "Interface & Email Language", btnLoginSubmit: "Login",
+                lblOtpCode: "Verification Code (6 digits)", btnVerifyCode: "Verify Code & Create Account",
+                otpMsg: "✉️ An email with a 6-digit code has been sent to your Gmail.",
+                emailSubject: "Verification Code - EuroPrêt Expert",
+                emailBody: "Hello,\n\nHere is your 6-digit verification code to complete your registration on EuroPrêt Expert: "
+            },
+            it: {
+                headerSub: "Conforme alle Direttive UE",
+                navSim: "Simulatore", navAdv: "Vantaggi UE", navProc: "Come funziona",
+                btnLogin: "Accedi", btnSignup: "Registrati",
+                heroTag: "Quadro Giuridico e Bancario dell'UE",
+                heroTitle: "Soluzioni di Finanziamento Europeo Trasparenti",
+                heroDesc: "Beneficia di un supporto su misura in tutti i 27 Stati membri. Tassi fissi, TAEG normativo e rigorosa protezione dei mutuatari secondo le direttive comunitarie.",
+                calcTag: "Strumento Ufficiale", calcTitle: "Simulatore di Prestito e Calcolatore TAEG",
+                calcDesc: "Stima le tue rate mensili e visualizza l'importo dell'acconto obbligatorio richiesto.",
+                lblAmount: "Importo del prestito desiderato (€)", lblDuration: "Durata del rimborso (Mesi)",
+                resTitle: "Riepilogo della Simulazione", resMonthly: "Rrata mensile stimata:", resDeposit: "Acconto obbligatorio (10%):",
+                resNote: "* L'acconto del 10% costituisce una condizione preliminare obbligatoria per convalidare l'idoneità della richiesta.",
+                btnApply: "Fai una richiesta ufficiale e Registrati",
+                adv1Title: "Conformità Europea", adv1Desc: "Rigoroso rispetto degli standard bancari dell'Unione Europea per garantire la totale sicurezza delle tue transazioni e dei tuoi dati personali.",
+                adv2Title: "Multilingue e 27 Stati", adv2Desc: "Piattaforma disponibile per tutti i residenti nello Spazio Economico Europeo con supporto linguistico automatizzato.",
+                adv3Title: "Decisione Rapida", adv3Desc: "Monitoraggio in tempo reale della tua pratica tramite il tuo spazio personale protetto e rigorosa elaborazione da parte dei nostri esperti.",
+                dashTitle: "Dashboard Mutuatario", dashSubtitle: "Monitoraggio della tua pratica di finanziamento europeo.",
+                dashStatus: "Stato: In attesa del deposito di garanzia", btnLogout: "Disconnessione",
+                dashRefLabel: "Riferimento Pratica", dashCountryLabel: "Paese e Residenza", dashDepositLabel: "Acconto Richiesto (10%)",
+                wireTitle: "Istruzioni per il Bonifico (10%)",
+                wireDesc: "In conformità con i protocolli di garanzia bancaria europea, si prega di effettuare il bonifico dell'acconto del 10% sul conto ufficiale sottostante:",
+                bankName: "Banca:", bankHolder: "Titolare:", bankMotif: "Causale obbligatoria:",
+                wireBtn: "Ho effettuato il bonifico bancario",
+                docsTitle: "Documenti Giustificativi Richiesti",
+                docsDesc: "Si prega di caricare i documenti normativi richiesti per l'attivazione e lo sblocco dei fondi del prestito:",
+                doc1: "Documento d'identità valido (Passaporto o Carta d'identità UE)",
+                doc2: "Prova di residenza recente (< 3 mesi)",
+                doc3: "Ultime prove di reddito o avviso fiscale",
+                docsBtn: "Invia documenti per la convalida",
+                modalTitle: "Area Mutuatario", modalSub: "Si prega di identificarsi.",
+                lblEmail: "Indirizzo E-mail (Gmail)", lblPass: "Password", lblCountry: "Paese di residenza (UE - 27 Stati)",
+                lblLang: "Lingua dell'interfaccia e dell'email", btnLoginSubmit: "Accedi",
+                lblOtpCode: "Codice di Verifica (6 cifre)", btnVerifyCode: "Verifica Codice e Crea Account",
+                otpMsg: "✉️ Un'email con un codice a 6 cifre è stata inviata al tuo Gmail.",
+                emailSubject: "Codice di Verifica - EuroPrêt Expert",
+                emailBody: "Buongiorno,\n\nEcco il tuo codice di verifica a 6 cifre per completare la registrazione su EuroPrêt Expert: "
+            },
+            es: {
+                headerSub: "Conforme a Directivas UE",
+                navSim: "Simulador", navAdv: "Ventajas UE", navProc: "Funcionamiento",
+                btnLogin: "Iniciar sesión", btnSignup: "Registro",
+                heroTag: "Marco Jurídico y Bancario de la UE",
+                heroTitle: "Soluciones de Financiación Europea Transparentes",
+                heroDesc: "Benefíciese de un apoyo a medida en los 27 Estados miembros. Tipos fijos, TAE reglamentaria y rigurosa protección de los prestatarios según las directivas comunitarias.",
+                calcTag: "Herramienta Oficial", calcTitle: "Simulador de Préstamo y Calculadora TAE",
+                calcDesc: "Estime sus cuotas mensuales y visualice el importe del anticipo obligatorio previo.",
+                lblAmount: "Importe del préstamo deseado (€)", lblDuration: "Duración del reembolso (Meses)",
+                resTitle: "Resumen de la Simulación", resMonthly: "Cuota mensual estimada:", resDeposit: "Anticipo obligatorio (10%):",
+                resNote: "* El anticipo del 10% constituye una condición previa obligatoria para validar la elegibilidad del expediente.",
+                btnApply: "Hacer solicitud oficial y Registrarse",
+                adv1Title: "Conformidad Europea", adv1Desc: "Estricto cumplimiento de las normas bancarias de la Unión Europea que garantiza la total seguridad de sus transacciones y datos personales.",
+                adv2Title: "Multilingüe y 27 Estados", adv2Desc: "Plataforma disponible para todos los residentes del Espacio Económico Europeo con soporte lingüístico automatizado.",
+                adv3Title: "Decisión Rápida", adv3Desc: "Seguimiento en tiempo real de su expediente a través de su espacio personal seguro y un procesamiento riguroso por nuestros expertos.",
+                dashTitle: "Panel de Prestatario", dashSubtitle: "Seguimiento de su expediente de financiación europea.",
+                dashStatus: "Estado: A la espera del depósito de garantía", btnLogout: "Cerrar sesión",
+                dashRefLabel: "Referencia de Expediente", dashCountryLabel: "País y Residencia", dashDepositLabel: "Anticipo Requerido (10%)",
+                wireTitle: "Instrucciones para Transferencia (10%)",
+                wireDesc: "De conformidad con los protocolos de garantía bancaria europea, efectúe la transferencia del anticipo del 10% a la cuenta oficial indicada a continuación:",
+                bankName: "Banco:", bankHolder: "Titular:", bankMotif: "Concepto obligatorio:",
+                wireBtn: "He realizado la transferencia bancaria",
+                docsTitle: "Documentos Justificativos Requeridos",
+                docsDesc: "Suba los documentos normativos requeridos para la activación y desembolso de los fondos de su préstamo:",
+                doc1: "Documento de identidad válido (Pasaporte o DNI de la UE)",
+                doc2: "Justificante de domicilio reciente (< 3 meses)",
+                doc3: "Últimos justificantes de ingresos o declaración de impuestos",
+                docsBtn: "Enviar documentos para validación",
+                modalTitle: "Espacio Prestatario", modalSub: "Por favor, identifíquese.",
+                lblEmail: "Dirección de correo electrónico (Gmail)", lblPass: "Contraseña", lblCountry: "País de residencia (UE - 27 Estados)",
+                lblLang: "Idioma de la interfaz y del correo", btnLoginSubmit: "Iniciar sesión",
+                lblOtpCode: "Código de Verificación (6 dígitos)", btnVerifyCode: "Verificar Código y Crear Cuenta",
+                otpMsg: "✉️ Se ha enviado un correo con un código de 6 dígitos a su Gmail.",
+                emailSubject: "Código de Verificación - EuroPrêt Expert",
+                emailBody: "Hola,\n\nAquí tiene su código de verificación de 6 dígitos para completar su registro en EuroPrêt Expert: "
+            },
+            de: {
+                headerSub: "Konform mit EU-Richtlinien",
+                navSim: "Rechner", navAdv: "EU-Vorteile", navProc: "Ablauf",
+                btnLogin: "Anmelden", btnSignup: "Registrieren",
+                heroTag: "Rechts- und Bankenrahmen der EU",
+                heroTitle: "Transparente europäische Finanzierungslösungen",
+                heroDesc: "Profitieren Sie von maßgeschneiderter Unterstützung in allen 27 Mitgliedstaaten. Feste Zinsen, gesetzlicher effektiver Jahreszins und strenger Kreditnehmerschutz.",
+                calcTag: "Offizielles Tool", calcTitle: "Kreditrechner & Effektivzinsrechner",
+                calcDesc: "Schätzen Sie Ihre monatlichen Raten und sehen Sie den Betrag der obligatorischen Anzahlung ein.",
+                lblAmount: "Gewünschter Kreditbetrag (€)", lblDuration: "Laufzeit (Monate)",
+                resTitle: "Zusammenfassung der Simulation", resMonthly: "Geschätzte Monatsrate:", resDeposit: "Obligatorische Anzahlung (10%):",
+                resNote: "* Die Anzahlung von 10% ist eine obligatorische Voraussetzung zur Bestätigung der Kreditantragsberechtigung.",
+                btnApply: "Offiziellen Antrag stellen & Registrieren",
+                adv1Title: "Europäische Konformität", adv1Desc: "Strikte Einhaltung der EU-Bankenstandards zur Gewährleistung absoluter Sicherheit für Ihre Transaktionen und Daten.",
+                adv2Title: "Mehrsprachig & 27 Staaten", adv2Desc: "Plattform für alle Einwohner des Europäischen Wirtschaftsraums mit automatisierter Sprachunterstützung.",
+                adv3Title: "Schnelle Entscheidung", adv3Desc: "Echtzeit-Tracking Ihres Vorgangs über Ihren sicheren persönlichen Bereich und strenge Bearbeitung durch Experten.",
+                dashTitle: "Kreditnehmer-Dashboard", dashSubtitle: "Verfolgung Ihres europäischen Finanzierungsvorgangs.",
+                dashStatus: "Status: Wartet auf Kautionshinterlegung", btnLogout: "Abmelden",
+                dashRefLabel: "Vorgangsnummer", dashCountryLabel: "Land & Wohnsitz", dashDepositLabel: "Erforderliche Anzahlung (10%)",
+                wireTitle: "Anweisungen für Banküberweisung (10%)",
+                wireDesc: "Gemäß den europäischen Bankgarantieprotokollen überweisen Sie bitte die 10% Anzahlung auf das folgende offizielle Konto:",
+                bankName: "Bank:", bankHolder: "Kontoinhaber:", bankMotif: "Verwendungszweck (obligatorisch):",
+                wireBtn: "Ich habe die Überweisung getätigt",
+                docsTitle: "Erforderliche Nachweise",
+                docsDesc: "Bitte laden Sie die für die Aktivierung und Freigabe Ihrer Kredite erforderlichen Dokumente hoch:",
+                doc1: "Gültiger Ausweis (Reisepass oder EU-Personalausweis)",
+                doc2: "Aktueller Adressnachweis (< 3 Monate)",
+                doc3: "Letzte Einkommensnachweise oder Steuerbescheid",
+                docsBtn: "Dokumente zur Prüfung senden",
+                modalTitle: "Kreditnehmerbereich", modalSub: "Bitte identifizieren Sie sich.",
+                lblEmail: "E-Mail-Adresse (Gmail)", lblPass: "Passwort", lblCountry: "Wohnsitzland (EU - 27 Staaten)",
+                lblLang: "Sprache der Oberfläche & E-Mail", btnLoginSubmit: "Anmelden",
+                lblOtpCode: "Bestätigungscode (6 Ziffern)", btnVerifyCode: "Code bestätigen & Konto erstellen",
+                otpMsg: "✉️ Eine E-Mail mit einem 6-stelligen Code wurde an Ihr Gmail gesendet.",
+                emailSubject: "Bestätigungscode - EuroPrêt Expert",
+                emailBody: "Hallo,\n\nhier ist Ihr 6-stelliger Bestätigungscode für die Registrierung bei EuroPrêt Expert: "
+            },
+            nl: {
+                headerSub: "Conform EU-richtlijnen",
+                navSim: "Simulator", navAdv: "EU Voordelen", navProc: "Hoe het werkt",
+                btnLogin: "Inloggen", btnSignup: "Registreren",
+                heroTag: "EU Juridisch & Bankenkader",
+                heroTitle: "Transparante Europese Financieringsoplossingen",
+                heroDesc: "Profiteer van op maat gemaakte ondersteuning in alle 27 lidstaten. Vaste rentes, wettelijk JKP en strikte bescherming van leners volgens EU-richtlijnen.",
+                calcTag: "Officiële Tool", calcTitle: "Lening- & JKP-calculator",
+                calcDesc: "Schat uw maandelijkse termijnen in en bekijk het bedrag van de verplichte aanbetaling.",
+                lblAmount: "Gewenst leningbedrag (€)", lblDuration: "Looptijd (Maanden)",
+                resTitle: "Samenvatting van de Simulatie", resMonthly: "Geschatte maandelijkse termijn:", resDeposit: "Verplichte aanbetaling (10%):",
+                resNote: "* De aanbetaling van 10% is een verplichte voorwaarde om de geschiktheid van de leningaanvraag goed te keuren.",
+                btnApply: "Officiële aanvraag indienen & Registreren",
+                adv1Title: "Europese Conformiteit", adv1Desc: "Strikte naleving van de banknormen van de Europese Unie die totale veiligheid garanderen voor uw transacties en gegevens.",
+                adv2Title: "Meertalig & 27 Staten", adv2Desc: "Platform beschikbaar voor alle inwoners van de Europese Economische Ruimte met geautomatiseerde taalondersteuning.",
+                adv3Title: "Snelle Beslissing", adv3Desc: "Realtime opvolging van uw dossier via uw beveiligde persoonlijke ruimte en strenge verwerking door onze experts.",
+                dashTitle: "Lener Dashboard", dashSubtitle: "Opvolging van uw Europese financieringsdossier.",
+                dashStatus: "Status: Wachten op garantiedepot", btnLogout: "Uitloggen",
+                dashRefLabel: "Dossierreferentie", dashCountryLabel: "Land & Woonplaats", dashDepositLabel: "Vereiste aanbetaling (10%)",
+                wireTitle: "Instructies voor Overschrijving (10%)",
+                wireDesc: "In overeenstemming met de Europese bankgarantieprotocollen verzoeken wij u de aanbetaling van 10% over te maken op onderstaande officiële rekening:",
+                bankName: "Bank:", bankHolder: "Rekeninghouder:", bankMotif: "Verplicht betalingskenmerk:",
+                wireBtn: "Ik heb de bankoverschrijving gedaan",
+                docsTitle: "Vereiste Ondersteunende Documenten",
+                docsDesc: "Upload de reglementaire documenten die nodig zijn voor de activering en uitbetaling van uw lening:",
+                doc1: "Geldig legitimatiebewijs (Paspoort of EU-ID-kaart)",
+                doc2: "Recente adresbewijs (< 3 maanden)",
+                doc3: "Recente inkomensbewijzen of aanslag",
+                docsBtn: "Documenten ter validatie indienen",
+                modalTitle: "Lener Ruimte", modalSub: "Gelieve u te identificeren.",
+                lblEmail: "E-mailadres (Gmail)", lblPass: "Wachtwoord", lblCountry: "Land van verblijf (EU - 27 Staten)",
+                lblLang: "Interface- & E-maillangue", btnLoginSubmit: "Inloggen",
+                lblOtpCode: "Verificatiecode (6 cijfers)", btnVerifyCode: "Code verifiëren & Account aanmaken",
+                otpMsg: "✉️ Er is een e-mail met een 6-cijferige code naar uw Gmail verzonden.",
+                emailSubject: "Verificatiecode - EuroPrêt Expert",
+                emailBody: "Hallo,\n\nHier is uw 6-cijferige verificatiecode om uw registratie bij EuroPrêt Expert te voltooien: "
+            },
+            pt: {
+                headerSub: "Conforme Diretivas da UE",
+                navSim: "Simulador", navAdv: "Vantagens da UE", navProc: "Como funciona",
+                btnLogin: "Entrar", btnSignup: "Registar",
+                heroTag: "Enquadramento Jurídico e Bancário da UE",
+                heroTitle: "Soluções de Financiamento Europeu Transparentes",
+                heroDesc: "Beneficie de apoio personalizado em todos os 27 estados-membros. Taxas fixas, TAEG regulamentar e rigorosa proteção dos mutuários segundo as diretivas comunitárias.",
+                calcTag: "Ferramenta Oficial", calcTitle: "Simulador de Empréstimo e Calculadora TAEG",
+                calcDesc: "Estime as suas prestações mensais e visualize o montante do depósito prévio obrigatório.",
+                lblAmount: "Montante do empréstimo pretendido (€)", lblDuration: "Prazo de reembolso (Meses)",
+                resTitle: "Resumo da Simulação", resMonthly: "Prestação mensal estimada:", resDeposit: "Depósito obrigatório (10%):",
+                resNote: "* O depósito de 10% constitui uma condição prévia obrigatória para validar a elegibilidade do pedido de empréstimo.",
+                btnApply: "Fazer pedido oficial e Registar",
+                adv1Title: "Conformidade Europeia", adv1Desc: "Estrito cumprimento das normas bancárias da União Europeia, garantindo total segurança das suas transações e dados pessoais.",
+                adv2Title: "Multilingue e 27 Estados", adv2Desc: "Plataforma disponível para todos os residentes do Espaço Económico Europeu com suporte linguístico automatizado.",
+                adv3Title: "Decisão Rápida", adv3Desc: "Acompanhamento em tempo real do seu dossier através do seu espaço pessoal seguro e processamento rigoroso pelos nossos especialistas.",
+                dashTitle: "Painel do Mutuário", dashSubtitle: "Acompanhamento do seu dossier de financiamento europeu.",
+                dashStatus: "Estado: Aguardando depósito de garantia", btnLogout: "Terminar sessão",
+                dashRefLabel: "Referência do Dossier", dashCountryLabel: "País e Residência", dashDepositLabel: "Depósito Necessário (10%)",
+                wireTitle: "Instruções para Transferência (10%)",
+                wireDesc: "Em conformidade com os protocolos de garantia bancária europeia, efetue a transferência do depósito prévio de 10% para a conta oficial abaixo:",
+                bankName: "Banco:", bankHolder: "Titular:", bankMotif: "Assunto obrigatório:",
+                wireBtn: "Efetuei a transferência bancária",
+                docsTitle: "Documentos de Suporte Necessários",
+                docsDesc: "Faça o upload dos documentos regulamentares necessários para a ativação e libertação dos fundos do seu empréstimo:",
+                doc1: "Documento de identificação válido (Passaporte ou Cartão de Cidadão da UE)",
+                doc2: "Comprovativo de morada recente (< 3 meses)",
+                doc3: "Comprovativos de rendimentos recentes ou nota de liquidação",
+                docsBtn: "Enviar documentos para validação",
+                modalTitle: "Espaço do Mutuário", modalSub: "Por favor, identifique-se.",
+                lblEmail: "Endereço de E-mail (Gmail)", lblPass: "Palavra-passe", lblCountry: "País de residência (UE - 27 Estados)",
+                lblLang: "Idioma da interface e do e-mail", btnLoginSubmit: "Entrar",
+                lblOtpCode: "Código de Verificação (6 dígitos)", btnVerifyCode: "Verificar Código e Criar Conta",
+                otpMsg: "✉️ Um e-mail com um código de 6 dígitos foi enviado para o seu Gmail.",
+                emailSubject: "Código de Verificação - EuroPrêt Expert",
+                emailBody: "Olá,\n\nAqui está o seu código de verificação de 6 dígitos para concluir o seu registo no EuroPrêt Expert: "
+            }
         };
 
+        let currentLang = 'fr';
         let authMode = 'login';
         let generatedOtpCode = "";
         let pendingSignupData = null;
 
+        function changeLanguage(lang) {
+            if (!translations[lang]) return;
+            currentLang = lang;
+            document.getElementById('auth-language').value = lang;
+            document.getElementById('html-root').setAttribute('lang', lang);
+
+            // Traduction dynamique de tous les éléments possédant l'attribut data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
         function calculateLoan() {
             const amount = parseFloat(document.getElementById('sim-amount').value) || 0;
             const duration = parseInt(document.getElementById('sim-duration').value) || 36;
-            document.getElementById('lbl-duration').textContent = duration + ' mois';
+            document.getElementById('lbl-duration').textContent = duration + (currentLang === 'en' ? ' months' : currentLang === 'de' ? ' Monate' : ' mois');
             const rate = 0.045 / 12;
             const monthly = (amount * rate * Math.pow(1 + rate, duration)) / (Math.pow(1 + rate, duration) - 1);
             document.getElementById('res-monthly').textContent = (isNaN(monthly) ? 0 : monthly).toFixed(2) + ' €';
@@ -360,7 +628,7 @@
                 "Slovaquie": "en", "Slovénie": "en", "Suède": "en"
             };
             if (countryToLang[country]) {
-                document.getElementById('auth-language').value = countryToLang[country];
+                changeLanguage(countryToLang[country]);
             }
         }
 
@@ -371,12 +639,12 @@
             document.getElementById('auth-main-form').classList.remove('hidden');
             const extraFields = document.getElementById('signup-extra-fields');
             if (type === 'login') {
-                document.getElementById('auth-modal-title').textContent = "Connexion Client";
-                document.getElementById('auth-submit-btn').textContent = "Se Connecter";
+                document.getElementById('auth-modal-title').textContent = currentLang === 'en' ? 'Client Login' : currentLang === 'it' ? 'Accesso Cliente' : currentLang === 'es' ? 'Iniciar Sesión' : currentLang === 'de' ? 'Kunden-Login' : 'Connexion Client';
+                document.getElementById('auth-submit-btn').textContent = translations[currentLang].btnLoginSubmit;
                 extraFields.classList.add('hidden');
             } else {
-                document.getElementById('auth-modal-title').textContent = "Inscription Client";
-                document.getElementById('auth-submit-btn').textContent = "Envoyer le Code sur mon Gmail";
+                document.getElementById('auth-modal-title').textContent = currentLang === 'en' ? 'Client Registration' : currentLang === 'it' ? 'Registrazione Cliente' : currentLang === 'es' ? 'Registro de Cliente' : currentLang === 'de' ? 'Kundenregistrierung' : 'Inscription Client';
+                document.getElementById('auth-submit-btn').textContent = currentLang === 'en' ? 'Send Code to my Gmail' : currentLang === 'it' ? 'Invia codice al mio Gmail' : currentLang === 'es' ? 'Enviar código a mi Gmail' : currentLang === 'de' ? 'Code an Gmail senden' : 'Envoyer le Code sur mon Gmail';
                 extraFields.classList.remove('hidden');
             }
         }
@@ -412,14 +680,13 @@
 
                 document.getElementById('auth-submit-btn').textContent = "Envoi en cours...";
 
-                emailjs.send("service_z48xw7d", "template_q91k63r", templateParams)
+                emailjs.send("service_z48xw7d", "template_yikgt3c", templateParams)
                     .then(function(response) {
                         alert("E-mail envoyé dans votre Gmail !");
                         document.getElementById('auth-main-form').classList.add('hidden');
                         document.getElementById('otp-verify-section').classList.remove('hidden');
                         document.getElementById('otp-notice-text').textContent = t.otpMsg;
-                        document.getElementById('otp-verify-btn').textContent = t.btnVerify;
-                        document.getElementById('auth-submit-btn').textContent = "Envoyer le Code sur mon Gmail";
+                        document.getElementById('otp-verify-btn').textContent = t.btnVerifyCode;
                     }, function(error) {
                         alert("Erreur d'envoi : " + JSON.stringify(error));
                         document.getElementById('auth-submit-btn').textContent = "Envoyer le Code sur mon Gmail";
