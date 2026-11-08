@@ -322,19 +322,19 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK (Intégré avec le projet europret1 et l'administrateur Jaures153@gmail.com) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDoLXPKEAYjtQLSA4_GTknEapfzm3LetPc",
-            authDomain: "euro-pr-t-expert.onrender.com",
-            projectId: "europret-cea9b",
-            storageBucket: "europret-cea9b.firebasestorage.app",
-            messagingSenderId: "219259418337",
-            appId: "1:219259418337:web:a7acb09fbf194fe58ce9a0"
+          apiKey: "AIzaSyAqkyiTLT6_fR8ATzGFIf1dPz40Phv_VWw",
+          authDomain: "europret1.firebaseapp.com",
+          projectId: "europret1",
+          storageBucket: "europret1.firebasestorage.app",
+          messagingSenderId: "125438699167",
+          appId: "1:125438699167:web:f0d1dcae2291366ca8a4aa"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -345,7 +345,7 @@
 
         window.firebaseAuth.onAuthStateChanged(async (user) => {
             if (user) {
-                if (user.email === "admin@euro-pret.eu" || user.email === "admin@europret.com") {
+                if (user.email === "Jaures153@gmail.com") {
                     document.getElementById('sec-simulator').classList.add('hidden');
                     document.getElementById('sec-client-space').classList.add('hidden');
                     document.getElementById('sec-admin-dashboard').classList.remove('hidden');
@@ -616,7 +616,7 @@
                 resNote: "* O depósito de 10% constitui uma condição prévia obrigatória para validar o pedido de empréstimo.",
                 btnApply: "Fazer pedido oficial e Registar",
                 adv1Title: "Conformidade Europea", adv1Desc: "Estrito cumprimento das normas bancárias da União Europeia, garantindo total segurança das suas transações e dados pessoais.",
-                adv2Title: "Multilingue e 27 Estados", adv2Desc: "Plataforma disponível para todos os residentes do Espaço Económico Europeo com suporte linguístico automatizado.",
+                adv2Title: "Multilingue e 27 Estados", adv2Desc: "Plataforma disponível para todos os residentes do Espaço Economico Europeo com suporte linguístico automatizado.",
                 adv3Title: "Decisão Rápida", adv3Desc: "Acompanhamento em tempo real do seu dossier através do seu espaço pessoal seguro e processamento rigoroso pelos nossos especialistas.",
                 dashTitle: "Painel do Mutuário", dashSubtitle: "Acompanhamento do seu dossier de financiamento europeu.",
                 btnLogout: "Terminar sessão",
