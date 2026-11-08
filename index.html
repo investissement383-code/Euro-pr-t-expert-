@@ -115,7 +115,7 @@
             </div>
         </section>
 
-        <!-- Espace Client : Demande de Prêt, WhatsApp & Virement -->
+        <!-- Espace Client : Type de Prêt, Revenus & WhatsApp -->
         <section id="sec-client-space" class="hidden space-y-8">
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-10 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
@@ -130,14 +130,18 @@
                 </div>
 
                 <!-- Grille d'information du dossier -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                         <span class="text-xs font-semibold text-slate-500 uppercase" data-i18n="dashRefLabel">Référence Dossier</span>
                         <p class="text-lg font-mono font-bold text-slate-900 mt-1" id="dash-ref">DOS-2026-XXXX</p>
                     </div>
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                        <span class="text-xs font-semibold text-slate-500 uppercase">Montant Demandé</span>
-                        <p class="text-lg font-bold text-brand-600 mt-1" id="dash-loan-amount">0.00 €</p>
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Type & Montant</span>
+                        <p class="text-sm font-bold text-brand-600 mt-1" id="dash-loan-info">Non soumis</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Revenu Mensuel</span>
+                        <p class="text-sm font-bold text-slate-900 mt-1" id="dash-income-info">Non renseigné</p>
                     </div>
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                         <span class="text-xs font-semibold text-slate-500 uppercase" data-i18n="dashCountryLabel">Pays & Résidence</span>
@@ -149,27 +153,42 @@
                     </div>
                 </div>
 
-                <!-- ÉTAPE 1 : FORMULAIRE DE DEMANDE DE PRÊT (Max 2 000 000 €) -->
+                <!-- ÉTAPE 1 : FORMULAIRE DE DEMANDE AVEC TYPE DE PRÊT, REVENU MENSUEL & WHATSAPP -->
                 <div id="loan-request-box" class="bg-amber-50 border border-amber-300 rounded-2xl p-6 space-y-4 shadow-sm">
                     <div class="flex items-center space-x-3 text-amber-800">
                         <i data-lucide="alert-circle" class="w-6 h-6"></i>
                         <h3 class="font-bold text-lg">Étape 1 : Soumettez votre Demande de Prêt (Jusqu'à 2 000 000 €)</h3>
                     </div>
                     <p class="text-xs text-slate-700 leading-relaxed">
-                        Pour lancer l'étude de votre financement, veuillez indiquer le montant souhaité, la durée et votre <strong>numéro WhatsApp indispensable</strong> pour que notre service puisse vous contacter.
+                        Veuillez renseigner le type de prêt, le montant, vos <strong>revenus mensuels</strong> et votre <strong>numéro WhatsApp indispensable</strong>.
                     </p>
-                    <form onsubmit="submitLoanApplication(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs pt-2">
+                    <form onsubmit="submitLoanApplication(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs pt-2">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Type de Prêt</label>
+                            <select id="app-type" class="w-full px-3 py-2 border rounded-lg font-bold bg-white">
+                                <option value="Immobilier">🏠 Prêt Immobilier</option>
+                                <option value="Automobile">🚗 Prêt Automobile</option>
+                                <option value="Scolaire">🎓 Prêt Scolaire / Étudiant</option>
+                                <option value="Consommation">💳 Prêt à la Consommation</option>
+                                <option value="Investissement">📈 Prêt Investissement / Projet</option>
+                                <option value="Personnel">💼 Prêt Personnel</option>
+                            </select>
+                        </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">Montant souhaité (€ max 2M)</label>
                             <input type="number" id="app-amount" value="15000" min="1000" max="2000000" step="1000" class="w-full px-3 py-2 border rounded-lg font-bold bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Numéro WhatsApp (Indispensable) *</label>
+                            <label class="block font-semibold text-slate-700 mb-1">Revenu Mensuel (€) *</label>
+                            <input type="number" id="app-monthly-income" placeholder="Ex: 2500" required min="100" class="w-full px-3 py-2 border border-amber-400 rounded-lg font-bold bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Numéro WhatsApp *</label>
                             <input type="tel" id="app-whatsapp" placeholder="+33 6 12 34 56 78" required class="w-full px-3 py-2 border border-amber-400 rounded-lg font-bold bg-white">
                         </div>
-                        <div class="flex items-end">
-                            <button type="submit" class="w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg shadow transition">
-                                Valider ma Demande de Prêt
+                        <div class="md:col-span-4 flex justify-end pt-2">
+                            <button type="submit" class="px-8 py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm rounded-lg shadow transition">
+                                Valider la Demande de Prêt
                             </button>
                         </div>
                     </form>
@@ -241,7 +260,7 @@
                 <div class="flex justify-between items-center border-b pb-4">
                     <div>
                         <h2 class="text-2xl font-bold text-slate-900">Espace Administration & Validation des Dossiers</h2>
-                        <p class="text-xs text-slate-500">Gérez les demandes, contactez les clients via WhatsApp et validez les virements.</p>
+                        <p class="text-xs text-slate-500">Gérez les demandes, consultez les revenus des emprunteurs et contactez-les via WhatsApp.</p>
                     </div>
                     <button onclick="logoutClient()" class="px-3 py-1.5 text-xs font-semibold text-rose-600 border border-rose-200 hover:bg-rose-50 rounded-lg transition">Déconnexion Admin</button>
                 </div>
@@ -253,7 +272,9 @@
                                 <th class="p-3">Référence</th>
                                 <th class="p-3">Client</th>
                                 <th class="p-3">WhatsApp</th>
-                                <th class="p-3">Montant Prêt</th>
+                                <th class="p-3">Type de Prêt</th>
+                                <th class="p-3">Montant</th>
+                                <th class="p-3">Revenu Mensuel</th>
                                 <th class="p-3">Banque / IBAN</th>
                                 <th class="p-3">Statut</th>
                                 <th class="p-3 text-right">Actions Admin</th>
@@ -397,11 +418,13 @@
                     document.getElementById('dash-country').textContent = data.country || "France";
                     
                     if (data.loanAmount) {
-                        document.getElementById('dash-loan-amount').textContent = data.loanAmount.toLocaleString() + ' €';
+                        document.getElementById('dash-loan-info').textContent = (data.loanType || "Prêt") + " : " + data.loanAmount.toLocaleString() + ' €';
+                        document.getElementById('dash-income-info').textContent = data.monthlyIncome ? data.monthlyIncome.toLocaleString() + ' € / mois' : 'Non renseigné';
                         document.getElementById('dash-deposit-amount').textContent = (data.loanAmount * 0.10).toLocaleString() + ' €';
                         document.getElementById('loan-request-box').classList.add('hidden');
                     } else {
-                        document.getElementById('dash-loan-amount').textContent = "Non soumis";
+                        document.getElementById('dash-loan-info').textContent = "Non soumis";
+                        document.getElementById('dash-income-info').textContent = "Non renseigné";
                         document.getElementById('dash-deposit-amount').textContent = "0.00 €";
                         document.getElementById('loan-request-box').classList.remove('hidden');
                     }
@@ -423,17 +446,21 @@
             const currentUser = window.firebaseAuth.currentUser;
             if (!currentUser) return;
 
+            const loanType = document.getElementById('app-type').value;
             const loanAmount = parseFloat(document.getElementById('app-amount').value) || 15000;
+            const monthlyIncome = parseFloat(document.getElementById('app-monthly-income').value) || 0;
             const whatsapp = document.getElementById('app-whatsapp').value;
             const docKey = currentUser.email.replace(/[^a-zA-Z0-9]/g, "_");
 
             try {
                 await updateDoc(doc(window.firebaseDb, "dossiers", docKey), {
+                    loanType: loanType,
                     loanAmount: loanAmount,
+                    monthlyIncome: monthlyIncome,
                     whatsapp: whatsapp,
                     status: "En attente du dépôt de garantie"
                 });
-                alert("Demande de prêt et numéro WhatsApp enregistrés avec succès !");
+                alert("Demande de prêt et informations de revenus enregistrées avec succès !");
                 loadClientData(currentUser.email);
             } catch(err) {
                 alert("Erreur : " + err.message);
@@ -468,7 +495,7 @@
 
         async function loadAdminRequests() {
             const tableBody = document.getElementById('admin-requests-table');
-            tableBody.innerHTML = "<tr><td colspan='7' class='p-3 text-center'>Chargement des dossiers...</td></tr>";
+            tableBody.innerHTML = "<tr><td colspan='9' class='p-3 text-center'>Chargement des dossiers...</td></tr>";
             try {
                 const querySnap = await getDocs(collection(window.firebaseDb, "dossiers"));
                 tableBody.innerHTML = "";
@@ -480,7 +507,9 @@
                         <td class="p-3 font-mono font-bold">${data.id || 'N/A'}</td>
                         <td class="p-3">${data.userEmail}</td>
                         <td class="p-3 font-semibold text-emerald-600"><a href="https://wa.me/${data.whatsapp ? data.whatsapp.replace(/[^0-9]/g, '') : ''}" target="_blank" class="hover:underline">💬 ${data.whatsapp || 'Non renseigné'}</a></td>
+                        <td class="p-3 font-semibold text-slate-800">${data.loanType || 'Non spécifié'}</td>
                         <td class="p-3 font-semibold text-brand-600">${data.loanAmount ? data.loanAmount.toLocaleString() + ' €' : 'Non demandé'}</td>
+                        <td class="p-3 font-semibold text-slate-700">${data.monthlyIncome ? data.monthlyIncome.toLocaleString() + ' €/mois' : 'N/A'}</td>
                         <td class="p-3 font-mono text-xs">${data.bankName ? data.bankName + ' / ' + data.bankIban : 'Aucun compte saisi'}</td>
                         <td class="p-3"><span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">${data.status || 'En attente'}</span></td>
                         <td class="p-3 text-right space-x-1">
@@ -696,7 +725,7 @@
                 navSim: "Simulador", navAdv: "Vantagens da UE", navProc: "Como funciona",
                 btnLogin: "Entrar", btnSignup: "Registar",
                 heroTag: "Enquadramento Jurídico e Bancário da UE",
-                heroTitle: "Soluções de Finançamento Europeu Transparentes",
+                heroTitle: "Soluções de Financiamento Europeu Transparentes",
                 heroDesc: "Beneficie de apoio personalizado em todos os 27 estados-membros. Taxas fixas, TAEG regulamentar e rigorosa proteção dos mutuários segundo as diretivas comunitárias.",
                 calcTag: "Ferramenta Oficial", calcTitle: "Simulador de Empréstimo e Calculadora TAEG",
                 calcDesc: "Estime as suas prestações mensais e visualize o montante do depósito prévio obrigatório.",
