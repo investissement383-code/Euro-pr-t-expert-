@@ -51,9 +51,8 @@
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
         
-        <!-- Section Simulateur & Accueil Complet -->
+        <!-- Section Simulateur & Accueil -->
         <section id="sec-simulator" class="space-y-12">
-            <!-- Hero Banner Détaillé -->
             <div class="gradient-eu rounded-3xl p-8 md:p-14 text-white shadow-xl relative overflow-hidden">
                 <div class="relative z-10 max-w-3xl space-y-4">
                     <span class="px-3 py-1 text-xs font-semibold bg-white/20 backdrop-blur rounded-full text-white inline-block" data-i18n="heroTag">Cadre Juridique & Bancaire de l'UE</span>
@@ -64,7 +63,7 @@
                 </div>
             </div>
 
-            <!-- Calculateur de Prêt Interactif -->
+            <!-- Calculateur de Prêt -->
             <div id="simulateur" class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <div class="space-y-6">
                     <div>
@@ -96,7 +95,7 @@
                 </div>
             </div>
 
-            <!-- Section Avantages & Transparence UE -->
+            <!-- Avantages -->
             <div id="avantages" class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
                     <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold"><i data-lucide="shield" class="w-5 h-5"></i></div>
@@ -116,7 +115,7 @@
             </div>
         </section>
 
-        <!-- Espace Client : Demande de Virement & Pièces -->
+        <!-- Espace Client : Demande de Prêt, WhatsApp & Virement -->
         <section id="sec-client-space" class="hidden space-y-8">
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-10 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
@@ -131,10 +130,14 @@
                 </div>
 
                 <!-- Grille d'information du dossier -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                         <span class="text-xs font-semibold text-slate-500 uppercase" data-i18n="dashRefLabel">Référence Dossier</span>
                         <p class="text-lg font-mono font-bold text-slate-900 mt-1" id="dash-ref">DOS-2026-XXXX</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Montant Demandé</span>
+                        <p class="text-lg font-bold text-brand-600 mt-1" id="dash-loan-amount">0.00 €</p>
                     </div>
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                         <span class="text-xs font-semibold text-slate-500 uppercase" data-i18n="dashCountryLabel">Pays & Résidence</span>
@@ -146,62 +149,88 @@
                     </div>
                 </div>
 
-                <!-- Formulaire de Demande de Virement & Pièces Justificatives -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
-                    <!-- Formulaire de Demande de Virement -->
-                    <div class="border rounded-2xl p-6 space-y-4 bg-white shadow-sm">
-                        <div class="flex items-center space-x-3 text-brand-600">
-                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
-                            <h3 class="font-bold text-lg text-slate-900">Demander le Virement de vos Fonds</h3>
+                <!-- ÉTAPE 1 : FORMULAIRE DE DEMANDE DE PRÊT + WHATSAPP -->
+                <div id="loan-request-box" class="bg-brand-50 border border-brand-200 rounded-2xl p-6 space-y-4">
+                    <div class="flex items-center space-x-3 text-brand-700">
+                        <i data-lucide="file-check" class="w-6 h-6"></i>
+                        <h3 class="font-bold text-lg">Étape 1 : Soumettre votre Demande de Prêt & Numéro WhatsApp</h3>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Veuillez renseigner votre numéro WhatsApp indispensable pour le suivi de votre dossier et la validation avec nos conseillers.
+                    </p>
+                    <form onsubmit="submitLoanApplication(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Montant souhaité (€)</label>
+                            <input type="number" id="app-amount" value="15000" min="1000" max="100000" step="500" class="w-full px-3 py-2 border rounded-lg font-bold">
                         </div>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            Saisissez les coordonnées de votre compte bancaire sur lequel le montant approuvé de votre prêt sera versé dès la validation par l'administration :
-                        </p>
-                        
-                        <form id="transfer-request-form" onsubmit="submitTransferRequest(event)" class="space-y-3 text-xs">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Numéro WhatsApp (Indispensable)</label>
+                            <input type="tel" id="app-whatsapp" placeholder="+33 6 12 34 56 78" required class="w-full px-3 py-2 border rounded-lg font-bold bg-white">
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-lg shadow transition">
+                                Enregistrer la Demande
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ÉTAPE 2 : DEMANDE DE VIREMENT (S'active après accord admin) -->
+                <div id="transfer-box" class="hidden border border-emerald-200 bg-emerald-50/50 rounded-2xl p-6 space-y-4">
+                    <div class="flex items-center space-x-3 text-emerald-700">
+                        <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        <h3 class="font-bold text-lg">Étape 2 : Demander le Virement de vos Fonds</h3>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Votre dossier a été validé ! Saisissez les coordonnées de votre compte bancaire personnel pour recevoir votre virement.
+                    </p>
+                    <form onsubmit="submitTransferRequest(event)" class="space-y-3 text-xs">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block font-semibold text-slate-700 mb-1">Nom de votre Banque</label>
-                                <input type="text" id="client-bank-name" placeholder="Ex: BNP Paribas, Crédit Agricole..." required class="w-full px-3 py-2 border rounded-lg">
+                                <input type="text" id="client-bank-name" placeholder="Ex: BNP Paribas, Crédit Agricole..." required class="w-full px-3 py-2 border rounded-lg bg-white">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 mb-1">Nom & Prénom du Titulaire du Compte</label>
-                                <input type="text" id="client-bank-holder" placeholder="Nom complet sur le compte" required class="w-full px-3 py-2 border rounded-lg">
+                                <label class="block font-semibold text-slate-700 mb-1">Nom & Prénom du Titulaire</label>
+                                <input type="text" id="client-bank-holder" placeholder="Nom complet sur le compte" required class="w-full px-3 py-2 border rounded-lg bg-white">
                             </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block font-semibold text-slate-700 mb-1">IBAN de votre Compte Bancaire</label>
-                                <input type="text" id="client-bank-iban" placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX" required class="w-full px-3 py-2 border font-mono rounded-lg">
+                                <input type="text" id="client-bank-iban" placeholder="FR76..." required class="w-full px-3 py-2 border font-mono rounded-lg bg-white">
                             </div>
                             <div>
                                 <label class="block font-semibold text-slate-700 mb-1">Code BIC / SWIFT</label>
-                                <input type="text" id="client-bank-swift" placeholder="BNPAFRPPXXX" required class="w-full px-3 py-2 border font-mono rounded-lg">
+                                <input type="text" id="client-bank-swift" placeholder="BICXXX" required class="w-full px-3 py-2 border font-mono rounded-lg bg-white">
                             </div>
-                            <button type="submit" id="btn-submit-transfer" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition">
-                                Soumettre la Demande de Virement pour Validation
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Bloc Pièces à fournir -->
-                    <div class="border rounded-2xl p-6 space-y-4 bg-white shadow-sm">
-                        <div class="flex items-center space-x-3 text-brand-600">
-                            <i data-lucide="file-text" class="w-6 h-6"></i>
-                            <h3 class="font-bold text-lg text-slate-900" data-i18n="docsTitle">Pièces Justificatives à Fournir</h3>
                         </div>
-                        <p class="text-xs text-slate-600 leading-relaxed" data-i18n="docsDesc">
-                            Veuillez téléverser les documents réglementaires requis pour l'activation et le déblocage des fonds de votre prêt :
-                        </p>
-                        <ul class="space-y-2 text-xs text-slate-700">
-                            <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span data-i18n="doc1">Pièce d'identité en cours de validité (Passeport ou Carte d'identité UE)</span></li>
-                            <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span data-i18n="doc2">Justificatif de domicile récent (< 3 mois)</span></li>
-                            <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span data-i18n="doc3">Derniers justificatifs de revenus ou avis d'imposition</span></li>
-                        </ul>
-                        <div class="pt-2">
-                            <input type="file" id="file-upload" multiple class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100"/>
-                        </div>
-                        <button onclick="alert('Documents téléversés avec succès. En cours de vérification par l\'administration.')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow transition" data-i18n="docsBtn">
-                            Envoyer les pièces pour validation
+                        <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow transition">
+                            Transmettre les coordonnées pour déblocage des fonds
                         </button>
+                    </form>
+                </div>
+
+                <!-- Pièces Justificatives -->
+                <div class="border rounded-2xl p-6 space-y-4 bg-white shadow-sm">
+                    <div class="flex items-center space-x-3 text-brand-600">
+                        <i data-lucide="file-text" class="w-6 h-6"></i>
+                        <h3 class="font-bold text-lg text-slate-900" data-i18n="docsTitle">Pièces Justificatives à Fournir</h3>
                     </div>
+                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="docsDesc">
+                        Veuillez téléverser les documents réglementaires requis pour l'activation et le déblocage des fonds de votre prêt :
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-700">
+                        <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span data-i18n="doc1">Pièce d'identité en cours de validité (Passeport ou Carte d'identité UE)</span></li>
+                        <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span data-i18n="doc2">Justificatif de domicile récent (< 3 mois)</span></li>
+                        <li class="flex items-center space-x-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span data-i18n="doc3">Derniers justificatifs de revenus ou avis d'imposition</span></li>
+                    </ul>
+                    <div class="pt-2">
+                        <input type="file" id="file-upload" multiple class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100"/>
+                    </div>
+                    <button onclick="alert('Documents téléversés avec succès. En cours de vérification par l\'administration.')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow transition" data-i18n="docsBtn">
+                        Envoyer les pièces pour validation
+                    </button>
                 </div>
             </div>
         </section>
@@ -211,8 +240,8 @@
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-10 space-y-6">
                 <div class="flex justify-between items-center border-b pb-4">
                     <div>
-                        <h2 class="text-2xl font-bold text-slate-900">Espace Administration & Validation des Virements</h2>
-                        <p class="text-xs text-slate-500">Examinez et validez les coordonnées bancaires de virement soumises par les clients.</p>
+                        <h2 class="text-2xl font-bold text-slate-900">Espace Administration & Validation des Dossiers</h2>
+                        <p class="text-xs text-slate-500">Gérez les demandes, contactez les clients via WhatsApp et validez les virements.</p>
                     </div>
                     <button onclick="logoutClient()" class="px-3 py-1.5 text-xs font-semibold text-rose-600 border border-rose-200 hover:bg-rose-50 rounded-lg transition">Déconnexion Admin</button>
                 </div>
@@ -221,18 +250,17 @@
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
                             <tr class="bg-slate-100 border-b text-slate-700">
-                                <th class="p-3">Référence Dossier</th>
-                                <th class="p-3">E-mail Client</th>
-                                <th class="p-3">Banque Client</th>
-                                <th class="p-3">Titulaire</th>
-                                <th class="p-3">IBAN</th>
-                                <th class="p-3">BIC/SWIFT</th>
+                                <th class="p-3">Référence</th>
+                                <th class="p-3">Client</th>
+                                <th class="p-3">WhatsApp</th>
+                                <th class="p-3">Montant Prêt</th>
+                                <th class="p-3">Banque / IBAN</th>
                                 <th class="p-3">Statut</th>
-                                <th class="p-3 text-right">Actions</th>
+                                <th class="p-3 text-right">Actions Admin</th>
                             </tr>
                         </thead>
                         <tbody id="admin-requests-table">
-                            <!-- Les demandes chargées dynamiquement depuis Firestore s'afficheront ici -->
+                            <!-- Chargé dynamiquement -->
                         </tbody>
                     </table>
                 </div>
@@ -322,7 +350,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDK (Intégré avec le projet europret1 et l'administrateur Jaures153@gmail.com) -->
+    <!-- Firebase SDK & Logique -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -367,39 +395,100 @@
                     const data = snap.data();
                     document.getElementById('dash-ref').textContent = data.id || "DOS-2026-001";
                     document.getElementById('dash-country').textContent = data.country || "France";
-                    const amount = parseFloat(document.getElementById('sim-amount').value) || 15000;
-                    document.getElementById('dash-deposit-amount').textContent = (amount * 0.10).toFixed(2) + ' €';
-                    if (data.status) document.getElementById('client-status-badge').textContent = "Statut : " + data.status;
+                    
+                    if (data.loanAmount) {
+                        document.getElementById('dash-loan-amount').textContent = data.loanAmount + ' €';
+                        document.getElementById('dash-deposit-amount').textContent = (data.loanAmount * 0.10).toFixed(2) + ' €';
+                        document.getElementById('loan-request-box').classList.add('hidden');
+                    } else {
+                        document.getElementById('dash-loan-amount').textContent = "Non soumis";
+                        document.getElementById('dash-deposit-amount').textContent = "0.00 €";
+                        document.getElementById('loan-request-box').classList.remove('hidden');
+                    }
+
+                    if (data.status) {
+                        document.getElementById('client-status-badge').textContent = "Statut : " + data.status;
+                        if (data.status === "Dossier Approuvé - Prêt Prêt pour Virement" || data.status === "Virement Approuvé") {
+                            document.getElementById('transfer-box').classList.remove('hidden');
+                        } else {
+                            document.getElementById('transfer-box').classList.add('hidden');
+                        }
+                    }
                 }
             } catch(e) { console.log(e); }
         }
 
+        window.submitLoanApplication = async function(e) {
+            e.preventDefault();
+            const currentUser = window.firebaseAuth.currentUser;
+            if (!currentUser) return;
+
+            const loanAmount = parseFloat(document.getElementById('app-amount').value) || 15000;
+            const whatsapp = document.getElementById('app-whatsapp').value;
+            const docKey = currentUser.email.replace(/[^a-zA-Z0-9]/g, "_");
+
+            try {
+                await updateDoc(doc(window.firebaseDb, "dossiers", docKey), {
+                    loanAmount: loanAmount,
+                    whatsapp: whatsapp,
+                    status: "En attente du dépôt de garantie"
+                });
+                alert("Demande de prêt et numéro WhatsApp enregistrés avec succès !");
+                loadClientData(currentUser.email);
+            } catch(err) {
+                alert("Erreur : " + err.message);
+            }
+        };
+
+        window.submitTransferRequest = async function(e) {
+            e.preventDefault();
+            const currentUser = window.firebaseAuth.currentUser;
+            if (!currentUser) return;
+
+            const bankName = document.getElementById('client-bank-name').value;
+            const bankHolder = document.getElementById('client-bank-holder').value;
+            const bankIban = document.getElementById('client-bank-iban').value;
+            const bankSwift = document.getElementById('client-bank-swift').value;
+            const docKey = currentUser.email.replace(/[^a-zA-Z0-9]/g, "_");
+
+            try {
+                await updateDoc(doc(window.firebaseDb, "dossiers", docKey), {
+                    bankName: bankName,
+                    bankHolder: bankHolder,
+                    bankIban: bankIban,
+                    bankSwift: bankSwift,
+                    status: "Demande de virement en attente"
+                });
+                alert("Coordonnées bancaires transmises avec succès. L'administration va procéder au virement des fonds.");
+                loadClientData(currentUser.email);
+            } catch(err) {
+                alert("Erreur : " + err.message);
+            }
+        };
+
         async function loadAdminRequests() {
             const tableBody = document.getElementById('admin-requests-table');
-            tableBody.innerHTML = "<tr><td colspan='8' class='p-3 text-center'>Chargement des demandes...</td></tr>";
+            tableBody.innerHTML = "<tr><td colspan='7' class='p-3 text-center'>Chargement des dossiers...</td></tr>";
             try {
                 const querySnap = await getDocs(collection(window.firebaseDb, "dossiers"));
                 tableBody.innerHTML = "";
                 querySnap.forEach((docSnap) => {
                     const data = docSnap.data();
-                    if (data.bankName) {
-                        const tr = document.createElement('tr');
-                        tr.className = "border-b hover:bg-slate-50";
-                        tr.innerHTML = `
-                            <td class="p-3 font-mono font-bold">${data.id}</td>
-                            <td class="p-3">${data.userEmail}</td>
-                            <td class="p-3 font-semibold">${data.bankName}</td>
-                            <td class="p-3">${data.bankHolder}</td>
-                            <td class="p-3 font-mono text-xs">${data.bankIban}</td>
-                            <td class="p-3 font-mono text-xs">${data.bankSwift}</td>
-                            <td class="p-3"><span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">${data.status}</span></td>
-                            <td class="p-3 text-right space-x-1">
-                                <button onclick="updateStatus('${docSnap.id}', 'Virement Approuvé')" class="px-2 py-1 bg-emerald-600 text-white rounded text-xs">Approuver</button>
-                                <button onclick="updateStatus('${docSnap.id}', 'Rejeté')" class="px-2 py-1 bg-rose-600 text-white rounded text-xs">Rejeter</button>
-                            </td>
-                        `;
-                        tableBody.appendChild(tr);
-                    }
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b hover:bg-slate-50";
+                    tr.innerHTML = `
+                        <td class="p-3 font-mono font-bold">${data.id || 'N/A'}</td>
+                        <td class="p-3">${data.userEmail}</td>
+                        <td class="p-3 font-semibold text-emerald-600"><a href="https://wa.me/${data.whatsapp ? data.whatsapp.replace(/[^0-9]/g, '') : ''}" target="_blank" class="hover:underline">💬 ${data.whatsapp || 'Non renseigné'}</a></td>
+                        <td class="p-3 font-semibold text-brand-600">${data.loanAmount ? data.loanAmount + ' €' : 'Non demandé'}</td>
+                        <td class="p-3 font-mono text-xs">${data.bankName ? data.bankName + ' / ' + data.bankIban : 'Aucun compte saisi'}</td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">${data.status || 'En attente'}</span></td>
+                        <td class="p-3 text-right space-x-1">
+                            <button onclick="updateStatus('${docSnap.id}', 'Dossier Approuvé - Prêt Prêt pour Virement')" class="px-2 py-1 bg-brand-600 text-white rounded text-xs">Valider</button>
+                            <button onclick="updateStatus('${docSnap.id}', 'Virement Exécuté')" class="px-2 py-1 bg-emerald-600 text-white rounded text-xs">Virement OK</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
                 });
             } catch(e) { console.log(e); }
         }
@@ -407,13 +496,13 @@
         window.updateStatus = async function(docId, newStatus) {
             try {
                 await updateDoc(doc(window.firebaseDb, "dossiers", docId), { status: newStatus });
-                alert("Statut mis à jour avec succès : " + newStatus);
+                alert("Statut mis à jour : " + newStatus);
                 loadAdminRequests();
             } catch(e) { alert("Erreur : " + e.message); }
         };
     </script>
 
-    <!-- LOGIQUE, TRADUCTIONS & MULTILINGUE COMPLET -->
+    <!-- TRADUCTIONS & LOGIQUE -->
     <script>
         const translations = {
             fr: {
@@ -761,7 +850,7 @@
                     country: pendingSignupData.country,
                     language: pendingSignupData.language,
                     depositBalance: 0,
-                    status: "En attente du dépôt de garantie"
+                    status: "En attente de soumission du prêt"
                 });
 
                 closeAuthModal();
@@ -769,34 +858,6 @@
                 showAuthError(err.message);
                 document.getElementById('auth-main-form').classList.remove('hidden');
                 document.getElementById('otp-verify-section').classList.add('hidden');
-            }
-        }
-
-        async function submitTransferRequest(e) {
-            e.preventDefault();
-            const currentUser = window.firebaseAuth.currentUser;
-            if (!currentUser) return;
-
-            const bankName = document.getElementById('client-bank-name').value;
-            const bankHolder = document.getElementById('client-bank-holder').value;
-            const bankIban = document.getElementById('client-bank-iban').value;
-            const bankSwift = document.getElementById('client-bank-swift').value;
-
-            const docKey = currentUser.email.replace(/[^a-zA-Z0-9]/g, "_");
-
-            try {
-                await window.firebaseFns.updateDoc(window.firebaseFns.doc(window.firebaseDb, "dossiers", docKey), {
-                    bankName: bankName,
-                    bankHolder: bankHolder,
-                    bankIban: bankIban,
-                    bankSwift: bankSwift,
-                    status: "En attente de validation Admin"
-                });
-
-                document.getElementById('client-status-badge').textContent = "Statut : Demande de virement envoyée (En attente de validation)";
-                alert("Votre demande de virement et vos coordonnées bancaires ont été transmises avec succès. L'administration procède à la vérification.");
-            } catch(err) {
-                alert("Erreur lors de la soumission : " + err.message);
             }
         }
 
